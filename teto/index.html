@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
   <meta property="og:title" content="나의 에겐력 테토력 측정기 🧬" />
   <meta property="og:description" content="나는 몇 % 테토? 몇 % 에겐? 12문항으로 정밀 측정해드립니다" />
-  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
-  <meta property="og:url" content="https://pingoquiz.netlify.app/teto" />
+  <meta property="og:image" content="https://pingoquiz/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz/teto" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -375,6 +375,22 @@
     .retry-btn:hover { border-color: var(--teto); color: var(--teto); }
 
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  
+    /* 추천 테스트 */
+    .rec-section { margin: 28px 0 8px; }
+    .rec-label { text-align:center; font-size:0.72rem; letter-spacing:0.15em;
+      color:var(--primary, #9b59f5); font-weight:700; margin-bottom:14px; }
+    .rec-card { display:flex; align-items:center; gap:12px;
+      background:var(--card, #fff); border:1.5px solid var(--border, #ede8ff);
+      border-radius:14px; padding:14px 18px; margin-bottom:10px;
+      text-decoration:none; color:inherit; transition:all 0.15s; }
+    .rec-card:hover { border-color:var(--primary, #9b59f5);
+      transform:translateX(4px); }
+    .rec-emoji { font-size:1.6rem; flex-shrink:0; }
+    .rec-title { flex:1; font-size:0.9rem; font-weight:700;
+      color:var(--text, #1a1a2e); }
+    .rec-arrow { font-size:0.9rem; color:var(--primary, #9b59f5); flex-shrink:0; }
+
   </style>
 </head>
 <body>
@@ -528,9 +544,33 @@
         <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
         <div id="sc-tag" style="display:inline-block;background:#ff6b9d22;color:#ff6b9d;border:1px solid #ff6b9d55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
         <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
-        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz</div>
       </div>
     <button class="retry-btn" onclick="restartTest()">🔄 다시 측정하기</button>
+<div class="rec-section">
+  <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+    <a class="rec-card" href="/food">
+      <span class="rec-emoji">🍖</span>
+      <span class="rec-title">나의 음식 MBTI</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/drama">
+      <span class="rec-emoji">🎬</span>
+      <span class="rec-title">내 인생 드라마 장르</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/animal">
+      <span class="rec-emoji">🐾</span>
+      <span class="rec-title">나의 마법 동물 유형</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/king">
+      <span class="rec-emoji">👑</span>
+      <span class="rec-title">나의 조선왕 유형</span>
+      <span class="rec-arrow">→</span>
+    </a>
+</div>
+
 
     <!-- 광고 슬롯: 하단 -->
     <div class="ad-slot" style="margin-top:16px;">

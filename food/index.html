@@ -338,6 +338,22 @@
 
     /* hidden utility */
     .hidden { display: none !important; }
+  
+    /* 추천 테스트 */
+    .rec-section { margin: 28px 0 8px; }
+    .rec-label { text-align:center; font-size:0.72rem; letter-spacing:0.15em;
+      color:var(--primary, #9b59f5); font-weight:700; margin-bottom:14px; }
+    .rec-card { display:flex; align-items:center; gap:12px;
+      background:var(--card, #fff); border:1.5px solid var(--border, #ede8ff);
+      border-radius:14px; padding:14px 18px; margin-bottom:10px;
+      text-decoration:none; color:inherit; transition:all 0.15s; }
+    .rec-card:hover { border-color:var(--primary, #9b59f5);
+      transform:translateX(4px); }
+    .rec-emoji { font-size:1.6rem; flex-shrink:0; }
+    .rec-title { flex:1; font-size:0.9rem; font-weight:700;
+      color:var(--text, #1a1a2e); }
+    .rec-arrow { font-size:0.9rem; color:var(--primary, #9b59f5); flex-shrink:0; }
+
   </style>
 </head>
 <body>
@@ -416,6 +432,30 @@
     <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz</div>
   </div>
   <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+<div class="rec-section">
+  <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+    <a class="rec-card" href="/drama">
+      <span class="rec-emoji">🎬</span>
+      <span class="rec-title">내 인생 드라마 장르</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/animal">
+      <span class="rec-emoji">🐾</span>
+      <span class="rec-title">나의 마법 동물 유형</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/cafe">
+      <span class="rec-emoji">☕</span>
+      <span class="rec-title">카페로 보는 내 성격</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/king">
+      <span class="rec-emoji">👑</span>
+      <span class="rec-title">나의 조선왕 유형</span>
+      <span class="rec-arrow">→</span>
+    </a>
+</div>
+
   <div style="text-align:center;margin-top:16px;font-size:0.62rem;color:rgba(150,150,150,0.35);letter-spacing:0.12em;">pingoquiz</div>
 </div>
 

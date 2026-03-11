@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
   <meta property="og:title" content="우리 혹시 찰떡궁합? 💘 MBTI 궁합 분석" />
   <meta property="og:description" content="내 MBTI와 상대 MBTI를 입력하면 성향 분석, 잘 맞는 점, 조심할 점, 관계 팁을 알려드려요!" />
-  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
-  <meta property="og:url" content="https://pingoquiz.netlify.app/couple" />
+  <meta property="og:image" content="https://pingoquiz/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz/couple" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -164,6 +164,22 @@
       text-align: center; min-height: 90px;
       display: flex; align-items: center; justify-content: center;
     }
+  
+    /* 추천 테스트 */
+    .rec-section { margin: 28px 0 8px; }
+    .rec-label { text-align:center; font-size:0.72rem; letter-spacing:0.15em;
+      color:var(--primary, #9b59f5); font-weight:700; margin-bottom:14px; }
+    .rec-card { display:flex; align-items:center; gap:12px;
+      background:var(--card, #fff); border:1.5px solid var(--border, #ede8ff);
+      border-radius:14px; padding:14px 18px; margin-bottom:10px;
+      text-decoration:none; color:inherit; transition:all 0.15s; }
+    .rec-card:hover { border-color:var(--primary, #9b59f5);
+      transform:translateX(4px); }
+    .rec-emoji { font-size:1.6rem; flex-shrink:0; }
+    .rec-title { flex:1; font-size:0.9rem; font-weight:700;
+      color:var(--text, #1a1a2e); }
+    .rec-arrow { font-size:0.9rem; color:var(--primary, #9b59f5); flex-shrink:0; }
+
   </style>
 </head>
 <body>
@@ -247,9 +263,33 @@
         <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
         <div id="sc-tag" style="display:inline-block;background:#ff4d7d22;color:#ff4d7d;border:1px solid #ff4d7d55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
         <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
-        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz</div>
       </div>
       <button class="retry-btn" onclick="resetAll()">🔄 다시 분석하기</button>
+<div class="rec-section">
+  <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+    <a class="rec-card" href="/bearfox">
+      <span class="rec-emoji">🐻</span>
+      <span class="rec-title">곰 타입? 여우 타입?</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/love-style">
+      <span class="rec-emoji">💌</span>
+      <span class="rec-title">나의 연애 스타일</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/mbti-love">
+      <span class="rec-emoji">💑</span>
+      <span class="rec-title">MBTI 연애 스타일</span>
+      <span class="rec-arrow">→</span>
+    </a>
+    <a class="rec-card" href="/mbti-jealousy">
+      <span class="rec-emoji">😤</span>
+      <span class="rec-title">MBTI 질투 유형</span>
+      <span class="rec-arrow">→</span>
+    </a>
+</div>
+
 
     <!-- 광고 슬롯: 하단 -->
     <div class="ad-slot" style="margin-top:20px; margin-bottom:0;">
