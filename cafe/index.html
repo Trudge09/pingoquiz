@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>카페에서 뭐 시킬지로 알아보는 내 성격 ☕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="카페에서 뭐 시킬지로 알아보는 내 성격 ☕" />
+  <meta property="og:description" content="어떤 카페에 가고, 무엇을 주문하고, 어디 앉는지... 카페 습관에 성격이 다 보여요!" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/cafe" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #1a1008;
+      --card: #231608;
+      --card2: #2c1e0e;
+      --primary: #d4956a;
+      --secondary: #f0c987;
+      --cream: #fdf3e3;
+      --text: #f5e8d0;
+      --muted: #9a7a5a;
+      --border: #3d2a14;
+      --radius: 20px;
+      --shadow: 0 8px 40px rgba(80,40,10,0.4);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+
+    /* 따뜻한 배경 빛 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(212,149,106,0.07) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(240,201,135,0.05) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #8b5e3c, var(--primary), var(--secondary), var(--primary), #8b5e3c);
+    }
+
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 48px 0 32px; animation: fadeUp 0.6s ease; }
+    .back-btn {
+      display: block; text-align: left;
+      color: var(--muted); font-size: 0.85rem; text-decoration: none;
+      margin-bottom: 32px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--primary); }
+
+    .cup-wrap {
+      position: relative; display: inline-block;
+      margin-bottom: 20px;
+    }
+    .cup { font-size: 5rem; display: block; animation: steam 3s ease-in-out infinite; }
+    @keyframes steam {
+      0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 12px rgba(212,149,106,0.4)); }
+      50% { transform: translateY(-8px); filter: drop-shadow(0 0 22px rgba(212,149,106,0.6)); }
+    }
+
+    h1 {
+      font-family: 'Jua', cursive;
+      font-size: clamp(1.5rem, 5vw, 2.1rem);
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .intro-sub { color: var(--muted); font-size: 0.93rem; line-height: 1.8; margin-bottom: 28px; }
+
+    .intro-story {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 22px;
+      text-align: left; margin-bottom: 28px;
+      color: #b89070; font-size: 0.92rem; line-height: 2;
+      position: relative; overflow: hidden;
+    }
+    .intro-story::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #8b5e3c, var(--primary), var(--secondary));
+    }
+    .intro-story .highlight { color: var(--secondary); font-weight: 700; }
+
+    .start-btn {
+      background: linear-gradient(135deg, #8b5e3c, var(--primary));
+      color: var(--cream); border: none; border-radius: 99px;
+      padding: 18px 52px; font-family: 'Jua', cursive;
+      font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 6px 28px rgba(139,94,60,0.35);
+      transition: all 0.15s ease;
+    }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(139,94,60,0.45); }
+
+    /* 씬 전환 오버레이 */
+    #scene-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #scene-overlay.show { opacity: 1; pointer-events: all; }
+    .scene-emoji { font-size: 3.5rem; margin-bottom: 16px; animation: pulse 1s ease infinite; }
+    .scene-text { font-family: 'Jua', cursive; font-size: 1.2rem; color: var(--primary); text-align: center; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 32px 0; display: none; }
+    .progress-wrap {
+      background: var(--border); border-radius: 99px;
+      height: 5px; margin-bottom: 8px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #8b5e3c, var(--primary), var(--secondary));
+      border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .q-num {
+      font-size: 0.78rem; color: var(--muted); margin-bottom: 20px;
+      font-weight: 700; letter-spacing: 1px; text-align: right;
+    }
+
+    /* 씬 배너 */
+    .scene-banner {
+      background: var(--card2); border-radius: 12px;
+      padding: 14px 18px; margin-bottom: 16px;
+      border-left: 3px solid var(--primary);
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .scene-banner-icon { font-size: 1.6rem; min-width: 32px; }
+    .scene-banner-text { font-size: 0.83rem; color: #9a7555; line-height: 1.7; }
+    .scene-banner-label {
+      font-size: 0.72rem; color: var(--primary); font-weight: 700;
+      letter-spacing: 1px; display: block; margin-bottom: 3px;
+    }
+
+    .quiz-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 24px;
+      animation: fadeUp 0.35s ease; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #8b5e3c, var(--primary), var(--secondary));
+    }
+
+    .q-text {
+      font-family: 'Jua', cursive; font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+      color: var(--text); margin-bottom: 20px; line-height: 1.6;
+    }
+    .options { display: flex; flex-direction: column; gap: 9px; }
+    .option-btn {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 13px; padding: 14px 16px;
+      text-align: left; color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif; font-size: 0.92rem;
+      cursor: pointer; transition: all 0.18s ease;
+      display: flex; align-items: flex-start; gap: 10px;
+      line-height: 1.5;
+    }
+    .option-btn:hover {
+      background: #3a2510; border-color: var(--primary);
+      transform: translateX(5px);
+      box-shadow: 0 4px 16px rgba(212,149,106,0.12);
+    }
+    .opt-icon { font-size: 1.2rem; min-width: 26px; padding-top: 1px; }
+
+    /* 결과 */
+    #result-screen { padding: 32px 0; display: none; animation: fadeUp 0.5s ease; }
+    .result-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 28px;
+      box-shadow: var(--shadow); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #8b5e3c, var(--primary), var(--secondary));
+    }
+
+    .result-label {
+      font-size: 0.75rem; color: var(--primary); font-weight: 700;
+      letter-spacing: 2px; margin-bottom: 14px;
+    }
+    .result-emoji-wrap {
+      position: relative; display: inline-block; margin-bottom: 14px;
+    }
+    .result-emoji { font-size: 5rem; display: block; animation: steam 3s ease-in-out infinite; }
+    .result-type {
+      font-family: 'Jua', cursive; font-size: 1rem;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .result-name {
+      font-family: 'Jua', cursive; font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 6px; line-height: 1.3;
+    }
+    .result-tag {
+      display: inline-block; background: rgba(212,149,106,0.12);
+      color: var(--primary); border: 1px solid rgba(212,149,106,0.25);
+      border-radius: 99px; padding: 4px 18px;
+      font-size: 0.82rem; font-weight: 700; margin-bottom: 24px;
+    }
+
+    /* 카페 묘사 */
+    .cafe-scene {
+      background: var(--card2); border-radius: 14px; padding: 20px 18px;
+      text-align: left; margin-bottom: 18px;
+      border-left: 3px solid var(--secondary);
+    }
+    .cafe-scene-label {
+      color: var(--secondary); font-weight: 700; font-size: 0.75rem;
+      letter-spacing: 1px; display: block; margin-bottom: 10px;
+    }
+    .cafe-scene-text { color: #b89070; font-size: 0.9rem; line-height: 1.9; }
+
+    .result-desc {
+      text-align: left; color: #9a7a5a; font-size: 0.9rem; line-height: 1.8;
+      background: var(--card2); border-radius: 14px; padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    /* 습관 태그 */
+    .habit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .habit-box {
+      background: var(--card2); border-radius: 13px; padding: 14px;
+      border: 1px solid var(--border); text-align: left;
+    }
+    .habit-title { font-family: 'Jua', cursive; font-size: 0.85rem; color: var(--primary); margin-bottom: 8px; }
+    .habit-tag {
+      display: inline-block; background: rgba(212,149,106,0.1);
+      color: #c4956a; border-radius: 99px;
+      padding: 3px 10px; font-size: 0.76rem; font-weight: 700;
+      margin: 2px; border: 1px solid rgba(212,149,106,0.2);
+    }
+
+    /* 잘 맞는 사람 */
+    .match-section {
+      background: var(--card2); border-radius: 14px; padding: 18px;
+      text-align: left; margin-bottom: 18px;
+    }
+    .match-title { font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--secondary); margin-bottom: 10px; }
+    .match-text { color: #9a7a5a; font-size: 0.88rem; line-height: 1.8; }
+
+    .share-btn {
+      width: 100%; background: rgba(212,149,106,0.12);
+      color: var(--primary); border: 1.5px solid rgba(212,149,106,0.25);
+      border-radius: 99px; padding: 14px;
+      font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px;
+    }
+    .share-btn:hover { background: rgba(212,149,106,0.22); }
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: 99px;
+      padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .retry-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 560px; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1.5px dashed var(--border);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div id="scene-overlay">
+  <div class="scene-emoji" id="overlay-emoji">☕</div>
+  <div class="scene-text" id="overlay-text"></div>
+</div>
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <div class="cup-wrap"><span class="cup">☕</span></div>
+    <h1>카페에서 뭐 시킬지로<br/>알아보는 내 성격</h1>
+    <p class="intro-sub">주문 습관에 성격이 다 보인다는 사실, 알고 있었나요?</p>
+    <div class="intro-story">
+      <span class="highlight">☕ 잠깐, 생각해봐요.</span><br/><br/>
+      당신은 카페에 들어서는 순간부터 이미 '당신'이에요.<br/><br/>
+      어떤 카페를 고르는지, 누구와 가는지, 자리를 어디에 잡는지, 음료를 기다리는 동안 뭘 하는지... 그 모든 사소한 선택이 모여서 <span class="highlight">당신이라는 사람</span>을 만들어요.<br/><br/>
+      지금부터 카페에 가는 상황을 하나씩 상상하면서 답해봐요. 가장 솔직하게, 평소 하던 대로. 그럼 당신이 어떤 사람인지 보여드릴게요. ☕
+    </div>
+    <button class="start-btn" onclick="startTest()">☕ 카페 가기</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 12</div>
+    <div class="scene-banner" id="scene-banner">
+      <div class="scene-banner-icon" id="scene-icon"></div>
+      <div class="scene-banner-text">
+        <span class="scene-banner-label">📍 지금 상황</span>
+        <span id="scene-text"></span>
+      </div>
+    </div>
+    <div class="quiz-card">
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-card">
+      <div class="result-label">☕ 당신의 카페 성격 유형</div>
+      <div class="result-emoji-wrap">
+        <span class="result-emoji" id="res-emoji"></span>
+      </div>
+      <div class="result-type" id="res-type"></div>
+      <div class="result-name" id="res-name"></div>
+      <div class="result-tag" id="res-tag"></div>
+
+      <div class="cafe-scene">
+        <span class="cafe-scene-label">☕ 당신의 카페 풍경</span>
+        <div class="cafe-scene-text" id="res-scene"></div>
+      </div>
+
+      <div class="result-desc" id="res-desc"></div>
+
+      <div class="habit-grid">
+        <div class="habit-box">
+          <div class="habit-title">즐겨 가는 카페</div>
+          <div id="res-cafe"></div>
+        </div>
+        <div class="habit-box">
+          <div class="habit-title">자주 시키는 것</div>
+          <div id="res-order"></div>
+        </div>
+      </div>
+
+      <div class="match-section">
+        <div class="match-title">함께 카페 가기 좋은 사람</div>
+        <div class="match-text" id="res-match"></div>
+      </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+
+      <!-- 공유 카드 -->
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#d4956a1a,#d4956a08);border:1.5px solid #d4956a55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#d4956a;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#d4956a22;color:#d4956a;border:1px solid #d4956a55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="restartTest()">🔄 다시 해보기</button>
+
+      <!-- 광고 슬롯: 결과 하단 -->
+      <div class="ad-slot" style="margin-top:20px; margin-bottom:0;">
+        <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-2274221145664784"
+          data-ad-slot="7164108177"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+const questions = [
+  {
+    scene: "오늘 카페에 갈 것 같은 느낌이 드는 날이에요.",
+    sceneIcon: "🌤️",
+    text: "어떤 카페에 가고 싶어요?",
+    options: [
+      { text: "인스타에서 봐뒀던 감성 카페. 인테리어가 예쁜 곳", icon: "📸", axis: 0 },
+      { text: "집 근처 단골 작은 카페. 사장님 얼굴도 알아", icon: "🏘️", axis: 1 },
+      { text: "넓고 조용한 프랜차이즈 카페. 자리 많고 편한 곳", icon: "🏢", axis: 2 },
+      { text: "뷰 좋은 루프탑이나 강가 카페. 배경이 중요해", icon: "🌅", axis: 3 },
+      { text: "그냥 빠르고 저렴한 테이크아웃 카페. 효율이 최고", icon: "🏃", axis: 4 }
+    ]
+  },
+  {
+    scene: "카페 문을 열고 들어섰어요. 좌석을 선택해야 해요.",
+    sceneIcon: "🚪",
+    text: "어느 자리에 앉아요?",
+    options: [
+      { text: "창가 자리. 밖이 보이는 곳이 좋아", icon: "🪟", axis: 0 },
+      { text: "구석 자리. 아무도 나를 못 보는 곳", icon: "🫥", axis: 2 },
+      { text: "가운데 오픈된 곳. 공간이 탁 트여야 해", icon: "🌬️", axis: 4 },
+      { text: "콘센트 옆 자리. 현실적으로 충전이 필요해", icon: "🔌", axis: 2 },
+      { text: "뷰가 가장 잘 보이는 자리. 배경이 먼저야", icon: "📷", axis: 0 }
+    ]
+  },
+  {
+    scene: "오늘은 누구와 카페에 왔나요?",
+    sceneIcon: "👥",
+    text: "함께한 사람은?",
+    options: [
+      { text: "혼자. 혼카페가 제일 편해", icon: "🎒", axis: 2 },
+      { text: "친한 친구랑. 수다 떨러 왔어", icon: "💬", axis: 0 },
+      { text: "연인이랑. 데이트 코스야", icon: "💑", axis: 3 },
+      { text: "가족이랑. 주말 나들이", icon: "👨‍👩‍👧", axis: 1 },
+      { text: "같이 공부하거나 일할 사람이랑", icon: "💻", axis: 2 }
+    ]
+  },
+  {
+    scene: "드디어 카운터 앞에 섰어요. 메뉴판을 보고 있어요.",
+    sceneIcon: "📋",
+    text: "오늘 뭐 마실 것 같아요?",
+    options: [
+      { text: "아이스 아메리카노. 언제나 변함없어", icon: "🖤", axis: 2 },
+      { text: "달달한 라떼나 크림이 올라간 음료", icon: "🍯", axis: 0 },
+      { text: "계절 한정 메뉴나 신메뉴. 뭔가 특별한 걸로", icon: "✨", axis: 3 },
+      { text: "그냥 제일 저렴한 거. 맛보다 가성비", icon: "💰", axis: 4 },
+      { text: "논알코올 목테일이나 에이드. 색깔 예쁜 거", icon: "🌈", axis: 0 }
+    ]
+  },
+  {
+    scene: "음료를 주문하고 자리에 앉았어요. 나오길 기다리는 중이에요.",
+    sceneIcon: "⏳",
+    text: "기다리는 동안 뭐 해요?",
+    options: [
+      { text: "인스타나 틱톡 피드 스크롤", icon: "📱", axis: 0 },
+      { text: "카페 인테리어 구경하면서 멍 때려", icon: "👁️", axis: 1 },
+      { text: "가방에서 할 일 꺼내서 바로 시작해", icon: "📓", axis: 2 },
+      { text: "같이 온 사람이랑 계속 얘기해", icon: "💬", axis: 0 },
+      { text: "카페 분위기 사진 찍어놔", icon: "📸", axis: 3 }
+    ]
+  },
+  {
+    scene: "음료가 나왔어요. 테이블 위에 놓였어요.",
+    sceneIcon: "☕",
+    text: "음료 받고 나서 제일 먼저 하는 건?",
+    options: [
+      { text: "일단 사진부터. 올려야지", icon: "📸", axis: 0 },
+      { text: "바로 한 모금. 맛이 제일 중요해", icon: "😋", axis: 1 },
+      { text: "그냥 테이블에 두고 하던 거 계속 해", icon: "💻", axis: 2 },
+      { text: "따뜻한지 차가운지 온도 확인하고 조심히 마셔", icon: "🌡️", axis: 1 },
+      { text: "예쁘게 세팅하고 전체 샷 찍어", icon: "🎨", axis: 3 }
+    ]
+  },
+  {
+    scene: "카페에 자리를 잡고 본격적으로 시간을 보내고 있어요.",
+    sceneIcon: "🕐",
+    text: "카페에서 주로 뭐 해요?",
+    options: [
+      { text: "공부나 업무. 집중 잘 되는 환경이 필요해", icon: "📚", axis: 2 },
+      { text: "그냥 수다. 카페는 대화하러 가는 곳", icon: "🗣️", axis: 0 },
+      { text: "아무것도 안 해. 그냥 멍때리고 쉬러 가", icon: "☁️", axis: 1 },
+      { text: "유튜브나 넷플릭스 봐. 콘텐츠 소비", icon: "🎬", axis: 4 },
+      { text: "일기 쓰거나 생각 정리", icon: "✍️", axis: 1 }
+    ]
+  },
+  {
+    scene: "카페에 꽤 오래 있었어요. 음료가 반쯤 남았어요.",
+    sceneIcon: "🕰️",
+    text: "얼마나 있을 것 같아요?",
+    options: [
+      { text: "30분 이내. 마시고 빨리 가야지", icon: "⚡", axis: 4 },
+      { text: "1~2시간. 딱 적당히", icon: "🕑", axis: 0 },
+      { text: "할 일 끝날 때까지. 시간 정해놓지 않아", icon: "🌙", axis: 2 },
+      { text: "느긋하게 반나절. 카페는 즐기는 곳이야", icon: "🌿", axis: 1 },
+      { text: "폐점 시간까지. 자리 꽉 채워야 본전이지", icon: "😂", axis: 3 }
+    ]
+  },
+  {
+    scene: "옆 테이블에서 웃음소리가 들려요. 시선이 그쪽으로 향해요.",
+    sceneIcon: "👀",
+    text: "나는 어떤 반응이에요?",
+    options: [
+      { text: "힐끔 보고 다시 내 할 일. 크게 신경 안 써", icon: "🙂", axis: 2 },
+      { text: "나도 모르게 미소가 지어져. 활기찬 분위기 좋아", icon: "😊", axis: 0 },
+      { text: "좀 시끄럽긴 한데... 그냥 참아", icon: "😶", axis: 1 },
+      { text: "이어폰 꽂아. 집중해야 하니까", icon: "🎧", axis: 2 },
+      { text: "저 사람들은 뭐 먹었나 슬쩍 봐", icon: "🤭", axis: 3 }
+    ]
+  },
+  {
+    scene: "음료를 다 마셨어요. 슬슬 나갈 시간이에요.",
+    sceneIcon: "🧾",
+    text: "자리를 정리하는 스타일은?",
+    options: [
+      { text: "컵이랑 쓰레기 깔끔하게 정리하고 나가", icon: "✅", axis: 1 },
+      { text: "일어나기 직전까지 폰 보다가 얼른 나가", icon: "📱", axis: 4 },
+      { text: "테이블 위에 그냥 두고 나가. 직원이 치우는 거잖아", icon: "🚶", axis: 4 },
+      { text: "자리 정리하고, 오늘 카페 사진 한 장 더 찍어", icon: "📷", axis: 3 },
+      { text: "주변 자리 쓰레기까지 같이 버려주고 나가", icon: "🫶", axis: 1 }
+    ]
+  },
+  {
+    scene: "카페를 나오면서 오늘 경험을 돌아봐요.",
+    sceneIcon: "🌇",
+    text: "카페에서 나오면서 드는 생각은?",
+    options: [
+      { text: "다음에 또 와야지. 이 카페 진짜 좋다", icon: "❤️", axis: 1 },
+      { text: "사진 잘 나왔나 확인해봐야지", icon: "📸", axis: 0 },
+      { text: "오늘 할 일 다 했다! 뿌듯해", icon: "💪", axis: 2 },
+      { text: "더 있고 싶었는데... 아쉽다", icon: "😢", axis: 1 },
+      { text: "다음엔 저기 새로 생긴 카페 가봐야겠다", icon: "🗺️", axis: 3 }
+    ]
+  },
+  {
+    scene: "마지막 질문이에요. 솔직하게 답해봐요.",
+    sceneIcon: "💭",
+    text: "나에게 카페는 어떤 공간이에요?",
+    options: [
+      { text: "사람들과 연결되는 공간. 대화가 있어야 카페지", icon: "🫂", axis: 0 },
+      { text: "혼자만의 조용한 피난처. 세상과 잠시 분리되는 곳", icon: "🌙", axis: 1 },
+      { text: "생산성을 높이는 작업실. 집보다 집중 잘 돼", icon: "⚡", axis: 2 },
+      { text: "감성과 분위기를 소비하는 곳. 경험이 목적이야", icon: "✨", axis: 3 },
+      { text: "그냥 카페인 충전소. 너무 의미 부여하지 말자", icon: "☕", axis: 4 }
+    ]
+  }
+];
+
+const results = {
+  0: {
+    emoji: "📸",
+    type: "감성 수집가",
+    name: "인스타 감성 카페 단골",
+    tag: "카페도 콘텐츠야",
+    scene: "당신의 카페 테이블 위에는 항상 뭔가 예쁜 게 있어요. 라떼 위의 아트, 빈티지한 머그컵, 창밖으로 보이는 거리... 음료가 나오기도 전에 카메라가 먼저 열려요. 피드에 올리기 전 5장쯤 찍고, 필터 고르는 데 2분. 당신한테 카페는 장소이기도 하지만 하나의 콘텐츠예요.",
+    desc: "트렌드에 민감하고 심미안이 있어요. 새로 생긴 카페, 한정 메뉴, 예쁜 패키지를 제일 먼저 발견하는 타입. 카페 분위기를 온몸으로 즐기고, 그 경험을 나누고 싶어해요. 감각적인 것에 끌리고 일상을 아름답게 기록하는 재능이 있어요.",
+    cafe: ["인스타 감성 카페", "팝업 스토어 카페", "계절 한정 메뉴 카페"],
+    order: ["시즌 한정 음료", "비주얼 좋은 라떼", "크림 올라간 음료"],
+    match: "새로운 카페 탐방을 같이 즐길 수 있는 사람, 사진 찍어줄 수 있는 사람이 최고예요. 반대로 '그냥 저렴한 데 가자'는 사람과는 출발점부터 달라질 수 있어요."
+  },
+  1: {
+    emoji: "🍵",
+    type: "편안한 단골손님",
+    name: "동네 단골 카페 고정석",
+    tag: "여기가 제일 편해",
+    scene: "당신에게는 '그 카페'가 있어요. 문 열고 들어서면 사장님이 알아보고, 굳이 말 안 해도 단골 메뉴가 나오는 곳. 항상 앉는 자리가 있고, 그 자리에서 커피 한 잔이면 하루가 리셋돼요. 화려하진 않지만 거기 있으면 이상하게 마음이 놓여요.",
+    desc: "당신은 카페에서 진짜로 쉴 줄 알아요. 사진보다 온도, 비주얼보다 편안함이 먼저예요. 새로운 곳보다 익숙한 곳에서 더 행복한 타입. 관계를 소중히 여기고, 작은 것에서 따뜻함을 찾는 사람이에요.",
+    cafe: ["동네 작은 카페", "오래된 단골집", "조용한 북카페"],
+    order: ["따뜻한 아메리카노", "오늘의 커피", "단골 메뉴 그대로"],
+    match: "같이 아무 말 없이 있어도 어색하지 않은 사람이 제일 좋아요. 말 없이 각자 책 읽거나 멍때릴 수 있는 사람. 조용하고 편안한 사람과 가장 잘 맞아요."
+  },
+  2: {
+    emoji: "💻",
+    type: "생산성 추구자",
+    name: "작업용 카페 단골",
+    tag: "집보다 카페가 집중돼",
+    scene: "당신의 카페 테이블 위는 작은 사무실이에요. 노트북, 이어폰, 아이스 아메리카노 한 잔. 자리 잡으면 콘센트 확인이 먼저고, 와이파이 비밀번호도 이미 알고 있어요. 주변 소음은 오히려 white noise처럼 집중에 도움이 돼요. 할 일 끝내면 그제야 음료 맛이 느껴져요.",
+    desc: "목적이 분명한 사람이에요. 카페를 도구로 잘 활용하고, 환경을 만들어 성과를 내는 타입. 실용적이고 효율적이며, 시간을 낭비하는 걸 싫어해요. 겉으론 무뚝뚝해 보여도 자기 페이스가 확실해요.",
+    cafe: ["넓은 프랜차이즈 카페", "조용한 스터디 카페", "24시간 카페"],
+    order: ["아이스 아메리카노", "아이스 롱블랙", "카페인 들어간 음료"],
+    match: "같이 각자 할 일 하는 사람이 최고예요. 말 걸지 않고, 옆에서 조용히 자기 일 하는 사람. 수다 목적으로 카페 가는 사람과는 목적이 달라요."
+  },
+  3: {
+    emoji: "🌅",
+    type: "분위기 감상가",
+    name: "뷰 맛집 탐험가",
+    tag: "배경이 반이야",
+    scene: "당신에게 카페는 목적지가 아니라 경험이에요. 루프탑에서 보이는 도시 야경, 바다가 보이는 창가, 비 오는 날 흐린 하늘 아래의 테라스... 음료 맛이 좀 별로여도 뷰가 좋으면 용서가 돼요. 그 공간을 온몸으로 느끼다가 문득 사진 한 장 남기는, 그게 당신만의 카페 루틴이에요.",
+    desc: "감각이 예민하고 공간의 분위기에 영향을 많이 받아요. 어디에 있느냐가 기분에 직결되는 타입. 새로운 곳을 탐험하고, 특별한 경험을 쌓는 걸 좋아해요. 일상도 여행처럼 즐기는 감수성이 있어요.",
+    cafe: ["뷰 좋은 루프탑 카페", "관광지 감성 카페", "숨겨진 이색 카페"],
+    order: ["그 카페 시그니처 메뉴", "계절 음료", "색깔 예쁜 에이드"],
+    match: "새로운 곳 탐험을 즐기는 사람, 분위기 즐길 줄 아는 사람이 좋아요. '그냥 아무 데나 가자'는 사람보단 '여기 가봤어?' 하고 공유할 수 있는 사람과 잘 맞아요."
+  },
+  4: {
+    emoji: "⚡",
+    type: "실용주의자",
+    name: "테이크아웃 효율러",
+    tag: "빠르고 저렴하면 최고",
+    scene: "당신한테 카페는 '커피 사는 곳'이에요. 줄 서서 기다리는 시간도 아까운데 자리까지 잡아야 해? 메가커피, 컴포즈, 빽다방... 1분 안에 주문하고 테이크아웃 컵 들고 걸어가면서 마시는 게 훨씬 효율적이에요. 카페인은 필요하고, 낭만에 돈 쓰는 건 좀 아깝다고 생각해요.",
+    desc: "현실적이고 합리적이에요. 본질을 중시하고 불필요한 것에 돈 쓰는 걸 싫어해요. 빠른 결단력과 실행력이 있고, 효율을 극대화하는 타입. 허세 없고 직선적인 성격이에요.",
+    cafe: ["저가형 테이크아웃 카페", "편의점 커피", "회사 근처 아무 카페"],
+    order: ["아이스 아메리카노 (제일 저렴한 거)", "기본 메뉴", "쿠폰 쓸 수 있는 거"],
+    match: "카페에서 오래 버티는 사람보단 마시고 움직이는 사람이 잘 맞아요. '커피 한 잔 하자'는 게 진짜 커피 한 잔인 사람. 감성 카페 투어 좋아하는 사람과는 카페 목적이 달라요."
+  }
+};
+
+let scores = [0, 0, 0, 0, 0];
+let currentQ = 0;
+
+function showOverlay(emoji, text, cb) {
+  const overlay = document.getElementById('scene-overlay');
+  document.getElementById('overlay-emoji').textContent = emoji;
+  document.getElementById('overlay-text').textContent = text;
+  overlay.classList.add('show');
+  setTimeout(() => {
+    overlay.classList.remove('show');
+    setTimeout(cb, 300);
+  }, 900);
+}
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  showOverlay('☕', '카페 문을 열고 들어갑니다...', () => {
+    document.getElementById('quiz-screen').style.display = 'block';
+    showQuestion();
+  });
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  const pct = ((currentQ + 1) / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('q-num').textContent = `${currentQ + 1} / ${questions.length}`;
+  document.getElementById('scene-icon').textContent = q.sceneIcon;
+  document.getElementById('scene-text').textContent = q.scene;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(opt.axis);
+    optDiv.appendChild(btn);
+  });
+
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.35s ease';
+}
+
+const sceneMessages = [
+  null,
+  ['🚪', '안으로 들어왔어요...'],
+  ['👥', '누구와 함께인지 볼게요...'],
+  ['📋', '메뉴판을 펼쳐봐요...'],
+  ['⏳', '음료를 기다리는 중...'],
+  ['☕', '음료가 나왔어요!'],
+  ['🕐', '시간이 흘러가고 있어요...'],
+  ['🕰️', '꽤 오래됐네요...'],
+  ['👀', '카페 안을 둘러봐요...'],
+  ['🧾', '슬슬 나갈 시간이에요...'],
+  ['🌇', '카페를 나서며...'],
+  ['💭', '마지막 질문이에요...']
+];
+
+function selectAnswer(axis) {
+  scores[axis]++;
+  currentQ++;
+
+  if (currentQ >= questions.length) {
+    showOverlay('✨', '당신의 카페 성격을 분석 중...', showResult);
+    return;
+  }
+
+  const msg = sceneMessages[currentQ];
+  if (msg) {
+    showOverlay(msg[0], msg[1], showQuestion);
+  } else {
+    showQuestion();
+  }
+}
+
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const maxScore = Math.max(...scores);
+  const topAxis = scores.indexOf(maxScore);
+  const r = results[topAxis];
+
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-type').textContent = r.type;
+  document.getElementById('res-name').textContent = r.name;
+  document.getElementById('res-tag').textContent = r.tag;
+  document.getElementById('res-scene').textContent = r.scene;
+  document.getElementById('res-desc').textContent = r.desc;
+  document.getElementById('res-cafe').innerHTML = r.cafe.map(c => `<span class="habit-tag">${c}</span>`).join('');
+  document.getElementById('res-order').innerHTML = r.order.map(o => `<span class="habit-tag">${o}</span>`).join('');
+  document.getElementById('res-match').textContent = r.match;
+
+    // 공유카드
+  document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.name;
+  document.getElementById('sc-sub').textContent = r.sub || r.name;
+  document.getElementById('sc-tag').textContent = r.tag;
+  if (!fromUrl) history.replaceState(null, '', '?r=' + topAxis);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크 복사해서 공유하기', 2000);
+  });
+}
+
+function restartTest() {
+  scores = [0, 0, 0, 0, 0];
+  currentQ = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const r = p.get('r');
+  if (r !== null && results[parseInt(r)]) {
+    const idx = parseInt(r);
+    scores = [0,0,0,0,0,0];
+    scores[idx] = 1;
+    document.getElementById('intro-screen').style.display = 'none';
+    showResult(true);
+  }
+})();
+</script>
+</body>
+</html>

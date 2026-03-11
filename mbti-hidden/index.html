@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MBTI 숨겨진 성격 🔮 아무도 모르는 나의 이면</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="MBTI 숨겨진 성격 🔮 아무도 모르는 나의 이면"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/mbti-hidden"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #0d0d1a;
+      --card: #12122a;
+      --primary: #7b8fff;
+      --secondary: #adb5ff;
+      --text: #e8eaff;
+      --muted: #7070aa;
+      --border: #1e2050;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🔮</span>
+    <h1>MBTI 뒤에 숨겨진<br/>나의 진짜 모습</h1>
+    <p class="intro-desc">겉으로 보이는 MBTI 말고, 깊은 내면에 숨어있는<br/>진짜 나의 이면을 찾아드려요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🔮 숨겨진 나 찾기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"⚡", label:"HIDDEN EXTROVERT", name:"속으로 반전 에너지 폭발형", sub:"조용해 보이지만 에너지 넘침", tag:"겉 조용 속 불꽃", desc:"겉으로는 차분하거나 조용해 보일 수 있지만, 혼자 있을 때나 진짜 친한 사람 앞에서는 완전히 다른 에너지가 터져 나와요. 아무도 모르는 반전 매력이 가득한 타입이에요.", traits:["반전 매력", "숨겨진 활기", "에너지 폭발", "선택적 외향"], extraLabel:"🔮 숨겨진 이면", extraText:"당신의 진짜 모습을 아는 사람은 아주 소수예요. 그 반전이 당신의 가장 큰 매력이에요." },
+  1: { emoji:"🧠", label:"HIDDEN THINKER", name:"속으로 아이디어 폭발형", sub:"생각보다 훨씬 많은 생각을 하고 있음", tag:"겉 단순 속 복잡", desc:"겉으로는 단순하거나 평범해 보이지만, 머릿속에는 항상 아이디어와 생각이 가득해요. 남들이 생각지 못하는 것들을 혼자 구상하고, 독특한 시각을 가지고 있어요.", traits:["창의적 사고", "내면의 복잡함", "아이디어 뱅크", "깊은 통찰"], extraLabel:"🔮 숨겨진 이면", extraText:"당신의 머릿속에 있는 생각들을 더 자주 표현해보세요. 생각보다 많은 사람들이 흥미롭게 들을 거예요." },
+  2: { emoji:"💧", label:"HIDDEN SENSITIVE", name:"속으로 감성 충만형", sub:"쿨해 보이지만 사실 감수성 터짐", tag:"겉 쿨 속 감성", desc:"겉으로는 쿨하고 무덤덤해 보이지만, 사실 아주 감수성이 풍부해요. 음악 한 곡에 눈물이 나기도 하고, 작은 것에 크게 감동받고, 상처도 잘 받아요.", traits:["감수성 풍부", "상처 잘 받음", "감성적", "숨긴 눈물"], extraLabel:"🔮 숨겨진 이면", extraText:"감성이 풍부한 것은 장점이에요. 그 섬세함이 당신을 더 깊은 사람으로 만들어줘요." },
+  3: { emoji:"🌊", label:"HIDDEN ANXIOUS", name:"속으로 걱정 파도 치는형", sub:"괜찮아 보이지만 사실 생각이 많음", tag:"겉 평온 속 걱정", desc:"겉으로는 태연하고 괜찮아 보이지만, 속으로는 항상 걱정과 불안이 파도쳐요. 혼자 있을 때 과거를 곱씹거나 미래를 걱정하는 시간이 많은 타입이에요.", traits:["내면 불안", "생각 많음", "걱정형", "속앓이"], extraLabel:"🔮 숨겨진 이면", extraText:"걱정이 많다는 것은 그만큼 신중하다는 뜻이에요. 하지만 지나친 걱정은 현재를 즐기지 못하게 해요. 지금 이 순간에 집중해봐요." },
+};
+const questions = [
+  { text:"🌃 혼자 있는 밤, 나는 주로?", options:[
+    {text:"영화나 음악 보며 감성에 젖음",axis:0},
+    {text:"미래 계획이나 아이디어 구상",axis:1},
+    {text:"별생각 없이 유튜브, 릴스 봄",axis:2},
+    {text:"과거를 곱씹거나 후회함",axis:3},
+  ]},
+  { text:"😤 화가 날 때 나의 진짜 반응은?", options:[
+    {text:"표정이나 행동에 다 드러남",axis:0},
+    {text:"말은 없는데 속은 부글부글",axis:3},
+    {text:"그냥 넘어가는 척하다 나중에 터짐",axis:2},
+    {text:"논리적으로 따지거나 메시지로 표현",axis:1},
+  ]},
+  { text:"👥 사람들이 나를 오해하는 부분은?", options:[
+    {text:"차갑다고 하지만 사실 속이 따뜻함",axis:0},
+    {text:"외향적으로 보이지만 혼자가 더 편함",axis:3},
+    {text:"쿨해 보이지만 사실 감정이 풍부함",axis:2},
+    {text:"단순해 보이지만 생각이 많음",axis:1},
+  ]},
+  { text:"💭 아무도 모르는 나의 이면은?", options:[
+    {text:"사실 인정받고 싶은 마음이 커요",axis:0},
+    {text:"불안하고 걱정이 많아요",axis:3},
+    {text:"감성적이고 상처 잘 받아요",axis:2},
+    {text:"내 안에 이상한 아이디어가 많아요",axis:1},
+  ]},
+  { text:"🌙 아무도 없을 때 나는?", options:[
+    {text:"노래를 크게 틀고 춤추거나 노래함",axis:0},
+    {text:"생각 실험이나 상상의 세계에 빠짐",axis:1},
+    {text:"아무것도 안 하고 멍하니 있음",axis:2},
+    {text:"감정 일기를 쓰거나 감성에 빠짐",axis:3},
+  ]},
+  { text:"😰 스트레스 받을 때 아무도 모르는 모습은?", options:[
+    {text:"먹방 모드 또는 폭식",axis:2},
+    {text:"갑자기 청소 or 방 정리",axis:1},
+    {text:"SNS 과소비 or 쇼핑",axis:0},
+    {text:"아무것도 하기 싫어서 침대에 묻힘",axis:3},
+  ]},
+  { text:"🎭 내 안에 또 다른 내가 있다면?", options:[
+    {text:"겉은 밝지만 속은 조용한 내향인",axis:3},
+    {text:"겉은 쿨하지만 속은 감성 충만",axis:2},
+    {text:"겉은 평범하지만 속은 아이디어 폭발",axis:1},
+    {text:"겉은 조용하지만 속은 반전 에너지",axis:0},
+  ]},
+  { text:"💬 진짜 하고 싶은 말을 못 할 때?", options:[
+    {text:"표정이나 행동으로 티가 남",axis:0},
+    {text:"문자나 메시지로는 표현함",axis:1},
+    {text:"혼자 속앓이하고 넘어감",axis:3},
+    {text:"나중에 술이나 친한 친구에게만 털어놓음",axis:2},
+  ]},
+];
+let scores=[0,0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나의 인간관계 타입 🌐 나는 어떻게 관계 맺을까?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="나의 인간관계 타입 🌐 나는 어떻게 관계 맺을까?"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/relationship-type"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #f0f7ff;
+      --card: #ffffff;
+      --primary: #3d8bff;
+      --secondary: #7ab8ff;
+      --text: #0d1a2d;
+      --muted: #5a7aaa;
+      --border: #c5dcff;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🌐</span>
+    <h1>나는 어떤<br/>인간관계 타입?</h1>
+    <p class="intro-desc">친구, 직장, 모임... 다양한 관계 속에서<br/>나는 어떤 역할을 하고 있을까요?</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🔍 내 인간관계 유형 찾기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"☀️", label:"CONNECTOR TYPE", name:"모두를 잇는 연결형", sub:"어디서든 중심이 되는 사교형", tag:"인맥 부자 타입", desc:"어디서든 자연스럽게 사람들과 어울리고 연결해요. 다양한 사람들과 폭넓게 관계를 맺고, 서로 다른 사람들을 이어주는 역할을 자연스럽게 해요. 모임의 에너지 메이커예요.", traits:["사교적", "연결력", "폭넓은 인맥", "분위기 메이커"], extraLabel:"💡 관계 팁", extraText:"폭넓은 관계 속에서 깊이 있는 관계도 균형있게 유지해봐요." },
+  1: { emoji:"💎", label:"DEPTH TYPE", name:"깊고 진한 소수 정예형", sub:"적지만 평생 갈 관계 추구", tag:"진국 친구 타입", desc:"많은 사람보다 소수와 깊고 진한 관계를 맺어요. 한번 친해진 사람에게는 변함없이 진심을 다하는 타입이에요. 겉으로 보기엔 인간관계가 좁아 보이지만, 그 관계의 깊이와 질은 누구보다 높아요.", traits:["깊은 신뢰", "소수 정예", "진심", "장기적 관계"], extraLabel:"💡 관계 팁", extraText:"가끔은 새로운 사람과의 만남도 열어봐요. 생각보다 좋은 인연이 기다릴 수 있어요." },
+  2: { emoji:"🔧", label:"PRACTICAL TYPE", name:"실용적이고 믿음직한 조력형", sub:"필요할 때 나타나는 든든한 존재", tag:"행동하는 친구 타입", desc:"화려하지 않지만 필요한 순간에 실질적으로 도움을 주는 타입이에요. 감정적인 공감보다 실질적인 해결책을 찾는 편이고, 신뢰할 수 있는 존재로 여겨져요.", traits:["실용적", "신뢰할 수 있음", "행동 중심", "든든함"], extraLabel:"💡 관계 팁", extraText:"도움을 주는 것도 좋지만, 감정적인 공감과 위로도 상대방에게 큰 힘이 될 수 있어요." },
+  3: { emoji:"🌙", label:"SELECTIVE TYPE", name:"선택적이고 조용한 독립형", sub:"부담 없이 편안한 관계가 최고", tag:"자유로운 인간관계 타입", desc:"모든 사람과 깊이 친해지지는 않아요. 선택적으로 관계를 맺고, 강요받는 것이 불편해요. 혼자 있는 시간을 소중히 여기고, 부담 없이 편안한 관계를 추구해요.", traits:["선택적", "독립적", "편안함 중시", "자유로운 관계"], extraLabel:"💡 관계 팁", extraText:"관계에 대한 경계는 중요하지만, 때로는 먼저 다가가는 것이 새로운 인연을 만들어줄 수 있어요." },
+};
+const questions = [
+  { text:"👥 새로운 모임에 처음 갔을 때 나는?", options:[
+    {text:"금방 여러 사람과 친해짐",axis:0},
+    {text:"마음 맞는 한두 명과 깊이 대화",axis:1},
+    {text:"분위기 파악하면서 조용히 관찰",axis:2},
+    {text:"리더나 주도적인 사람 옆에서 따름",axis:3},
+  ]},
+  { text:"💬 친구 사이에서 내 역할은?", options:[
+    {text:"분위기 메이커, 웃음 담당",axis:0},
+    {text:"속 깊은 이야기 들어주는 친구",axis:1},
+    {text:"필요할 때 실질적으로 도움 주는 친구",axis:2},
+    {text:"조용히 있지만 필요할 때 나타남",axis:3},
+  ]},
+  { text:"😤 친구와 갈등이 생겼을 때?", options:[
+    {text:"바로 대화해서 해결하려 함",axis:0},
+    {text:"상대 입장에서 충분히 생각해봄",axis:1},
+    {text:"잠시 거리 두고 감정 정리",axis:2},
+    {text:"먼저 다가가기 어려움",axis:3},
+  ]},
+  { text:"👤 사람을 사귀는 나의 방식은?", options:[
+    {text:"빨리 친해지고 많은 사람과",axis:0},
+    {text:"천천히, 소수와 깊이",axis:1},
+    {text:"실용적으로, 서로 도움이 되는 관계",axis:2},
+    {text:"자연스럽게, 인연이 되면",axis:3},
+  ]},
+  { text:"🎊 그룹에서 내 포지션은?", options:[
+    {text:"중심에서 모두를 연결하는 역할",axis:0},
+    {text:"한 명 한 명과 깊이 연결",axis:1},
+    {text:"실무적으로 문제 해결하는 역할",axis:2},
+    {text:"서포터, 든든한 지원군",axis:3},
+  ]},
+  { text:"😔 상처받았을 때 인간관계에서 나는?", options:[
+    {text:"잠깐 거리를 두지만 금방 다시 만남",axis:0},
+    {text:"한 명에게 깊이 털어놓음",axis:1},
+    {text:"혼자 해결하고 티 안 냄",axis:2},
+    {text:"한동안 연락을 줄임",axis:3},
+  ]},
+  { text:"💭 이상적인 인간관계는?", options:[
+    {text:"다양하고 활발한 인간관계",axis:0},
+    {text:"소수지만 평생 갈 깊은 관계",axis:1},
+    {text:"서로 필요할 때 도움이 되는 관계",axis:2},
+    {text:"부담 없이 편안한 관계",axis:3},
+  ]},
+  { text:"🌟 인간관계에서 가장 중요한 것은?", options:[
+    {text:"함께하는 즐거움",axis:0},
+    {text:"진심과 신뢰",axis:1},
+    {text:"서로에 대한 존중",axis:2},
+    {text:"편안함과 자유",axis:3},
+  ]},
+];
+let scores=[0,0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>내가 남들에게 주는 첫인상 테스트 👤 나는 어떤 이미지로 보일까?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="내가 남들에게 주는 첫인상 테스트 👤 나는 어떤 이미지로 보일까?"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/first-impression"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg:#f8f9ff; --card:#ffffff; --primary:#4a6cf7;
+      --secondary:#7b9bff; --text:#1a1a2e;
+      --muted:#6070a0; --border:#d8e0ff; --radius:22px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;overflow-x:hidden;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;position:relative;z-index:1;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;position:relative;z-index:1;}
+    /* INTRO */
+    .intro-screen{text-align:center;padding-top:40px;}
+    .hero-emoji{font-size:5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}};
+    h1{font-family:'Jua',cursive;font-size:1.75rem;color:var(--primary);margin-bottom:10px;line-height:1.3;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.75;margin-bottom:32px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.18);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+    /* QUIZ */
+    .quiz-screen{display:none;padding-top:30px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:24px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.3s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:10px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.12rem;color:var(--text);margin-bottom:24px;line-height:1.55;}
+    .options{display:flex;flex-direction:column;gap:12px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;text-align:left;color:var(--text);font-size:0.9rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:rgba(128,128,128,0.06);transform:translateX(4px);}
+    /* RESULT */
+    .result-screen{display:none;padding-top:30px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:32px 24px;}
+    .res-emoji{font-size:3.8rem;text-align:center;display:block;margin-bottom:12px;}
+    .res-label{font-size:0.72rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.55rem;color:var(--text);text-align:center;margin-bottom:4px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:16px;}
+    .res-tag{display:block;width:fit-content;margin:0 auto 20px;background:rgba(128,128,128,0.1);color:var(--primary);border:1px solid rgba(128,128,128,0.2);border-radius:99px;padding:4px 16px;font-size:0.8rem;}
+    .section-title{font-family:'Jua',cursive;font-size:0.92rem;color:var(--secondary);margin:20px 0 8px;}
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;}
+    .trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .trait-tag{background:rgba(128,128,128,0.08);color:var(--primary);border:1px solid rgba(128,128,128,0.18);border-radius:99px;padding:4px 13px;font-size:0.78rem;}
+    .extra-box{background:rgba(128,128,128,0.05);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:8px;font-size:0.85rem;color:var(--muted);line-height:1.8;}
+    /* BUTTONS */
+    .ad-slot{margin:24px 0;}
+    .share-btn{width:100%;background:rgba(128,128,128,0.07);color:var(--primary);border:1.5px solid rgba(128,128,128,0.2);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(128,128,128,0.13);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+    /* SHARE CARD */
+    .share-card-wrap{margin:24px 0 0;background:rgba(128,128,128,0.05);border:1.5px solid rgba(128,128,128,0.15);border-radius:20px;padding:28px 24px 20px;text-align:center;}
+    .sc-label{font-size:0.72rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:12px;font-weight:700;}
+    #sc-emoji{font-size:2.8rem;margin-bottom:8px;}
+    #sc-title{font-family:'Jua',cursive;font-size:1.3rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.82rem;color:var(--muted);margin-bottom:10px;}
+    #sc-tag{display:inline-block;padding:4px 14px;border-radius:99px;font-size:0.78rem;color:var(--primary);background:rgba(128,128,128,0.08);border:1px solid rgba(128,128,128,0.18);}
+    .hint-txt{font-size:0.65rem;color:#aaa;margin-top:10px;}
+    .brand-txt{font-size:0.62rem;color:rgba(150,150,150,0.35);letter-spacing:0.1em;margin-top:6px;}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">👤</span>
+    <h1>사람들이 처음 보는<br/>나의 첫인상은?</h1>
+    <p class="intro-desc">내가 남들에게 어떤 이미지로 보이는지<br/>10문항으로 분석해드려요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">👤 내 첫인상 알아보기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-title"></div>
+      <div class="extra-box" id="res-extra"></div>
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: {emoji:"⚡",label:"CHARISMA TYPE",name:"차가운 도시 사람",sub:"첫인상: 강하고 범접하기 어려운 이미지",tag:"도시적 카리스마 이미지",desc:"처음 보는 사람들은 당신을 강하고 자신감 있어 보인다고 느껴요. 범접하기 어렵다는 인상을 주는 편이라 먼저 다가오는 사람이 많지 않아요. 하지만 친해지면 의외로 다른 모습이 있다는 걸 알게 되는 타입이에요.",traits:["강한 인상", "카리스마", "도시적 이미지", "접근 어려움"],extra:"가끔 먼저 가볍게 말을 걸어보면 사람들이 생각보다 쉽게 열려요."},
+  1: {emoji:"✨",label:"BRIGHT TYPE",name:"세련된 트렌디인",sub:"첫인상: 트렌디하고 활기찬 이미지",tag:"세련되고 밝은 이미지",desc:"처음 보는 사람들은 당신을 세련되고 활기차 보인다고 느껴요. 트렌드에 민감하고 사교적인 이미지를 줘서 먼저 다가오는 사람이 많은 편이에요.",traits:["세련된 이미지", "활기참", "트렌디함", "사교적 인상"],extra:"첫인상이 좋은 만큼, 그 인상을 이어가는 것도 중요해요."},
+  2: {emoji:"☀️",label:"FRIENDLY TYPE",name:"편안한 친구형",sub:"첫인상: 따뜻하고 편안한 이미지",tag:"친근하고 편안한 이미지",desc:"처음 보는 사람들이 당신에게 쉽게 편안함을 느껴요. 자연스럽게 웃고 친근하게 대해서, 처음 만나는 자리에서도 금방 친해지는 타입이에요.",traits:["친근한 인상", "편안함", "따뜻한 이미지", "접근하기 쉬움"],extra:"이 친근함이 당신의 가장 큰 무기예요. 잘 활용하고 있어요."},
+  3: {emoji:"🔮",label:"MYSTERY TYPE",name:"신비로운 사람",sub:"첫인상: 뭔가 있어 보이는 이미지",tag:"신비롭고 독특한 이미지",desc:"처음 보는 사람들은 당신에게서 뭔가 알 수 없는 매력을 느껴요. 표정이나 행동이 독특해서 인상에 남는 타입이에요. 많은 사람들이 당신을 궁금해해요.",traits:["신비로운 이미지", "독특한 인상", "기억에 남음", "관심 유발"],extra:"당신의 신비로움은 매력이에요. 너무 열어주지 않는 것도 때로는 좋은 전략이에요."},
+  4: {emoji:"🌙",label:"QUIET TYPE",name:"조용한 관찰자",sub:"첫인상: 차분하고 깊어 보이는 이미지",tag:"조용하고 깊은 이미지",desc:"처음 보는 사람들은 당신을 조용하고 차분한 사람으로 봐요. 말이 많지 않아서 깊이 있어 보이는 인상을 줘요. 관찰력이 뛰어난 사람처럼 보이는 타입이에요.",traits:["조용한 인상", "차분함", "깊이 있어 보임", "관찰자 이미지"],extra:"조용한 첫인상이 나쁜 것이 아니에요. 말할 때 무게감이 있는 사람처럼 보여요."},
+  5: {emoji:"🌱",label:"SHY TYPE",name:"수줍고 귀여운 사람",sub:"첫인상: 소심해 보이지만 귀여운 이미지",tag:"수줍고 귀여운 이미지",desc:"처음 보는 사람들은 당신을 소심하거나 수줍어하는 것처럼 봐요. 하지만 이것이 오히려 귀엽고 다가가고 싶은 인상을 만들기도 해요. 친해지면 완전히 다른 모습이 나오는 타입이에요.",traits:["수줍은 인상", "귀여움", "소심해 보임", "반전 매력"],extra:"수줍음도 매력이에요. 그 자체를 자신감 있게 받아들이면 더 빛날 거예요."},
+};
+const questions = [
+  {text:"🚶 걸을 때 나의 자세는?",options:[
+    {text:"빠르고 목적지향적으로 걷는다",axis:1},
+    {text:"여유롭고 천천히 걷는다",axis:2},
+    {text:"고개를 약간 숙이고 걷는 편이다",axis:4},
+    {text:"자신감 있게 허리를 펴고 걷는다",axis:0},
+    {text:"주변을 둘러보며 걷는다",axis:3},
+    {text:"사람들 눈에 안 띄게 걷는다",axis:5},
+  ]},
+  {text:"👁️ 눈이 마주쳤을 때?",options:[
+    {text:"자연스럽게 웃어준다",axis:2},
+    {text:"먼저 시선을 피한다",axis:4},
+    {text:"시선을 유지한다",axis:0},
+    {text:"살짝 눈썹을 들어 인사한다",axis:1},
+    {text:"뭔가 생각하는 표정으로 바라본다",axis:3},
+    {text:"당황해서 급히 시선을 내린다",axis:5},
+  ]},
+  {text:"👗 주로 입는 옷 스타일은?",options:[
+    {text:"깔끔하고 단정한 스타일",axis:0},
+    {text:"편하고 캐주얼한 스타일",axis:2},
+    {text:"개성 있고 독특한 스타일",axis:3},
+    {text:"트렌디하고 세련된 스타일",axis:1},
+    {text:"눈에 띄지 않는 무난한 스타일",axis:5},
+    {text:"다크하거나 모노톤 스타일",axis:4},
+  ]},
+  {text:"💬 처음 만난 사람에게 먼저 말을 거는 편?",options:[
+    {text:"네, 자연스럽게 먼저 말함",axis:2},
+    {text:"상황에 따라 다름",axis:1},
+    {text:"아니요, 상대가 먼저 하길 기다림",axis:4},
+    {text:"네, 목적이 있을 때는 먼저 함",axis:0},
+    {text:"분위기가 맞으면 말함",axis:3},
+    {text:"거의 안 함",axis:5},
+  ]},
+  {text:"😊 웃는 빈도는?",options:[
+    {text:"자주 웃는 편이다",axis:2},
+    {text:"이유 있을 때 웃는다",axis:1},
+    {text:"잘 안 웃는다",axis:0},
+    {text:"혼자 있을 때는 웃는데 밖에서는 잘 안 웃음",axis:4},
+    {text:"뭔가 생각하는 표정이 많다",axis:3},
+    {text:"웃고 싶은데 표정 관리가 잘 안 됨",axis:5},
+  ]},
+  {text:"📣 목소리 크기는?",options:[
+    {text:"또렷하고 자신감 있는 편",axis:0},
+    {text:"중간 정도",axis:1},
+    {text:"밝고 큰 편",axis:2},
+    {text:"조용하고 낮은 편",axis:4},
+    {text:"천천히 신중하게 말하는 편",axis:3},
+    {text:"작아서 자주 못 들었냐는 말 들음",axis:5},
+  ]},
+  {text:"⏰ 약속 시간에?",options:[
+    {text:"항상 정확하거나 일찍 나간다",axis:0},
+    {text:"보통 제 시간에 맞춘다",axis:1},
+    {text:"조금 일찍 나가는 편이다",axis:2},
+    {text:"가끔 늦기도 한다",axis:3},
+    {text:"정확히 맞추려 하지만 긴장된다",axis:5},
+    {text:"내 페이스대로 간다",axis:4},
+  ]},
+  {text:"🎤 처음 만나는 자리에서 자기소개할 때?",options:[
+    {text:"간결하고 자신감 있게 한다",axis:0},
+    {text:"친근하게 웃으면서 한다",axis:2},
+    {text:"많이 긴장한다",axis:5},
+    {text:"신중하게 선택해서 말한다",axis:3},
+    {text:"짧게 끝낸다",axis:4},
+    {text:"재미있게 풀어서 한다",axis:1},
+  ]},
+];
+let scores = [0,0,0,0,0,0], current = 0;
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  showQuestion();
+}
+function showQuestion() {
+  const q = questions[current];
+  document.getElementById('q-num').textContent = (current + 1) + ' / ' + questions.length;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('progress-bar').style.width = ((current / questions.length) * 100) + '%';
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  q.options.forEach(function(o) {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = o.text;
+    btn.onclick = function() {
+      scores[o.axis]++;
+      current++;
+      if (current < questions.length) showQuestion(); else showResult(false);
+    };
+    opts.appendChild(btn);
+  });
+}
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+  const top = scores.indexOf(Math.max.apply(null, scores));
+  const r = results[top];
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-label').textContent = r.label;
+  document.getElementById('res-name').textContent = r.name;
+  document.getElementById('res-sub').textContent = r.sub;
+  document.getElementById('res-tag').textContent = r.tag;
+  document.getElementById('res-desc').textContent = r.desc;
+  document.getElementById('res-traits').innerHTML = r.traits.map(function(t) { return '<span class="trait-tag">' + t + '</span>'; }).join('');
+  document.getElementById('extra-title').textContent = '💡 한마디';
+  document.getElementById('res-extra').textContent = r.extra;
+  document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.name;
+  document.getElementById('sc-sub').textContent = r.sub;
+  document.getElementById('sc-tag').textContent = r.tag;
+  if (!fromUrl) { try { history.replaceState(null, '', '?r=' + top); } catch(e) {} }
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function copyLink(btn) {
+  const url = location.origin + location.pathname + location.search;
+  navigator.clipboard.writeText(url).then(function() {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(function() { btn.textContent = '🔗 링크 복사해서 공유하기'; }, 2000);
+  });
+}
+function restartTest() {
+  scores = [0,0,0,0,0,0];
+  current = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+(function() {
+  const p = new URLSearchParams(location.search);
+  const r = p.get('r');
+  if (r !== null && results[parseInt(r)]) {
+    scores[parseInt(r)] = 1;
+    document.getElementById('intro-screen').style.display = 'none';
+    showResult(true);
+  }
+})();
+</script>
+</body>
+</html>

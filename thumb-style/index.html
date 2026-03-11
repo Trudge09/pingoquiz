@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나의 썸 스타일 테스트 👀 썸은 어떻게 타나요?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="나의 썸 스타일 테스트 👀 썸은 어떻게 타나요?"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/thumb-style"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #fff9f9;
+      --card: #ffffff;
+      --primary: #ff6b9d;
+      --secondary: #ff9bbf;
+      --text: #2d1020;
+      --muted: #b08090;
+      --border: #ffd6e8;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">👀</span>
+    <h1>나의 썸 스타일은?</h1>
+    <p class="intro-desc">썸 탈 때 당신은 어떤 타입인가요?<br/>8문항으로 썸 스타일을 분석해드려요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🔍 내 썸 스타일 알아보기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"🔥", label:"ACTIVE THUMBS", name:"적극적 썸 마스터", sub:"확인하고 싶으면 직접 물어보는 타입", tag:"썸 주도권을 쥐는 스타일", desc:"썸도 전략이에요. 확신이 서면 망설이지 않고 다가가요. 먼저 연락하고, 먼저 챙기고, 마음이 생기면 직접 표현해요. 썸을 길게 끄는 것보다 빠르게 확인하는 편이에요.", traits:["적극적", "주도적", "빠른 결단", "솔직함"], extraLabel:"💡 썸 조언", extraText:"가끔은 상대방의 페이스를 기다려주는 것도 필요해요. 너무 빠르게 달리면 상대가 따라오지 못할 수도 있어요." },
+  1: { emoji:"🌊", label:"SMOOTH THUMBS", name:"자연스러운 흐름파", sub:"억지스럽지 않게 자연스럽게 가까워지는 타입", tag:"물 흐르듯 자연스러운 스타일", desc:"억지스러운 것이 싫어요. 자연스러운 만남과 대화 속에서 서로를 알아가는 것이 좋아요. 급하지 않게, 흐르는 물처럼 가까워지는 스타일이에요.", traits:["자연스러움", "여유", "관찰력", "세심함"], extraLabel:"💡 썸 조언", extraText:"너무 자연스럽게 있다 보면 상대가 친구로만 볼 수 있어요. 가끔은 확실한 시그널도 필요해요." },
+  2: { emoji:"🎭", label:"STRATEGIC THUMBS", name:"전략적 썸 플레이어", sub:"계산된 듯 자연스럽게 접근하는 타입", tag:"티 안 나게 공략하는 스타일", desc:"무모하게 다가가지 않아요. 상대를 충분히 관찰하고, 타이밍을 재고, 자연스럽게 각인시키는 방법을 써요. 겉으로는 쿨하게 보이지만 속으로는 치밀하게 계획 중이에요.", traits:["전략적", "관찰력", "타이밍", "침착함"], extraLabel:"💡 썸 조언", extraText:"너무 계산적이면 진심이 안 느껴질 수 있어요. 가끔은 준비 없이 솔직하게 다가가는 것도 매력이에요." },
+  3: { emoji:"🌙", label:"SHY THUMBS", name:"마음속으로만 설레는 내향파", sub:"표현이 서툴러서 혼자 애타는 타입", tag:"마음은 불꽃, 행동은 소심한 스타일", desc:"마음속은 설레임으로 가득하지만, 그 마음을 표현하는 것이 너무 어려워요. 먼저 다가가지 못하고, 상대의 반응 하나하나에 일희일비해요. 고백 못 하고 끝나는 경우가 있어서 아쉬울 때가 많아요.", traits:["섬세함", "내성적", "깊은 마음", "관찰력"], extraLabel:"💡 썸 조언", extraText:"마음을 표현하는 작은 행동부터 연습해봐요. 한마디의 진심이 긴 침묵보다 훨씬 전달이 잘 돼요." },
+};
+const questions = [
+  { text:"💬 마음에 드는 사람이 생기면?", options:[
+    {text:"자꾸 말 걸고 리액션 열심히 함",axis:0},
+    {text:"우연히 마주칠 기회를 만든다",axis:1},
+    {text:"SNS에서 먼저 친해진다",axis:2},
+    {text:"아무것도 못 하고 혼자 설렌다",axis:3},
+  ]},
+  { text:"📱 썸남/녀에게 연락하는 스타일은?", options:[
+    {text:"자주 먼저 연락, 적극적으로",axis:0},
+    {text:"답장은 빠르게 하되 먼저는 망설임",axis:1},
+    {text:"답장 시간 재고 신중하게 보냄",axis:2},
+    {text:"먼저 연락 잘 못 함",axis:3},
+  ]},
+  { text:"🎯 썸에서 고백까지 걸리는 시간은?", options:[
+    {text:"확신이 서면 바로!",axis:0},
+    {text:"3개월 안에는 해야 직성 풀림",axis:1},
+    {text:"상대 반응 충분히 보고 결정",axis:2},
+    {text:"고백 못 하고 끝날 수도 있음",axis:3},
+  ]},
+  { text:"💭 썸 중에 다른 이성이 상대에게 접근하면?", options:[
+    {text:"더 적극적으로 내 존재 어필",axis:0},
+    {text:"신경 쓰이지만 내색 안 함",axis:1},
+    {text:"속으로만 불안함",axis:3},
+    {text:"그냥 운명에 맡김",axis:2},
+  ]},
+  { text:"🌙 상대가 나한테 관심 있나 없나 불분명할 때?", options:[
+    {text:"직접 물어보거나 확인",axis:0},
+    {text:"더 자주 만날 기회 만듦",axis:1},
+    {text:"힌트 흘리고 반응 봄",axis:2},
+    {text:"혼자 끝없이 분석함",axis:3},
+  ]},
+  { text:"🎁 썸 상대에게 선물하는 스타일은?", options:[
+    {text:"이유 없이도 챙겨줌",axis:0},
+    {text:"생일이나 특별한 날에 센스있게",axis:1},
+    {text:"상대가 좋아하는 거 기억해뒀다가",axis:2},
+    {text:"선물이 부담스럽게 느껴질까봐 잘 못 함",axis:3},
+  ]},
+  { text:"💔 썸이 흐지부지될 것 같을 때?", options:[
+    {text:"솔직하게 마음 전함",axis:0},
+    {text:"마지막으로 한 번 더 기회 만듦",axis:1},
+    {text:"자연스럽게 멀어지도록 둠",axis:2},
+    {text:"그냥 조용히 마음 접음",axis:3},
+  ]},
+  { text:"🌹 썸에서 가장 설레는 순간은?", options:[
+    {text:"상대가 먼저 연락 왔을 때",axis:0},
+    {text:"우연히 눈 마주쳤을 때",axis:1},
+    {text:"둘만 아는 농담이 생겼을 때",axis:2},
+    {text:"내 생각 하고 있었다고 했을 때",axis:3},
+  ]},
+];
+let scores=[0,0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

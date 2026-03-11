@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>여권 들고 튀어! ✈️ 내 영혼의 여행지는?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="여권 들고 튀어! ✈️ 내 영혼의 여행지는?" />
+  <meta property="og:description" content="이미 정해져 있었어요. 당신이 가야 할 곳이. 12문항으로 알아보는 나의 운명 여행지!" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/travel" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #06080f;
+      --card: #0d1220;
+      --card2: #131929;
+      --primary: #38bdf8;
+      --secondary: #818cf8;
+      --gold: #fbbf24;
+      --teal: #2dd4bf;
+      --text: #e8f0ff;
+      --muted: #6478a0;
+      --border: #1a2540;
+      --radius: 20px;
+      --shadow: 0 8px 40px rgba(20,40,100,0.4);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+
+    /* 우주 배경 */
+    .stars {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 8% 12%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 28% 28%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 42% 72%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 18%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(2px 2px at 75% 80%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 35%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 92% 65%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(circle at 15% 25%, rgba(56,189,248,0.06) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(129,140,248,0.05) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(45,212,191,0.03) 0%, transparent 60%);
+    }
+
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 상단 바 */
+    .top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary), var(--teal));
+    }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 48px 0 32px; animation: fadeUp 0.6s ease; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 0.85rem; text-decoration: none;
+      margin-bottom: 32px; transition: color 0.15s; display: block; text-align: left;
+    }
+    .back-btn:hover { color: var(--primary); }
+
+    .globe {
+      font-size: 5rem; display: block; margin-bottom: 20px;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 24px rgba(56,189,248,0.4));
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-14px) rotate(3deg); }
+    }
+
+    h1 {
+      font-family: 'Jua', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .intro-sub { color: var(--muted); font-size: 0.93rem; line-height: 1.8; margin-bottom: 28px; }
+
+    .intro-story {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 22px;
+      text-align: left; margin-bottom: 28px;
+      color: #8899cc; font-size: 0.92rem; line-height: 2;
+      position: relative; overflow: hidden;
+    }
+    .intro-story::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary), var(--teal));
+    }
+    .intro-story .highlight { color: var(--primary); font-weight: 700; }
+    .intro-story .gold { color: var(--gold); font-weight: 700; }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white; border: none; border-radius: 99px;
+      padding: 18px 52px; font-family: 'Jua', cursive;
+      font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 6px 28px rgba(56,189,248,0.25);
+      transition: all 0.15s ease;
+    }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(56,189,248,0.35); }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 32px 0; display: none; }
+    .progress-wrap {
+      background: var(--border); border-radius: 99px;
+      height: 5px; margin-bottom: 28px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--secondary), var(--primary), var(--teal));
+      border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .q-num { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; letter-spacing: 1px; }
+
+    .quiz-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 28px;
+      animation: fadeUp 0.35s ease; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary), var(--teal));
+    }
+
+    .q-vibe {
+      display: inline-block;
+      background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 99px; padding: 4px 14px;
+      font-size: 0.78rem; color: var(--primary); font-weight: 700;
+      letter-spacing: 0.5px; margin-bottom: 14px;
+    }
+    .q-text {
+      font-family: 'Jua', cursive; font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+      color: var(--text); margin-bottom: 24px; line-height: 1.55;
+    }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option-btn {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 16px 18px;
+      text-align: left; color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.18s ease;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .option-btn:hover {
+      background: #0f1e38; border-color: var(--primary);
+      transform: translateX(5px);
+      box-shadow: 0 4px 16px rgba(56,189,248,0.12);
+    }
+    .opt-icon { font-size: 1.3rem; min-width: 28px; }
+
+    /* 결과 */
+    #result-screen { padding: 32px 0; display: none; animation: fadeUp 0.5s ease; }
+
+    .result-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 28px;
+      box-shadow: var(--shadow); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary), var(--teal));
+    }
+
+    .destiny-label {
+      font-size: 0.75rem; color: var(--primary); font-weight: 700;
+      letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase;
+    }
+    .result-emoji {
+      font-size: 5.5rem; display: block; margin-bottom: 14px;
+      filter: drop-shadow(0 0 20px rgba(56,189,248,0.35));
+      animation: float 4s ease-in-out infinite;
+    }
+    .result-country {
+      font-family: 'Jua', cursive; font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 4px;
+    }
+    .result-city {
+      font-family: 'Jua', cursive; font-size: 1.2rem;
+      color: var(--muted); margin-bottom: 20px;
+    }
+    .result-tag {
+      display: inline-block; background: rgba(56,189,248,0.1);
+      color: var(--primary); border: 1px solid rgba(56,189,248,0.25);
+      border-radius: 99px; padding: 4px 18px;
+      font-size: 0.82rem; font-weight: 700; margin-bottom: 24px;
+    }
+
+    .destiny-story {
+      background: var(--card2); border-radius: 14px; padding: 20px 18px;
+      text-align: left; margin-bottom: 20px;
+      border-left: 3px solid var(--primary);
+      font-size: 0.9rem; color: #8899bb; line-height: 1.9;
+    }
+    .destiny-story .story-label {
+      color: var(--gold); font-weight: 700; font-size: 0.75rem;
+      letter-spacing: 1px; display: block; margin-bottom: 8px;
+    }
+
+    .result-desc {
+      text-align: left; color: #7788aa; font-size: 0.9rem; line-height: 1.8;
+      background: var(--card2); border-radius: 14px; padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .info-box {
+      background: var(--card2); border-radius: 14px; padding: 16px;
+      border: 1px solid var(--border); text-align: left;
+    }
+    .info-box-title {
+      font-family: 'Jua', cursive; font-size: 0.85rem; color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .info-tag {
+      display: inline-block; background: rgba(56,189,248,0.08);
+      color: #7eb8d4; border-radius: 99px;
+      padding: 4px 11px; font-size: 0.78rem; font-weight: 700;
+      margin: 2px; border: 1px solid rgba(56,189,248,0.15);
+    }
+
+    .spots-section { text-align: left; margin-bottom: 20px; }
+    .spots-title {
+      font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--teal);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .spot-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 0.88rem; color: #8899bb;
+    }
+    .spot-item:last-child { border-bottom: none; }
+    .spot-name { color: var(--text); font-weight: 700; display: block; margin-bottom: 2px; font-size: 0.92rem; }
+
+    .share-btn {
+      width: 100%; background: rgba(56,189,248,0.1);
+      color: var(--primary); border: 1.5px solid rgba(56,189,248,0.25);
+      border-radius: 99px; padding: 14px;
+      font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px;
+    }
+    .share-btn:hover { background: rgba(56,189,248,0.18); }
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: 99px;
+      padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .retry-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+      /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1.5px dashed rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="top-bar"></div>
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <span class="globe">🌍</span>
+    <h1>여권 들고 튀어!</h1>
+    <p class="intro-sub">내 영혼의 여행지는 이미 정해져 있었어요</p>
+    <div class="intro-story">
+      <span class="gold">🌌 우주의 메시지</span><br/><br/>
+      당신이 태어나던 날, 우주는 조용히 좌표 하나를 새겼어요.<br/><br/>
+      아직 가보지 못한 곳인데 왠지 <span class="highlight">낯설지 않은 느낌</span>이 드는 여행지가 있지 않나요? 처음 보는 사진인데 심장이 살짝 뛰는 곳, 이유도 없이 계속 끌리는 나라, 그건 우연이 아니에요.<br/><br/>
+      12개의 질문이 당신 안에 숨겨진 신호를 읽어낼 거예요. 당신이 <span class="gold">진짜 가야 할 곳</span>이 어디인지 — 지금 바로 확인해봐요. ✨
+    </div>
+    <button class="start-btn" onclick="startTest()">✈️ 내 여행지 확인하기</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">질문 1 / 12</div>
+    <div class="quiz-card">
+      <div class="q-vibe" id="q-vibe"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-card">
+      <div class="destiny-label">✦ 당신의 운명 여행지 ✦</div>
+      <span class="result-emoji" id="res-emoji"></span>
+      <div class="result-country" id="res-country"></div>
+      <div class="result-city" id="res-city"></div>
+      <div class="result-tag" id="res-tag"></div>
+
+      <div class="destiny-story">
+        <span class="story-label">🌌 우주가 당신에게 보낸 이유</span>
+        <span id="res-story"></span>
+      </div>
+
+      <div class="result-desc" id="res-desc"></div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-box-title">이런 여행 스타일</div>
+          <div id="res-style"></div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-title">이런 경험을 원해요</div>
+          <div id="res-want"></div>
+        </div>
+      </div>
+
+      <div class="spots-section">
+        <div class="spots-title">꼭 가봐야 할 곳</div>
+        <div id="res-spots"></div>
+      </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+
+      <!-- 공유 카드 -->
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#38bdf81a,#38bdf808);border:1.5px solid #38bdf855;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#38bdf8;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#38bdf822;color:#38bdf8;border:1px solid #38bdf855;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="restartTest()">🔄 다시 확인하기</button>
+
+      <!-- 광고 슬롯: 하단 -->
+      <div class="ad-slot" style="margin-top:20px; margin-bottom:0;">
+        <ins class="adsbygoogle" style="display:block"
+          data-ad-client="ca-pub-2274221145664784"
+          data-ad-slot="7164108177"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+const questions = [
+  {
+    vibe: "당신의 에너지",
+    text: "주말 아침, 알람 없이 눈을 떴어요. 기분이 어때요?",
+    options: [
+      { text: "오늘 뭔가 해야겠다! 벌써 계획이 머릿속에서 돌아가", icon: "⚡", axis: 0 },
+      { text: "천천히... 커피 한 잔 마시면서 창밖 보고 싶어", icon: "☕", axis: 1 },
+      { text: "어디론가 훌쩍 떠나고 싶은 기분이 드네", icon: "🌅", axis: 2 },
+      { text: "그냥 이 순간이 너무 좋아. 아무것도 안 하고 싶어", icon: "🛋️", axis: 3 }
+    ]
+  },
+  {
+    vibe: "당신이 끌리는 풍경",
+    text: "눈을 감고 상상해봐요. 가장 먼저 떠오르는 풍경은?",
+    options: [
+      { text: "눈 덮인 설산, 차갑고 맑은 공기", icon: "🏔️", axis: 0 },
+      { text: "오래된 골목, 빛바랜 간판들과 이국적인 향기", icon: "🏘️", axis: 1 },
+      { text: "끝없이 펼쳐진 바다, 수평선 너머의 세상", icon: "🌊", axis: 2 },
+      { text: "초록이 가득한 숲, 새소리와 바람 소리", icon: "🌿", axis: 3 }
+    ]
+  },
+  {
+    vibe: "낯선 곳에서의 나",
+    text: "처음 가본 도시에서 지도를 잃었어요. 나는...",
+    options: [
+      { text: "오히려 신나! 이게 진짜 여행이지", icon: "🗺️", axis: 2 },
+      { text: "천천히 걸으면서 발 닿는 대로 가봐", icon: "🚶", axis: 1 },
+      { text: "일단 현지인한테 물어봐. 대화가 시작될 것 같아", icon: "💬", axis: 0 },
+      { text: "어딘가 앉아서 그 도시를 그냥 느껴봐", icon: "🪑", axis: 3 }
+    ]
+  },
+  {
+    vibe: "여행의 목적",
+    text: "나에게 여행은 어떤 의미예요?",
+    options: [
+      { text: "일상에서 완전히 분리되어 나를 리셋하는 것", icon: "🔄", axis: 3 },
+      { text: "새로운 자극과 경험으로 성장하는 것", icon: "🌱", axis: 0 },
+      { text: "그 나라의 음식, 문화, 사람을 깊이 느끼는 것", icon: "🫀", axis: 1 },
+      { text: "그냥 신나고 즐거운 것! 이유가 필요해?", icon: "🎉", axis: 2 }
+    ]
+  },
+  {
+    vibe: "여행 스타일",
+    text: "여행 일정을 어떻게 짜요?",
+    options: [
+      { text: "숙소, 식당, 관광지 다 예약해두고 시간표 만들어", icon: "📋", axis: 0 },
+      { text: "큰 틀만 잡고 세부 일정은 현지에서 결정해", icon: "🎲", axis: 2 },
+      { text: "숙소만 잡고 나머지는 현지인 추천 따라가", icon: "🧭", axis: 1 },
+      { text: "일정? 그냥 가서 느끼는 거지!", icon: "🌬️", axis: 3 }
+    ]
+  },
+  {
+    vibe: "감각의 취향",
+    text: "여행에서 가장 기억에 남는 건 뭐예요?",
+    options: [
+      { text: "그 나라만의 특별한 음식 맛", icon: "🍜", axis: 1 },
+      { text: "아무 생각 없이 멍하니 바라봤던 풍경", icon: "🌄", axis: 3 },
+      { text: "우연히 만난 현지 사람과의 대화", icon: "🤝", axis: 0 },
+      { text: "예상치 못한 곳에서 느꼈던 짜릿함", icon: "⚡", axis: 2 }
+    ]
+  },
+  {
+    vibe: "도시 vs 자연",
+    text: "어떤 여행지가 더 끌려요?",
+    options: [
+      { text: "역사가 살아있는 오래된 도시", icon: "🏛️", axis: 1 },
+      { text: "세련되고 트렌디한 대도시", icon: "🌆", axis: 0 },
+      { text: "손때 묻지 않은 대자연", icon: "🏕️", axis: 3 },
+      { text: "바다와 도시가 공존하는 곳", icon: "🏖️", axis: 2 }
+    ]
+  },
+  {
+    vibe: "여행 중 나",
+    text: "여행지에서 하루가 통째로 비었어요. 뭐 해요?",
+    options: [
+      { text: "로컬 시장이나 골목 구석구석 탐험해", icon: "🔍", axis: 1 },
+      { text: "숙소에서 그 도시를 바라보며 멍때려", icon: "🌙", axis: 3 },
+      { text: "현지에서만 할 수 있는 액티비티 해봐", icon: "🏄", axis: 2 },
+      { text: "카페에서 책 읽거나 일기 쓰면서 보내", icon: "📖", axis: 0 }
+    ]
+  },
+  {
+    vibe: "계절의 감성",
+    text: "어떤 계절에 여행하고 싶어요?",
+    options: [
+      { text: "겨울 — 조용하고 차가운 공기, 따뜻한 실내", icon: "❄️", axis: 0 },
+      { text: "봄/가을 — 선선하고 딱 걷기 좋은 날씨", icon: "🍂", axis: 1 },
+      { text: "여름 — 강렬한 햇빛, 바다, 에너지!", icon: "☀️", axis: 2 },
+      { text: "우기/흐린 날 — 그 나라의 진짜 모습이 보여", icon: "🌧️", axis: 3 }
+    ]
+  },
+  {
+    vibe: "혼자 vs 함께",
+    text: "이상적인 여행 동행은?",
+    options: [
+      { text: "혼자. 내 속도, 내 감정이 제일이야", icon: "🎒", axis: 3 },
+      { text: "딱 맞는 친구 1~2명이랑", icon: "👫", axis: 1 },
+      { text: "왁자지껄 여럿이서! 추억이 두 배야", icon: "👥", axis: 2 },
+      { text: "연인이랑. 둘만의 세계가 생기잖아", icon: "💑", axis: 0 }
+    ]
+  },
+  {
+    vibe: "여행 후의 나",
+    text: "여행에서 돌아온 나는 어떤 상태예요?",
+    options: [
+      { text: "에너지가 충전돼서 뭐든 할 수 있을 것 같아", icon: "⚡", axis: 2 },
+      { text: "머릿속이 정리되고 생각이 깊어진 느낌", icon: "🧠", axis: 0 },
+      { text: "마음이 따뜻해지고 사람이 그리워져", icon: "❤️", axis: 1 },
+      { text: "고요하고 평화로운 상태. 나를 찾은 기분", icon: "🌿", axis: 3 }
+    ]
+  },
+  {
+    vibe: "마지막 신호",
+    text: "지금 이 순간, 우주가 당신에게 묻습니다. 무엇이 당신을 움직이게 해요?",
+    options: [
+      { text: "연결 — 사람, 문화, 이야기와 이어지는 것", icon: "🫂", axis: 1 },
+      { text: "자유 — 아무 제약 없이 세상을 느끼는 것", icon: "🕊️", axis: 2 },
+      { text: "깊이 — 표면 아래의 진짜를 발견하는 것", icon: "🔮", axis: 0 },
+      { text: "고요 — 소음에서 벗어나 나만의 시간", icon: "🌌", axis: 3 }
+    ]
+  }
+];
+
+const results = {
+  0: {
+    emoji: "🏯",
+    country: "일본",
+    city: "교토 · 도쿄",
+    tag: "섬세함과 깊이를 아는 영혼",
+    story: "우주는 당신에게 '레이어'가 있는 곳을 보내기로 했어요. 겉으로 보이는 것 너머, 그 안에 켜켜이 쌓인 이야기가 있는 곳. 교토의 골목에서 당신은 아무 설명 없이도 느낄 거예요 — 이곳이 낯설지 않다는 것을. 도쿄의 정밀함 속에서는 당신 안의 질서를 발견하게 될 거예요.",
+    desc: "당신은 여행을 '소비'하지 않아요. 그 나라의 결을 느끼고, 공기를 마시고, 시간의 무게를 온몸으로 받아들이는 타입. 일본은 그런 당신에게 완벽한 무대예요. 서두르지 않아도 모든 것이 제자리에 있는 나라니까요.",
+    style: ["계획형 여행", "로컬 깊이 탐방", "미식 탐험", "문화 몰입"],
+    want: ["역사와 맥락", "정밀한 아름다움", "조용한 감동", "완성도"],
+    spots: [
+      { name: "교토 아라시야마", desc: "새벽 안개 속 대나무 숲. 아무도 없는 시간에 혼자 걸어봐요." },
+      { name: "도쿄 시모키타자와", desc: "트렌디하지만 촌스럽지 않은 골목. 로컬의 일상이 살아있어요." },
+      { name: "나오시마 섬", desc: "예술과 자연이 공존하는 섬. 생각이 많아질 때 오면 정리돼요." }
+    ]
+  },
+  1: {
+    emoji: "🕌",
+    country: "유럽",
+    city: "프라하 · 이스탄불",
+    tag: "이야기를 수집하는 영혼",
+    story: "당신에게 우주가 보낸 좌표는 '이야기가 켜켜이 쌓인 곳'이에요. 프라하의 돌바닥 위에는 수백 년의 발걸음이 담겨있고, 이스탄불의 시장에는 동서양이 교차하는 에너지가 흘러요. 당신은 그 모든 이야기를 자연스럽게 흡수하는 안테나를 갖고 있거든요.",
+    desc: "당신의 여행은 사람과 음식과 냄새로 기억돼요. 어디를 갔는지보다 거기서 누구를 만났는지, 무슨 맛이었는지가 더 생생하죠. 유럽의 오래된 도시들은 그런 당신의 감각을 끝없이 자극해줄 거예요.",
+    style: ["감성 위주 여행", "골목 탐험", "현지 식문화", "즉흥 일정"],
+    want: ["현지인과의 교감", "오래된 것의 아름다움", "다양한 자극", "따뜻한 연결"],
+    spots: [
+      { name: "프라하 구시가지", desc: "동화 속에 들어온 것 같은 골목. 해질녘이 가장 아름다워요." },
+      { name: "이스탄불 그랜드 바자르", desc: "향신료 냄새와 색깔이 가득한 세계 최대 시장. 흥정도 경험이에요." },
+      { name: "포르투, 포르투갈", desc: "언덕 위 파란 타일 집들. 파두 음악과 와인 한 잔이 기다려요." }
+    ]
+  },
+  2: {
+    emoji: "🌊",
+    country: "동남아 · 남태평양",
+    city: "발리 · 세부 · 하와이",
+    tag: "자유와 해방을 아는 영혼",
+    story: "당신의 좌표는 파란색이에요. 우주가 당신에게 선물한 건 '완전한 해방'이거든요. 바다 앞에서 모든 걸 내려놓을 수 있는 당신에게, 발리의 파도는 오래전부터 기다리고 있었어요. 수평선을 바라볼 때 당신의 어깨에서 무언가가 스르르 내려가는 걸 느낄 거예요.",
+    desc: "당신은 여행지에서 진짜로 놀 줄 알아요. 눈치 안 보고, 계획 없이, 그냥 그 순간을 즐기는 능력. 바다가 있고, 햇살이 있고, 맛있는 게 있으면 그게 천국인 타입. 동남아와 남태평양은 그런 당신을 가장 자유롭게 해주는 곳이에요.",
+    style: ["자유여행", "액티비티", "해변 리조트", "즉흥 모험"],
+    want: ["완전한 휴식", "강렬한 자연", "신나는 경험", "에너지 충전"],
+    spots: [
+      { name: "발리 우붓", desc: "정글 속 빌라, 라이스 테라스, 요가. 몸과 마음이 동시에 쉬어요." },
+      { name: "필리핀 코론", desc: "에메랄드빛 석호와 난파선 스노클링. 비현실적으로 아름다워요." },
+      { name: "하와이 마우이", desc: "일출 명소 할레아칼라. 구름 위에서 맞이하는 아침은 평생 기억돼요." }
+    ]
+  },
+  3: {
+    emoji: "🌌",
+    country: "북유럽 · 뉴질랜드",
+    city: "아이슬란드 · 노르웨이 · 퀸스타운",
+    tag: "고요함 속에서 빛나는 영혼",
+    story: "우주가 당신에게 보낸 좌표는 지구에서 가장 조용하고 광활한 곳이에요. 인간의 소음이 닿지 않는 곳, 오로라가 하늘을 가득 채우는 밤, 피오르드가 거울처럼 산을 담아내는 새벽 — 그 앞에서 당신은 비로소 완전해져요. 거기서 당신은 혼자지만 외롭지 않을 거예요.",
+    desc: "당신에게 최고의 여행은 '완전히 나를 잊는 것'이에요. 거대한 자연 앞에서 내가 얼마나 작은지 느끼는 순간, 오히려 마음이 가벼워지는 타입. 북유럽과 뉴질랜드의 압도적인 자연은 당신의 내면을 건드릴 거예요.",
+    style: ["힐링 여행", "자연 탐방", "느린 여행", "사색 여행"],
+    want: ["압도적인 자연", "완전한 고요", "나만의 시간", "내면의 리셋"],
+    spots: [
+      { name: "아이슬란드 요쿨살론", desc: "빙하 호수에 떠다니는 얼음들. 세상에 이런 곳이 있다는 게 믿기지 않아요." },
+      { name: "노르웨이 피오르드", desc: "수천 미터 절벽이 만들어낸 수로. 그 앞에서 말이 사라져요." },
+      { name: "뉴질랜드 밀포드 사운드", desc: "세계 8대 절경. 비 오는 날이 오히려 더 아름다워요." }
+    ]
+  }
+};
+
+let scores = [0, 0, 0, 0];
+let currentQ = 0;
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('q-num').textContent = `질문 ${currentQ + 1} / ${questions.length}`;
+  document.getElementById('q-vibe').textContent = q.vibe;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(opt.axis);
+    optDiv.appendChild(btn);
+  });
+
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.35s ease';
+}
+
+function selectAnswer(axis) {
+  scores[axis]++;
+  currentQ++;
+  if (currentQ >= questions.length) showResult();
+  else showQuestion();
+}
+
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const maxScore = Math.max(...scores);
+  const topAxis = scores.indexOf(maxScore);
+  const r = results[topAxis];
+
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-country').textContent = r.country;
+  document.getElementById('res-city').textContent = r.city;
+  document.getElementById('res-tag').textContent = r.tag;
+  document.getElementById('res-story').textContent = r.story;
+  document.getElementById('res-desc').textContent = r.desc;
+  document.getElementById('res-style').innerHTML = r.style.map(s => `<span class="info-tag">${s}</span>`).join('');
+  document.getElementById('res-want').innerHTML = r.want.map(w => `<span class="info-tag">${w}</span>`).join('');
+  document.getElementById('res-spots').innerHTML = r.spots.map(s =>
+    `<div class="spot-item"><div><span class="spot-name">${s.name}</span>${s.desc}</div></div>`
+  ).join('');
+
+    document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.name;
+  document.getElementById('sc-sub').textContent = r.sub || '';
+  document.getElementById('sc-tag').textContent = r.tag;
+  if (!fromUrl) history.replaceState(null, '', '?r=' + topAxis);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크 복사해서 공유하기', 2000);
+  });
+}
+
+function restartTest() {
+  scores = [0, 0, 0, 0];
+  currentQ = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const r = p.get('r');
+  if (r !== null && results[parseInt(r)]) {
+    const idx = parseInt(r);
+    scores = [0,0,0,0,0,0];
+    scores[idx] = 1;
+    document.getElementById('intro-screen').style.display = 'none';
+    showResult(true);
+  }
+})();
+</script>
+</body>
+</html>

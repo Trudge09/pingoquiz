@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나 혹시 드라마 주인공? 🎬 내 인생 장르는?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="나 혹시 드라마 주인공? 🎬 내 인생 장르는?" />
+  <meta property="og:description" content="어느 날 갑자기 드라마 속으로 떨어졌어요. 당신의 선택이 장르를 결정해요!" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/drama" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #10101a;
+      --card2: #16162a;
+      --primary: #e040fb;
+      --secondary: #f8bbd0;
+      --gold: #ffd54f;
+      --text: #f0eeff;
+      --muted: #7070a0;
+      --border: #202040;
+      --radius: 20px;
+      --shadow: 0 8px 40px rgba(0,0,10,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; padding: 0 0 60px; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(224,64,251,0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,107,53,0.04) 0%, transparent 50%);
+    }
+    .cinema-bar-top {
+      height: 36px; background: #000;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .film-hole { width: 10px; height: 20px; background: #1a1a2e; border-radius: 3px; border: 1px solid #333; }
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1.5px dashed rgba(224,64,251,0.15);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* 씬 오버레이 */
+    #scene-overlay {
+      position: fixed; inset: 0; z-index: 100; background: #000;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px; padding: 24px; text-align: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    #scene-overlay.show { opacity: 1; pointer-events: all; }
+    .overlay-ep { font-size: 0.72rem; color: #555; font-weight: 700; letter-spacing: 3px; }
+    .overlay-emoji { font-size: 3.5rem; animation: flicker 1.5s ease infinite; }
+    @keyframes flicker { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+    .overlay-title { font-family: 'Jua', cursive; font-size: 1.3rem; color: white; }
+    .overlay-sub { font-size: 0.85rem; color: #555; line-height: 1.7; max-width: 300px; }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 40px 0 32px; animation: fadeUp 0.6s ease; }
+    .back-btn { display: block; text-align: left; color: var(--muted); font-size: 0.85rem; text-decoration: none; margin-bottom: 24px; transition: color 0.15s; }
+    .back-btn:hover { color: var(--primary); }
+    .clapper { font-size: 5rem; display: block; margin-bottom: 16px; animation: shake 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(224,64,251,0.4)); }
+    @keyframes shake { 0%,90%,100%{transform:rotate(0deg);} 93%{transform:rotate(-8deg);} 96%{transform:rotate(8deg);} }
+    h1 { font-family: 'Jua', cursive; font-size: clamp(1.5rem, 5vw, 2.1rem); margin-bottom: 8px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .intro-sub { color: var(--muted); font-size: 0.93rem; line-height: 1.8; margin-bottom: 24px; }
+
+    .opening-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0; margin-bottom: 28px; overflow: hidden; }
+    .opening-header { background: #000; padding: 10px 18px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; } .dot-yellow { background: #ffbd2e; } .dot-green { background: #28c840; }
+    .opening-ep-label { font-size: 0.72rem; color: #555; margin-left: auto; font-weight: 700; letter-spacing: 1px; }
+    .opening-body { padding: 24px 22px; }
+    .opening-scene-label { font-size: 0.72rem; color: var(--primary); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 12px; }
+    .opening-text { color: #a0a0c8; font-size: 0.92rem; line-height: 2; }
+    .opening-text .hl { color: white; font-weight: 700; }
+    .opening-text .point { color: var(--primary); font-weight: 700; }
+
+    .start-btn { background: linear-gradient(135deg, #9c27b0, var(--primary)); color: white; border: none; border-radius: 99px; padding: 18px 52px; font-family: 'Jua', cursive; font-size: 1.2rem; cursor: pointer; box-shadow: 0 6px 28px rgba(224,64,251,0.3); transition: all 0.15s ease; }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(224,64,251,0.4); }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 28px 0; display: none; }
+    .ep-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .ep-label { font-size: 0.78rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; }
+    .ep-hint { font-size: 0.72rem; color: #303050; }
+    .progress-wrap { background: var(--border); border-radius: 99px; height: 4px; margin-bottom: 16px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #9c27b0, var(--primary), var(--secondary)); border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+
+    .scene-banner { background: #000; border-radius: 10px 10px 0 0; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .scene-banner-ep { font-size: 0.72rem; color: #444; font-weight: 700; letter-spacing: 2px; }
+    .scene-banner-location { font-size: 0.78rem; color: #555; }
+
+    .quiz-card { background: var(--card); border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius); padding: 24px 22px 28px; animation: fadeUp 0.35s ease; box-shadow: var(--shadow); }
+    .scene-desc { background: var(--card2); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.83rem; color: #6868a0; line-height: 1.8; border-left: 3px solid var(--primary); font-style: italic; }
+    .scene-desc .scene-name { color: var(--primary); font-weight: 700; font-style: normal; font-size: 0.72rem; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    .q-text { font-family: 'Jua', cursive; font-size: clamp(1.05rem, 3.5vw, 1.25rem); color: var(--text); margin-bottom: 20px; line-height: 1.6; }
+    .options { display: flex; flex-direction: column; gap: 9px; }
+    .option-btn { background: var(--card2); border: 1.5px solid var(--border); border-radius: 13px; padding: 14px 16px; text-align: left; color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-size: 0.92rem; cursor: pointer; transition: all 0.18s ease; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+    .option-btn:hover { background: #1c1c38; border-color: var(--primary); transform: translateX(5px); box-shadow: 0 4px 16px rgba(224,64,251,0.12); }
+    .opt-icon { font-size: 1.2rem; min-width: 26px; padding-top: 1px; }
+
+    /* 결과 */
+    #result-screen { padding: 28px 0; display: none; animation: fadeUp 0.5s ease; }
+    .genre-romance { --gc: #e040fb; --gb: rgba(224,64,251,0.08); }
+    .genre-action  { --gc: #ff6b35; --gb: rgba(255,107,53,0.08); }
+    .genre-healing { --gc: #69f0ae; --gb: rgba(105,240,174,0.08); }
+    .genre-mystery { --gc: #40c4ff; --gb: rgba(64,196,255,0.08); }
+
+    .result-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0; box-shadow: var(--shadow); overflow: hidden; }
+    .result-header { background: #000; padding: 36px 28px 28px; text-align: center; position: relative; }
+    .result-header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--gc, var(--primary)); }
+    .result-genre-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; color: var(--gc, var(--primary)); margin-bottom: 12px; display: block; }
+    .result-emoji { font-size: 5.5rem; display: block; margin-bottom: 14px; filter: drop-shadow(0 0 24px var(--gc, var(--primary))); animation: breathe 3s ease-in-out infinite; }
+    @keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+    .result-drama-title { font-family: 'Jua', cursive; font-size: 1.8rem; color: white; margin-bottom: 4px; line-height: 1.3; }
+    .result-drama-sub { font-size: 0.85rem; color: #555; margin-bottom: 16px; }
+    .result-role-tag { display: inline-block; background: var(--gb, rgba(224,64,251,0.08)); color: var(--gc, var(--primary)); border: 1px solid var(--gc, var(--primary)); border-radius: 99px; padding: 5px 20px; font-size: 0.82rem; font-weight: 700; }
+
+    .result-body { padding: 24px 24px 28px; }
+    .first-scene { background: #000; border-radius: 12px; padding: 20px 18px; margin-bottom: 18px; position: relative; overflow: hidden; }
+    .first-scene::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gc, var(--primary)); }
+    .first-scene-label { font-size: 0.72rem; color: var(--gc, var(--primary)); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 10px; }
+    .first-scene-text { color: #8888aa; font-size: 0.9rem; line-height: 1.9; }
+    .first-scene-text .hl { color: white; font-weight: 700; }
+
+    .result-desc { color: #7070a0; font-size: 0.9rem; line-height: 1.8; background: var(--card2); border-radius: 14px; padding: 18px; margin-bottom: 18px; }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .spec-box { background: var(--card2); border-radius: 13px; padding: 14px; border: 1px solid var(--border); }
+    .spec-title { font-family: 'Jua', cursive; font-size: 0.85rem; color: var(--gc, var(--primary)); margin-bottom: 8px; }
+    .spec-tag { display: inline-block; background: var(--gb, rgba(224,64,251,0.08)); color: #a0a0c8; border-radius: 99px; padding: 3px 10px; font-size: 0.76rem; font-weight: 700; margin: 2px; border: 1px solid rgba(255,255,255,0.06); }
+
+    .quote-box { background: #000; border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; text-align: center; border: 1px solid var(--border); }
+    .quote-label { font-size: 0.72rem; color: #444; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+    .quote-text { font-family: 'Jua', cursive; font-size: 1.1rem; color: white; line-height: 1.7; }
+    .quote-text::before { content: '"'; color: var(--gc, var(--primary)); font-size: 2rem; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
+    .quote-text::after  { content: '"'; color: var(--gc, var(--primary)); font-size: 2rem; line-height: 0; vertical-align: -0.4em; margin-left: 4px; }
+
+    .share-btn { width: 100%; background: var(--gb, rgba(224,64,251,0.08)); color: var(--gc, var(--primary)); border: 1.5px solid var(--gc, var(--primary)); border-radius: 99px; padding: 14px; font-family: 'Jua', cursive; font-size: 1rem; cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px; }
+    .share-btn:hover { opacity: 0.8; }
+    .retry-btn { width: 100%; background: transparent; color: var(--muted); border: 1.5px solid var(--border); border-radius: 99px; padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem; cursor: pointer; transition: all 0.15s; }
+    .retry-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div class="cinema-bar-top">
+  <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+  <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+  <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+</div>
+
+<div id="scene-overlay">
+  <div class="overlay-ep" id="overlay-ep">SCENE</div>
+  <div class="overlay-emoji" id="overlay-emoji">🎬</div>
+  <div class="overlay-title" id="overlay-title"></div>
+  <div class="overlay-sub" id="overlay-sub"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <span class="clapper">🎬</span>
+    <h1>나 혹시 드라마 주인공?</h1>
+    <p class="intro-sub">어느 날 갑자기 드라마 속에 떨어졌어요</p>
+    <div class="opening-card">
+      <div class="opening-header">
+        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+        <span class="opening-ep-label">EP.01 — 시작</span>
+      </div>
+      <div class="opening-body">
+        <span class="opening-scene-label">📺 오프닝 씬</span>
+        <div class="opening-text">
+          눈을 떴을 때, 분명히 내 방이 아니었어요.<br/><br/>
+          카메라가 돌아가는 소리. 어딘가에서 들려오는 OST. 조명이 나를 향해 있고, 누군가 속삭였어요 —<br/><br/>
+          <span class="hl">"드디어 왔네요. 주인공님."</span><br/><br/>
+          어떤 드라마인지는 몰라요. 장르도 결말도 모르는 상태. 하지만 분명한 건, <span class="point">당신이 주인공</span>이라는 것. 그리고 지금부터 당신의 선택이 이 드라마의 장르를 결정해요. 🎭
+        </div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startTest()">🎬 드라마 시작하기</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="ep-bar">
+      <span class="ep-label" id="ep-label">EP.01</span>
+      <span class="ep-hint">장르가 정해지고 있어요...</span>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="scene-banner">
+      <span class="scene-banner-ep" id="scene-ep">SCENE 1</span>
+      <span class="scene-banner-location" id="scene-location"></span>
+    </div>
+    <div class="quiz-card">
+      <div class="scene-desc">
+        <span class="scene-name" id="scene-name">📍 지금 상황</span>
+        <span id="scene-desc-text"></span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-card" id="result-card">
+      <div class="result-header">
+        <span class="result-genre-label" id="res-genre-label"></span>
+        <span class="result-emoji" id="res-emoji"></span>
+        <div class="result-drama-title" id="res-title"></div>
+        <div class="result-drama-sub" id="res-sub"></div>
+        <span class="result-role-tag" id="res-role"></span>
+      </div>
+      <div class="result-body">
+        <div class="first-scene">
+          <span class="first-scene-label">🎥 당신의 드라마 첫 씬</span>
+          <div class="first-scene-text" id="res-first-scene"></div>
+        </div>
+        <div class="result-desc" id="res-desc"></div>
+        <div class="spec-grid">
+          <div class="spec-box"><div class="spec-title">주인공 특성</div><div id="res-traits"></div></div>
+          <div class="spec-box"><div class="spec-title">드라마 배경</div><div id="res-settings"></div></div>
+        </div>
+        <div class="quote-box">
+          <span class="quote-label">✦ 당신의 명대사 ✦</span>
+          <div class="quote-text" id="res-quote"></div>
+        </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+
+      <!-- 공유 카드 -->
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#e040fb1a,#e040fb08);border:1.5px solid #e040fb55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#e040fb;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#e040fb22;color:#e040fb;border:1px solid #e040fb55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="restartTest()">🔄 다시 찍기</button>
+        <div class="ad-slot" style="margin-top:20px; margin-bottom:0;">
+          <ins class="adsbygoogle" style="display:block"
+            data-ad-client="ca-pub-2274221145664784"
+            data-ad-slot="7164108177"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+const questions = [
+  { ep:"EP.01", location:"낯선 공간", scene:"눈을 떠보니 어딘가에 서 있어요. 어떤 공간인지 아직 몰라요.", text:"🌅 눈을 뜨자마자 보이는 첫 번째 장면은?", options:[
+    {text:"황금빛 노을이 지는 옥상. 바람에 머리카락이 날려요",icon:"🌇",axis:0},
+    {text:"어두운 빗속, 가로등 불빛 아래 홀로 서 있어요",icon:"🌧️",axis:3},
+    {text:"북적이는 도심, 정장 차림의 사람들이 스쳐 지나가요",icon:"🏙️",axis:1},
+    {text:"낡은 동네 골목, 어디선가 웃음소리가 들려요",icon:"🏘️",axis:2}
+  ]},
+  { ep:"EP.01", location:"첫 만남", scene:"그때, 누군가와 딱 마주쳤어요. 이 드라마의 상대역인 것 같아요.", text:"💫 상대방의 첫인상은?", options:[
+    {text:"차갑고 무뚝뚝한데... 왠지 눈을 뗄 수가 없어요",icon:"🧊",axis:0},
+    {text:"날카로운 눈빛. 뭔가 숨기는 게 있어 보여요",icon:"🔍",axis:3},
+    {text:"자신감 넘치고 카리스마가 폭발해요",icon:"⚡",axis:1},
+    {text:"수수한데 어딘가 따뜻한 느낌이에요",icon:"🌸",axis:2}
+  ]},
+  { ep:"EP.01", location:"첫 대화", scene:"상대방이 먼저 말을 걸었어요.", text:"🗣️ 상대방이 당신에게 처음 한 말은?", options:[
+    {text:"\"당신... 여기서 뭐하는 거예요?\" — 퉁명스럽지만 신경 쓰이는 말투",icon:"😤",axis:0},
+    {text:"\"당신이 왔군요. 기다렸어요.\" — 의미심장한 눈빛",icon:"🌙",axis:3},
+    {text:"\"실례지만, 지금 내 자리에 서 계십니다.\" — 딱딱한 말투",icon:"💼",axis:1},
+    {text:"\"어, 괜찮아요? 많이 놀랐죠?\" — 걱정스러운 목소리",icon:"🫂",axis:2}
+  ]},
+  { ep:"EP.02", location:"갈등의 씨앗", scene:"드라마엔 갈등이 필요해요. 어떤 위기가 찾아왔어요.", text:"⚠️ 첫 번째 위기 상황은?", options:[
+    {text:"상대방과 어떤 계약을 맺게 됐어요. 서로 원하는 게 다른데...",icon:"📝",axis:0},
+    {text:"누군가의 비밀을 우연히 알게 됐어요. 감춰야 할까요?",icon:"🤫",axis:3},
+    {text:"중요한 프로젝트에서 상대방과 경쟁하게 됐어요",icon:"🏆",axis:1},
+    {text:"오해가 생겼어요. 억울한데 변명할 기회가 없어요",icon:"😔",axis:2}
+  ]},
+  { ep:"EP.03", location:"감정의 흔들림", scene:"이번엔 감정 씬이에요. 처음으로 마음이 흔들리는 장면.", text:"💭 감정이 처음 흔들리는 순간은?", options:[
+    {text:"싫다고 생각했는데, 나를 걱정하는 모습에 심장이 뛰었어요",icon:"💓",axis:0},
+    {text:"모든 게 꾸며진 것 같은데... 진짜 감정이 섞이고 있어요",icon:"🌀",axis:3},
+    {text:"라이벌인데 왠지 인정받고 싶어졌어요",icon:"🤝",axis:1},
+    {text:"힘들 때 말없이 옆에 있어줬어요. 그게 가장 컸어요",icon:"🌿",axis:2}
+  ]},
+  { ep:"EP.04", location:"클로즈업 씬", scene:"감독이 클로즈업을 요청했어요. 당신의 표정 연기 타임.", text:"🎭 이 장면에서 당신의 표정은?", options:[
+    {text:"티 내기 싫어서 무표정... 하지만 귀가 빨개졌어요",icon:"😶",axis:0},
+    {text:"눈빛만으로 모든 걸 말하는 대사 없는 장면",icon:"👁️",axis:3},
+    {text:"당당하게 눈 마주치며 웃어요. 지지 않겠다는 표정",icon:"😤",axis:1},
+    {text:"수줍게 고개를 돌리는데, 입꼬리가 올라가요",icon:"🌸",axis:2}
+  ]},
+  { ep:"EP.06", location:"반전 씬", scene:"중반부에 반전이 찾아왔어요.", text:"🔄 드라마 중반, 어떤 반전이 펼쳐져요?", options:[
+    {text:"싫었던 사람이 사실 나를 제일 오래 지켜봐왔다는 걸 알게 돼요",icon:"💌",axis:0},
+    {text:"믿었던 사람이 처음부터 다른 목적이 있었어요",icon:"🗡️",axis:3},
+    {text:"경쟁자인 줄 알았는데, 같은 목표를 가진 동료였어요",icon:"🤜",axis:1},
+    {text:"평범한 일상인 줄 알았는데, 모든 게 날 위해 준비된 거였어요",icon:"🎁",axis:2}
+  ]},
+  { ep:"EP.08", location:"위기 최고조", scene:"클라이맥스를 향해 달려가고 있어요. 위기가 최고조에 달했어요.", text:"😰 가장 힘든 순간, 당신은?", options:[
+    {text:"혼자 다 감당하려다 무너지는 장면... 그때 누군가 잡아줘요",icon:"🫴",axis:0},
+    {text:"모든 걸 잃을 것 같은 순간, 혼자서 조용히 버텨요",icon:"🌑",axis:3},
+    {text:"포기하려는 순간 '여기까지 왜?' 하며 다시 일어나요",icon:"🔥",axis:1},
+    {text:"내가 힘든데도 다른 사람을 먼저 챙기고 있어요",icon:"💚",axis:2}
+  ]},
+  { ep:"EP.10", location:"고백 혹은 선택", scene:"드라마의 하이라이트. 중요한 선택의 순간이에요.", text:"💥 클라이맥스에서 당신이 하는 건?", options:[
+    {text:"\"나 지금 많이 좋아하거든요. 그러니까 그냥 있어요.\" 먼저 고백해요",icon:"💕",axis:0},
+    {text:"진실을 밝히기 위해 모든 걸 걸어요. 결과가 어떻든",icon:"⚔️",axis:3},
+    {text:"가장 중요한 무대에서 모든 걸 쏟아부어요",icon:"🏅",axis:1},
+    {text:"\"괜찮아요, 나는\" 하며 상대를 먼저 보내줘요",icon:"🍃",axis:2}
+  ]},
+  { ep:"EP.12", location:"엔딩", scene:"드디어 마지막 씬이에요.", text:"🌅 당신의 드라마 엔딩은?", options:[
+    {text:"공항에서 딱 마주침. 한쪽이 뛰어가고... 눈물 쏙 빼는 재회",icon:"✈️",axis:0},
+    {text:"모든 진실이 밝혀지고, 마침내 진짜 웃음을 되찾아요",icon:"🌤️",axis:3},
+    {text:"목표를 이루는 장면. 처음부터 응원한 사람이 옆에 있어요",icon:"🏆",axis:1},
+    {text:"아무것도 극적이지 않아요. 그냥 함께 밥 먹는 장면이 최고예요",icon:"🍚",axis:2}
+  ]}
+];
+
+const overlayScenes = [
+  null,
+  {ep:"EP.01",emoji:"💫",title:"첫 만남 씬",sub:"카메라가 돌아가기 시작했어요..."},
+  {ep:"EP.01",emoji:"🗣️",title:"첫 대화 씬",sub:"상대방이 당신을 봤어요..."},
+  {ep:"EP.02",emoji:"⚡",title:"갈등 시작",sub:"드라마엔 갈등이 필요하죠..."},
+  {ep:"EP.03",emoji:"💓",title:"감정 씬",sub:"심장이 조금씩 반응하고 있어요..."},
+  {ep:"EP.04",emoji:"🎭",title:"클로즈업!",sub:"감독이 당신을 주목하고 있어요..."},
+  {ep:"EP.06",emoji:"🔄",title:"반전 시작",sub:"뭔가 예상과 달라지고 있어요..."},
+  {ep:"EP.08",emoji:"😰",title:"최고조",sub:"가장 힘든 순간이 왔어요..."},
+  {ep:"EP.10",emoji:"💥",title:"클라이맥스!",sub:"이 장면이 이 드라마의 전부예요..."},
+  {ep:"EP.12",emoji:"🌅",title:"마지막 씬",sub:"드디어 엔딩이에요..."}
+];
+
+const results = {
+  0: {
+    genre:"💗 로맨스 멜로", genreClass:"genre-romance", emoji:"💗",
+    title:"우리 사이, 그 설레는 거리", sub:"16부작 로맨스 멜로", role:"티격태격 로맨스 주인공",
+    firstScene:`카페 문을 밀고 들어서는 순간, 그 사람과 눈이 딱 마주쳤어요. <span class="hl">3초가 3시간처럼 느껴졌어요.</span> 싫은데 왜 자꾸 생각나는 건지. 차가운 척하는데 왜 나한테만 챙겨주는 건지. 이 드라마엔 설명할 수 없는 두근거림이 가득해요.`,
+    desc:"감정을 티 내지 않으려고 노력하지만 결국 다 들키는 타입이에요. 싫다고 하면서 제일 먼저 달려가고, 괜찮다고 하면서 제일 많이 울어요. 그 솔직하지 못한 감정이 오히려 이 드라마를 더 달달하게 만들어요.",
+    traits:["차도남/녀 외관","사실 감수성 폭발","티 안 내는 배려왕","눈빛으로 다 말함"],
+    settings:["도심 빌딩 옥상","비 오는 카페 창가","공항 게이트 앞"],
+    quote:"좋아한다고 안 했어요. 그냥... 자꾸 생각나는 거예요."
+  },
+  1: {
+    genre:"⚡ 열혈 성장극", genreClass:"genre-action", emoji:"⚡",
+    title:"여기까지 왔는데, 질 수 없어", sub:"20부작 성장 드라마", role:"포기를 모르는 열혈 주인공",
+    firstScene:`모두가 안 된다고 했어요. 배경도 없고, 빽도 없고. 하지만 <span class="hl">당신은 단 한 번도 스스로 포기한 적이 없었어요.</span> 무대 뒤에서 홀로 연습하는 장면, 넘어져도 다시 일어나는 장면 — 이 드라마의 첫 씬은 당신이 이를 악무는 얼굴로 시작돼요.`,
+    desc:"지는 게 싫어요. 하지만 그게 단순한 승부욕이 아니에요. 내가 여기까지 온 시간들을 배신하고 싶지 않은 거예요. 그 집념이 주변 사람들을 움직이고, 결국 혼자가 아닌 팀이 되는 드라마예요.",
+    traits:["절대 포기 안 함","감정보다 행동이 먼저","라이벌이 결국 동료","혼자 다 감당하는 스타일"],
+    settings:["연습실 새벽","결승전 무대","빗속 훈련장"],
+    quote:"여기까지 왔는데요. 지금 포기하면 그 시간들한테 너무 미안하잖아요."
+  },
+  2: {
+    genre:"🌿 따뜻한 힐링극", genreClass:"genre-healing", emoji:"🌿",
+    title:"괜찮아요, 오늘도", sub:"12부작 힐링 드라마", role:"모두의 마음을 치유하는 주인공",
+    firstScene:`조용한 시골 마을. 아무도 없는 줄 알았는데, <span class="hl">상처 입은 사람들이 하나둘 모여있었어요.</span> 당신은 크게 뭘 하지 않았어요. 그냥 옆에 있었어요. 밥 해주고, 들어주고, 안아줬어요. 그런데 그게 이 드라마에서 가장 강력한 힘이었어요.`,
+    desc:"극적이지 않아도 괜찮아요. 화려하지 않아도 괜찮아요. 당신이 있는 것만으로 주변이 따뜻해지는 드라마예요. 상처받은 사람들이 당신 곁에서 조금씩 나아가고, 그러면서 당신도 치유받아요.",
+    traits:["공감 능력 최고치","말보다 행동으로 사랑표현","마지막에 자기도 치유받음","밥 해주는 게 사랑 표현"],
+    settings:["시골 작은 마을","따뜻한 부엌","해 질 녘 논두렁"],
+    quote:"괜찮냐고요? 사실은요... 저도 잘 모르겠어요. 근데 오늘은 괜찮은 것 같아요."
+  },
+  3: {
+    genre:"🔮 미스터리 스릴러", genreClass:"genre-mystery", emoji:"🔮",
+    title:"그날 밤, 진실은 하나였다", sub:"16부작 미스터리 스릴러", role:"진실을 쫓는 수수께끼 같은 주인공",
+    firstScene:`처음부터 뭔가 이상했어요. 너무 깔끔하게 맞아떨어지는 상황들, 우연이라고 하기엔 너무 많은 우연들. <span class="hl">당신은 그걸 그냥 지나치지 않았어요.</span> 아무도 믿지 말라는 느낌. 그래도 진실은 알아야 했어요.`,
+    desc:"겉으로는 침착하고 감정이 없어 보여요. 하지만 사실 누구보다 많은 걸 느끼고, 누구보다 깊이 생각해요. 진실을 향해 혼자 달려가다가 결국 모든 걸 잃을 뻔하지만, 그 끝에서 가장 중요한 걸 얻어요.",
+    traits:["눈빛에 모든 게 담김","혼자서 다 해결하려 함","신뢰하면 끝까지 지킴","감정 표현이 반전 포인트"],
+    settings:["비 오는 창고","새벽 3시 CCTV실","아무도 없는 복도"],
+    quote:"믿지 않은 게 아니에요. 확인하고 싶었던 거예요. 당신이 틀리기를 바라면서요."
+  }
+};
+
+let scores=[0,0,0,0], currentQ=0;
+
+function showOverlay(data,cb){
+  const el=document.getElementById('scene-overlay');
+  document.getElementById('overlay-ep').textContent=data.ep||'SCENE';
+  document.getElementById('overlay-emoji').textContent=data.emoji;
+  document.getElementById('overlay-title').textContent=data.title;
+  document.getElementById('overlay-sub').textContent=data.sub;
+  el.classList.add('show');
+  setTimeout(()=>{el.classList.remove('show');setTimeout(cb,350);},1100);
+}
+
+function startTest(){
+  document.getElementById('intro-screen').style.display='none';
+  showOverlay({ep:'SCENE 1',emoji:'🎬',title:'촬영 시작!',sub:'카메라가 돌아가기 시작했어요. 준비됐죠?'},()=>{
+    document.getElementById('quiz-screen').style.display='block';showQuestion();
+  });
+}
+
+function showQuestion(){
+  const q=questions[currentQ];
+  const pct=((currentQ+1)/questions.length)*100;
+  document.getElementById('progress-bar').style.width=pct+'%';
+  document.getElementById('ep-label').textContent=q.ep;
+  document.getElementById('scene-ep').textContent=`SCENE ${currentQ+1}`;
+  document.getElementById('scene-location').textContent=q.location;
+  document.getElementById('scene-desc-text').textContent=q.scene;
+  document.getElementById('q-text').textContent=q.text;
+  const optDiv=document.getElementById('options');
+  optDiv.innerHTML='';
+  q.options.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.innerHTML=`<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick=()=>selectAnswer(opt.axis);
+    optDiv.appendChild(btn);
+  });
+  const card=document.querySelector('.quiz-card');
+  card.style.animation='none';card.offsetHeight;card.style.animation='fadeUp 0.35s ease';
+}
+
+function selectAnswer(axis){
+  scores[axis]++;currentQ++;
+  if(currentQ>=questions.length){
+    showOverlay({ep:'FINAL',emoji:'🎬',title:'편집 중...',sub:'당신의 드라마 장르가 결정되고 있어요.'},showResult);
+    return;
+  }
+  const ov=overlayScenes[currentQ];
+  if(ov) showOverlay(ov,showQuestion);
+  else showQuestion();
+}
+
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const topAxis=scores.indexOf(Math.max(...scores));
+  const r=results[topAxis];
+  document.getElementById('result-card').className=`result-card ${r.genreClass}`;
+  document.getElementById('res-genre-label').textContent=r.genre;
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-title').textContent=r.title;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-role').textContent=r.role;
+  document.getElementById('res-first-scene').innerHTML=r.firstScene;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="spec-tag">${t}</span>`).join('');
+  document.getElementById('res-settings').innerHTML=r.settings.map(s=>`<span class="spec-tag">${s}</span>`).join('');
+  document.getElementById('res-quote').textContent=r.quote;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function copyLink(btn){
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    btn.textContent='✅ 링크 복사 완료!';
+    setTimeout(()=>{btn.textContent='🔗 링크 복사해서 공유하기';},2000);
+  });
+}
+
+function restartTest(){
+  scores=[0,0,0,0];currentQ=0;
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('intro-screen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const r = p.get('r');
+  if (r !== null && results[parseInt(r)]) {
+    const idx = parseInt(r);
+    scores = [0,0,0,0,0,0];
+    scores[idx] = 1;
+    document.getElementById('intro-screen') && (document.getElementById('intro-screen').style.display = 'none');
+    showResult(true);
+  }
+})();
+</script>
+</body>
+</html>

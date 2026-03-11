@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>오늘 뭐 먹지? 🍽️ 메뉴 추천기 — 핑고퀴즈</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="오늘 뭐 먹지? 🍽️ 메뉴 추천기"/>
+  <meta property="og:description" content="랜덤 추천 or 취향 필터로 오늘 메뉴 정하기!"/>
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #fffbf0;
+      --card: #ffffff;
+      --card2: #fff8ee;
+      --orange: #f07020;
+      --orange2: #f8a040;
+      --yellow: #ffc840;
+      --red: #e03030;
+      --green: #40a060;
+      --text: #2a1800;
+      --muted: #a07840;
+      --border: #f0dfc0;
+      --radius: 18px;
+      --shadow: 0 4px 20px rgba(240,112,32,0.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; padding: 0 0 60px; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; top: -80px; right: -80px;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(248,160,64,0.1) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar { height: 4px; background: linear-gradient(90deg, #f07020, #ffc840, #e03030, #40a060, #f07020); }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+    .ad-slot {
+      margin: 0 auto 24px; background: var(--card); border: 1.5px dashed var(--border);
+      border-radius: 12px; padding: 14px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);
+    }
+    .back-btn {
+      display: block; text-align: left; color: var(--muted); font-size: 0.85rem;
+      text-decoration: none; margin: 28px 0 20px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--orange); }
+
+    /* 헤더 */
+    .page-header { text-align: center; padding: 10px 0 28px; }
+    .header-emoji { font-size: 4rem; display: block; margin-bottom: 10px; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family: 'Jua', cursive; font-size: clamp(1.6rem,5vw,2.2rem); margin-bottom: 6px; }
+    h1 span {
+      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* 탭 */
+    .mode-tabs {
+      display: flex; gap: 10px; margin-bottom: 20px;
+    }
+    .mode-tab {
+      flex: 1; background: var(--card); border: 2px solid var(--border);
+      border-radius: 14px; padding: 16px 10px; text-align: center;
+      cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow);
+    }
+    .mode-tab:hover { border-color: var(--orange); }
+    .mode-tab.active { background: var(--orange); border-color: var(--orange); color: white; }
+    .mode-tab-icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+    .mode-tab-name { font-family: 'Jua', cursive; font-size: 0.95rem; }
+    .mode-tab-desc { font-size: 0.75rem; opacity: 0.7; margin-top: 2px; }
+
+    /* 랜덤 모드 */
+    #random-mode { display: block; }
+    .random-btn {
+      width: 100%; height: 140px;
+      background: linear-gradient(135deg, var(--orange), var(--yellow));
+      border: none; border-radius: var(--radius); cursor: pointer;
+      font-family: 'Jua', cursive; font-size: 1.5rem; color: white;
+      box-shadow: 0 8px 28px rgba(240,112,32,0.3);
+      transition: all 0.15s; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;
+    }
+    .random-btn:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 36px rgba(240,112,32,0.4); }
+    .random-btn:active { transform: scale(0.98); }
+    .random-btn-icon { font-size: 2.5rem; animation: spin 3s linear infinite; }
+    @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+
+    /* 랜덤 결과 */
+    .random-result-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;
+    }
+    .random-result-item {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: 14px; padding: 16px 10px; text-align: center;
+      box-shadow: var(--shadow); transition: all 0.2s;
+      animation: popIn 0.3s ease both;
+    }
+    .random-result-item:nth-child(2) { animation-delay: 0.05s; }
+    .random-result-item:nth-child(3) { animation-delay: 0.1s; }
+    @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+    .rri-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+    .rri-name { font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--text); margin-bottom: 3px; }
+    .rri-tag {
+      font-size: 0.72rem; color: var(--muted);
+      background: var(--card2); border-radius: 99px; padding: 2px 8px; display: inline-block;
+    }
+
+    /* 필터 모드 */
+    #filter-mode { display: none; }
+    .filter-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 14px;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .filter-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--yellow));
+    }
+    .filter-title {
+      font-family: 'Jua', cursive; font-size: 0.92rem; color: var(--orange);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 99px; padding: 7px 16px;
+      font-size: 0.85rem; color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--orange); }
+    .chip.selected { background: var(--orange); border-color: var(--orange); color: white; font-weight: 700; }
+
+    .filter-submit-btn {
+      width: 100%; background: linear-gradient(135deg, var(--orange), var(--yellow));
+      color: white; border: none; border-radius: 99px; padding: 18px;
+      font-family: 'Jua', cursive; font-size: 1.1rem; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(240,112,32,0.3); transition: all 0.15s; margin-bottom: 16px;
+    }
+    .filter-submit-btn:hover { transform: translateY(-2px); }
+
+    /* 필터 결과 */
+    #filter-results { display: none; }
+    .filter-result-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .filter-result-item {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 16px 18px; display: flex;
+      align-items: center; gap: 14px; box-shadow: var(--shadow);
+      animation: slideIn 0.3s ease both;
+    }
+    .filter-result-item:nth-child(2) { animation-delay: 0.06s; }
+    .filter-result-item:nth-child(3) { animation-delay: 0.12s; }
+    .filter-result-item:nth-child(4) { animation-delay: 0.18s; }
+    .filter-result-item:nth-child(5) { animation-delay: 0.24s; }
+    @keyframes slideIn { from{opacity:0;transform:translateX(-16px)} to{opacity:1;transform:translateX(0)} }
+    .fri-emoji { font-size: 2rem; min-width: 36px; }
+    .fri-body { flex: 1; }
+    .fri-name { font-family: 'Jua', cursive; font-size: 1rem; color: var(--text); margin-bottom: 3px; }
+    .fri-info { font-size: 0.78rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px; }
+    .fri-badge {
+      background: var(--card2); border-radius: 99px;
+      padding: 2px 8px; font-size: 0.72rem; color: var(--muted);
+    }
+    .no-result {
+      text-align: center; padding: 40px 20px;
+      background: var(--card); border-radius: var(--radius); border: 1.5px solid var(--border);
+      font-family: 'Jua', cursive; color: var(--muted); font-size: 1rem;
+    }
+    .reset-filter-btn {
+      width: 100%; background: var(--card2); color: var(--orange);
+      border: 1.5px solid var(--border); border-radius: 99px; padding: 13px;
+      font-family: 'Jua', cursive; font-size: 0.95rem; cursor: pointer; transition: all 0.15s;
+    }
+    .reset-filter-btn:hover { border-color: var(--orange); }
+
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="wrap">
+  <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block"
+      data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="page-header">
+    <span class="header-emoji">🍽️</span>
+    <h1>오늘 <span>뭐 먹지?</span></h1>
+    <p class="page-sub">메뉴 고민 끝! 랜덤 추천 또는 취향 필터로<br/>오늘 뭐 먹을지 딱 정해드려요</p>
+  </div>
+
+  <div class="mode-tabs">
+    <div class="mode-tab active" id="tab-random" onclick="switchMode('random')">
+      <span class="mode-tab-icon">🎲</span>
+      <div class="mode-tab-name">랜덤 추천</div>
+      <div class="mode-tab-desc">그냥 뽑아줘!</div>
+    </div>
+    <div class="mode-tab" id="tab-filter" onclick="switchMode('filter')">
+      <span class="mode-tab-icon">🔍</span>
+      <div class="mode-tab-name">취향 필터</div>
+      <div class="mode-tab-desc">골라서 추천받기</div>
+    </div>
+  </div>
+
+  <!-- 랜덤 모드 -->
+  <div id="random-mode">
+    <button class="random-btn" onclick="pickRandom()">
+      <span class="random-btn-icon">🎰</span>
+      <span>오늘 메뉴 뽑기!</span>
+    </button>
+    <div class="random-result-grid" id="random-results" style="display:none"></div>
+    <div id="random-again-wrap" style="display:none; margin-bottom:16px;">
+      <button class="filter-submit-btn" onclick="pickRandom()">🎲 다시 뽑기</button>
+    </div>
+
+    <!-- 광고 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+  <!-- 필터 모드 -->
+  <div id="filter-mode">
+    <div class="filter-card">
+      <div class="filter-title">🌡️ 맵기</div>
+      <div class="chip-row" id="f-spicy"></div>
+    </div>
+    <div class="filter-card">
+      <div class="filter-title">🥣 형태</div>
+      <div class="chip-row" id="f-type"></div>
+    </div>
+    <div class="filter-card">
+      <div class="filter-title">🌍 종류</div>
+      <div class="chip-row" id="f-cuisine"></div>
+    </div>
+    <div class="filter-card">
+      <div class="filter-title">👅 맛</div>
+      <div class="chip-row" id="f-taste"></div>
+    </div>
+    <div class="filter-card">
+      <div class="filter-title">⚖️ 양</div>
+      <div class="chip-row" id="f-amount"></div>
+    </div>
+    <button class="filter-submit-btn" onclick="filterMenu()">🍽️ 이걸로 추천해줘!</button>
+
+    <div id="filter-results">
+      <div class="filter-result-list" id="filter-result-list"></div>
+      <div class="ad-slot">
+        <ins class="adsbygoogle" style="display:block"
+          data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+          data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <button class="reset-filter-btn" onclick="resetFilter()">🔄 다른 조건으로 다시 찾기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============== 메뉴 데이터 ===============
+const menus = [
+  // 한식 - 국/찌개
+  {name:'김치찌개',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'보통',tags:['밥도둑','국물요리']},
+  {name:'된장찌개',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['구수함','건강식']},
+  {name:'순두부찌개',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'보통',tags:['따뜻함','얼큰']},
+  {name:'부대찌개',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'많음',tags:['든든함','얼큰']},
+  {name:'설렁탕',emoji:'🍜',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['속편함','국물']},
+  {name:'해장국',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'보통',tags:['해장','속풀이']},
+  {name:'갈비탕',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['고기','든든']},
+  {name:'삼계탕',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['보양식','여름']},
+  {name:'육개장',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'보통',tags:['얼큰','국물']},
+  {name:'곰탕',emoji:'🍜',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['속편함','담백']},
+  {name:'콩나물국밥',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['해장','아침']},
+  {name:'선지국',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['해장','서민']},
+  {name:'동태찌개',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'보통',tags:['생선','얼큰']},
+  {name:'청국장',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['발효','건강']},
+  {name:'황태해장국',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['해장','속풀이']},
+  // 한식 - 볶음
+  {name:'제육볶음',emoji:'🥩',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['밥도둑','회식']},
+  {name:'닭갈비',emoji:'🍗',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'많음',tags:['치즈추가','신나는']},
+  {name:'오징어볶음',emoji:'🦑',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['반찬','술안주']},
+  {name:'낙지볶음',emoji:'🐙',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['불낙','얼큰']},
+  {name:'두부김치',emoji:'🥘',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['술안주','간단']},
+  {name:'소세지볶음',emoji:'🥘',cuisine:'한식',type:'볶음',spicy:'매운',taste:'달콤',amount:'가벼움',tags:['간편','집밥']},
+  {name:'잡채',emoji:'🥘',cuisine:'한식',type:'볶음',spicy:'순한',taste:'달콤',amount:'보통',tags:['명절','쫄깃']},
+  {name:'버섯볶음',emoji:'🍄',cuisine:'한식',type:'볶음',spicy:'순한',taste:'담백',amount:'가벼움',tags:['건강','채소']},
+  // 한식 - 구이
+  {name:'삼겹살',emoji:'🥓',cuisine:'한식',type:'구이',spicy:'순한',taste:'느끼',amount:'많음',tags:['회식','술자리']},
+  {name:'소갈비',emoji:'🍖',cuisine:'한식',type:'구이',spicy:'순한',taste:'느끼',amount:'많음',tags:['특별한날','고급']},
+  {name:'닭발',emoji:'🍗',cuisine:'한식',type:'구이',spicy:'매운',taste:'짭짤',amount:'보통',tags:['술안주','매니아']},
+  {name:'돼지갈비',emoji:'🍖',cuisine:'한식',type:'구이',spicy:'순한',taste:'짭짤',amount:'많음',tags:['달콤','바베큐']},
+  {name:'목살구이',emoji:'🥓',cuisine:'한식',type:'구이',spicy:'순한',taste:'짭짤',amount:'많음',tags:['회식','고기']},
+  {name:'항정살구이',emoji:'🥓',cuisine:'한식',type:'구이',spicy:'순한',taste:'느끼',amount:'보통',tags:['특수부위','고급']},
+  {name:'오리구이',emoji:'🦆',cuisine:'한식',type:'구이',spicy:'순한',taste:'느끼',amount:'보통',tags:['보양식','특별함']},
+  // 한식 - 면
+  {name:'냉면',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'담백',amount:'보통',tags:['여름','시원함']},
+  {name:'비빔냉면',emoji:'🍜',cuisine:'한식',type:'면',spicy:'매운',taste:'새콤',amount:'보통',tags:['여름','상큼']},
+  {name:'잔치국수',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'담백',amount:'가벼움',tags:['간단','속편함']},
+  {name:'칼국수',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'담백',amount:'보통',tags:['집밥','따뜻함']},
+  {name:'수제비',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'담백',amount:'보통',tags:['비오는날','구수']},
+  {name:'콩국수',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'담백',amount:'보통',tags:['여름','건강']},
+  {name:'막국수',emoji:'🍜',cuisine:'한식',type:'면',spicy:'매운',taste:'새콤',amount:'보통',tags:['여름','강원도']},
+  {name:'짜파게티',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'달콤',amount:'보통',tags:['집밥','간편']},
+  {name:'라면',emoji:'🍜',cuisine:'한식',type:'면',spicy:'매운',taste:'짭짤',amount:'보통',tags:['야식','간편']},
+  {name:'쫄면',emoji:'🍜',cuisine:'한식',type:'면',spicy:'매운',taste:'새콤',amount:'보통',tags:['분식','쫄깃']},
+  // 한식 - 밥/기타
+  {name:'비빔밥',emoji:'🥗',cuisine:'한식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['건강식','채소']},
+  {name:'돌솥비빔밥',emoji:'🍚',cuisine:'한식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['뜨끈','누룽지']},
+  {name:'떡볶이',emoji:'🍢',cuisine:'한식',type:'볶음',spicy:'매운',taste:'달콤',amount:'가벼움',tags:['분식','간식']},
+  {name:'순대국밥',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['서민음식','든든']},
+  {name:'김밥',emoji:'🍱',cuisine:'한식',type:'기타',spicy:'순한',taste:'담백',amount:'가벼움',tags:['간편','도시락']},
+  {name:'참치마요덮밥',emoji:'🍚',cuisine:'한식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['간편','집밥']},
+  {name:'라볶이',emoji:'🍢',cuisine:'한식',type:'볶음',spicy:'매운',taste:'달콤',amount:'보통',tags:['분식','든든']},
+  {name:'떡국',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'보통',tags:['설날','담백']},
+  {name:'보쌈',emoji:'🥩',cuisine:'한식',type:'찜',spicy:'순한',taste:'담백',amount:'많음',tags:['회식','고기']},
+  {name:'족발',emoji:'🍖',cuisine:'한식',type:'찜',spicy:'순한',taste:'달콤',amount:'많음',tags:['야식','쫄깃']},
+  {name:'감자탕',emoji:'🍲',cuisine:'한식',type:'국/찌개',spicy:'매운',taste:'짭짤',amount:'많음',tags:['얼큰','해장']},
+  {name:'갈비찜',emoji:'🍖',cuisine:'한식',type:'찜',spicy:'순한',taste:'달콤',amount:'많음',tags:['명절','고기']},
+  {name:'아구찜',emoji:'🐟',cuisine:'한식',type:'찜',spicy:'매운',taste:'짭짤',amount:'많음',tags:['해산물','얼큰']},
+  {name:'코다리찜',emoji:'🐟',cuisine:'한식',type:'찜',spicy:'매운',taste:'짭짤',amount:'보통',tags:['생선','밥도둑']},
+  {name:'초계국수',emoji:'🍜',cuisine:'한식',type:'면',spicy:'순한',taste:'새콤',amount:'보통',tags:['여름','시원함']},
+  {name:'쌀떡볶이',emoji:'🍢',cuisine:'한식',type:'볶음',spicy:'매운',taste:'달콤',amount:'보통',tags:['매콤달콤','분식']},
+  {name:'계란국',emoji:'🍳',cuisine:'한식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'가벼움',tags:['간단','속편함']},
+  {name:'김치볶음밥',emoji:'🍳',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['집밥','간편']},
+  {name:'계란밥',emoji:'🍳',cuisine:'한식',type:'기타',spicy:'순한',taste:'달콤',amount:'가벼움',tags:['간단','집밥']},
+  {name:'오므라이스',emoji:'🍳',cuisine:'한식',type:'기타',spicy:'순한',taste:'달콤',amount:'보통',tags:['달콤','포근함']},
+  {name:'닭볶음탕',emoji:'🍲',cuisine:'한식',type:'찜',spicy:'매운',taste:'짭짤',amount:'많음',tags:['얼큰','고기']},
+  {name:'순대볶음',emoji:'🍢',cuisine:'한식',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['분식','술안주']},
+  {name:'해물파전',emoji:'🥞',cuisine:'한식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['비오는날','술안주']},
+  {name:'김치전',emoji:'🥞',cuisine:'한식',type:'기타',spicy:'매운',taste:'짭짤',amount:'가벼움',tags:['집밥','간식']},
+  {name:'감자전',emoji:'🥞',cuisine:'한식',type:'기타',spicy:'순한',taste:'담백',amount:'가벼움',tags:['간식','집밥']},
+  // 일식
+  {name:'초밥',emoji:'🍣',cuisine:'일식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['신선함','고급']},
+  {name:'라멘',emoji:'🍜',cuisine:'일식',type:'면',spicy:'순한',taste:'느끼',amount:'보통',tags:['국물','든든']},
+  {name:'돈코츠라멘',emoji:'🍜',cuisine:'일식',type:'면',spicy:'순한',taste:'느끼',amount:'보통',tags:['진한국물','포만감']},
+  {name:'우동',emoji:'🍜',cuisine:'일식',type:'면',spicy:'순한',taste:'담백',amount:'보통',tags:['따뜻함','담백']},
+  {name:'소바',emoji:'🍜',cuisine:'일식',type:'면',spicy:'순한',taste:'담백',amount:'가벼움',tags:['건강','담백']},
+  {name:'돈까스',emoji:'🍱',cuisine:'일식',type:'튀김',spicy:'순한',taste:'느끼',amount:'보통',tags:['정식','바삭']},
+  {name:'카레',emoji:'🍛',cuisine:'일식',type:'기타',spicy:'순한',taste:'달콤',amount:'보통',tags:['국물','포만감']},
+  {name:'오야코동',emoji:'🍚',cuisine:'일식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['달걀','부드러움']},
+  {name:'규동',emoji:'🍚',cuisine:'일식',type:'기타',spicy:'순한',taste:'달콤',amount:'보통',tags:['소고기','간편']},
+  {name:'타코야키',emoji:'🐙',cuisine:'일식',type:'튀김',spicy:'순한',taste:'담백',amount:'가벼움',tags:['간식','쫀득']},
+  {name:'연어덮밥',emoji:'🍚',cuisine:'일식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['건강','신선']},
+  {name:'카츠동',emoji:'🍚',cuisine:'일식',type:'기타',spicy:'순한',taste:'달콤',amount:'보통',tags:['든든','바삭']},
+  {name:'나베',emoji:'🫕',cuisine:'일식',type:'국/찌개',spicy:'순한',taste:'담백',amount:'많음',tags:['겨울','따뜻함']},
+  {name:'야키토리',emoji:'🍡',cuisine:'일식',type:'구이',spicy:'순한',taste:'달콤',amount:'가벼움',tags:['술안주','간식']},
+  {name:'에비텐동',emoji:'🍤',cuisine:'일식',type:'튀김',spicy:'순한',taste:'담백',amount:'보통',tags:['새우튀김','일식']},
+  {name:'오코노미야키',emoji:'🥞',cuisine:'일식',type:'기타',spicy:'순한',taste:'달콤',amount:'보통',tags:['오사카','쫀득']},
+  {name:'미소라멘',emoji:'🍜',cuisine:'일식',type:'면',spicy:'순한',taste:'짭짤',amount:'보통',tags:['국물','구수']},
+  // 중식
+  {name:'짜장면',emoji:'🍜',cuisine:'중식',type:'면',spicy:'순한',taste:'달콤',amount:'보통',tags:['국민음식','배달']},
+  {name:'짬뽕',emoji:'🍜',cuisine:'중식',type:'면',spicy:'매운',taste:'짭짤',amount:'보통',tags:['얼큰','국물']},
+  {name:'탕수육',emoji:'🍖',cuisine:'중식',type:'튀김',spicy:'순한',taste:'달콤',amount:'보통',tags:['바삭','소스']},
+  {name:'마파두부',emoji:'🍲',cuisine:'중식',type:'찜',spicy:'매운',taste:'짭짤',amount:'보통',tags:['얼큰','두부']},
+  {name:'양장피',emoji:'🥗',cuisine:'중식',type:'기타',spicy:'순한',taste:'새콤',amount:'보통',tags:['냉채','특별함']},
+  {name:'깐풍기',emoji:'🍗',cuisine:'중식',type:'튀김',spicy:'매운',taste:'짭짤',amount:'보통',tags:['바삭','매콤']},
+  {name:'마라탕',emoji:'🍲',cuisine:'중식',type:'찜',spicy:'매운',taste:'느끼',amount:'보통',tags:['트렌디','마라향']},
+  {name:'훠궈',emoji:'🫕',cuisine:'중식',type:'국/찌개',spicy:'매운',taste:'느끼',amount:'많음',tags:['회식','여럿이']},
+  {name:'딤섬',emoji:'🥟',cuisine:'중식',type:'찜',spicy:'순한',taste:'담백',amount:'가벼움',tags:['홍콩','고급']},
+  {name:'마라샹궈',emoji:'🍲',cuisine:'중식',type:'볶음',spicy:'매운',taste:'느끼',amount:'보통',tags:['마라','트렌디']},
+  {name:'꿔바로우',emoji:'🍖',cuisine:'중식',type:'튀김',spicy:'순한',taste:'달콤',amount:'보통',tags:['탕수육','달콤']},
+  {name:'잡탕밥',emoji:'🍚',cuisine:'중식',type:'기타',spicy:'순한',taste:'짭짤',amount:'보통',tags:['간편','든든']},
+  {name:'볶음밥',emoji:'🍳',cuisine:'중식',type:'볶음',spicy:'순한',taste:'짭짤',amount:'보통',tags:['간편','포만감']},
+  // 양식
+  {name:'파스타',emoji:'🍝',cuisine:'양식',type:'면',spicy:'순한',taste:'느끼',amount:'보통',tags:['데이트','분위기']},
+  {name:'크림파스타',emoji:'🍝',cuisine:'양식',type:'면',spicy:'순한',taste:'느끼',amount:'보통',tags:['부드러움','크리미']},
+  {name:'명란파스타',emoji:'🍝',cuisine:'양식',type:'면',spicy:'순한',taste:'짭짤',amount:'보통',tags:['트렌디','짭짤']},
+  {name:'로제파스타',emoji:'🍝',cuisine:'양식',type:'면',spicy:'매운',taste:'느끼',amount:'보통',tags:['인기','크리미']},
+  {name:'피자',emoji:'🍕',cuisine:'양식',type:'기타',spicy:'순한',taste:'느끼',amount:'많음',tags:['파티','여럿이']},
+  {name:'스테이크',emoji:'🥩',cuisine:'양식',type:'구이',spicy:'순한',taste:'느끼',amount:'많음',tags:['특별한날','고급']},
+  {name:'햄버거',emoji:'🍔',cuisine:'양식',type:'기타',spicy:'순한',taste:'느끼',amount:'보통',tags:['간편','패스트푸드']},
+  {name:'샌드위치',emoji:'🥪',cuisine:'양식',type:'기타',spicy:'순한',taste:'담백',amount:'가벼움',tags:['간편','브런치']},
+  {name:'리조또',emoji:'🍚',cuisine:'양식',type:'기타',spicy:'순한',taste:'느끼',amount:'보통',tags:['크리미','고급']},
+  {name:'샐러드',emoji:'🥗',cuisine:'양식',type:'기타',spicy:'순한',taste:'담백',amount:'가벼움',tags:['건강','다이어트']},
+  {name:'치킨',emoji:'🍗',cuisine:'양식',type:'튀김',spicy:'순한',taste:'느끼',amount:'보통',tags:['치맥','야식']},
+  {name:'후라이드치킨',emoji:'🍗',cuisine:'양식',type:'튀김',spicy:'순한',taste:'짭짤',amount:'보통',tags:['바삭','국민음식']},
+  {name:'양념치킨',emoji:'🍗',cuisine:'양식',type:'볶음',spicy:'매운',taste:'달콤',amount:'보통',tags:['단짠','야식']},
+  {name:'뇨끼',emoji:'🍝',cuisine:'양식',type:'면',spicy:'순한',taste:'느끼',amount:'보통',tags:['쫀득','고급']},
+  {name:'수프',emoji:'🥣',cuisine:'양식',type:'국/찌개',spicy:'순한',taste:'느끼',amount:'가벼움',tags:['브런치','따뜻함']},
+  {name:'스파게티',emoji:'🍝',cuisine:'양식',type:'면',spicy:'순한',taste:'새콤',amount:'보통',tags:['토마토','데이트']},
+  {name:'함박스테이크',emoji:'🥩',cuisine:'양식',type:'구이',spicy:'순한',taste:'달콤',amount:'보통',tags:['양식','포근함']},
+  {name:'클럽샌드위치',emoji:'🥪',cuisine:'양식',type:'기타',spicy:'순한',taste:'담백',amount:'보통',tags:['브런치','든든']},
+  // 기타 아시안
+  {name:'쌀국수',emoji:'🍜',cuisine:'기타',type:'면',spicy:'순한',taste:'담백',amount:'보통',tags:['베트남','건강']},
+  {name:'팟타이',emoji:'🍜',cuisine:'기타',type:'볶음',spicy:'매운',taste:'새콤',amount:'보통',tags:['태국','이국적']},
+  {name:'그린카레',emoji:'🍛',cuisine:'기타',type:'기타',spicy:'매운',taste:'느끼',amount:'보통',tags:['태국','코코넛']},
+  {name:'나시고렝',emoji:'🍳',cuisine:'기타',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['인도네시아','이국적']},
+  {name:'월남쌈',emoji:'🥗',cuisine:'기타',type:'기타',spicy:'순한',taste:'담백',amount:'가벼움',tags:['건강','신선']},
+  {name:'반미',emoji:'🥖',cuisine:'기타',type:'기타',spicy:'순한',taste:'새콤',amount:'가벼움',tags:['베트남','이국적']},
+  {name:'쌀국수볶음',emoji:'🍜',cuisine:'기타',type:'볶음',spicy:'매운',taste:'짭짤',amount:'보통',tags:['베트남','볶음']},
+  {name:'인도카레',emoji:'🍛',cuisine:'기타',type:'기타',spicy:'매운',taste:'달콤',amount:'보통',tags:['인도','향신료']},
+  {name:'케밥',emoji:'🌯',cuisine:'기타',type:'구이',spicy:'순한',taste:'짭짤',amount:'보통',tags:['중동','길거리음식']},
+  {name:'타코',emoji:'🌮',cuisine:'기타',type:'기타',spicy:'매운',taste:'새콤',amount:'보통',tags:['멕시코','이국적']},
+  {name:'나초',emoji:'🥨',cuisine:'기타',type:'튀김',spicy:'매운',taste:'짭짤',amount:'가벼움',tags:['간식','파티']},
+  {name:'브리또',emoji:'🌯',cuisine:'기타',type:'기타',spicy:'매운',taste:'짭짤',amount:'보통',tags:['멕시코','든든']},
+];
+
+// 필터 옵션
+const filterOptions = {
+  spicy: { id:'f-spicy', label:'🌡️ 맵기', opts:['매운','순한','상관없음'] },
+  type:  { id:'f-type',  label:'🥣 형태', opts:['국/찌개','볶음','튀김','찜','면','구이','기타','상관없음'] },
+  cuisine: { id:'f-cuisine', label:'🌍 종류', opts:['한식','일식','중식','양식','기타','상관없음'] },
+  taste: { id:'f-taste', label:'👅 맛',  opts:['매운','담백','느끼','달콤','짭짤','새콤','상관없음'] },
+  amount:{ id:'f-amount',label:'⚖️ 양',  opts:['가벼움','보통','많음','상관없음'] },
+};
+
+let filterSelections = { spicy:'', type:'', cuisine:'', taste:'', amount:'' };
+
+// 칩 렌더링
+Object.keys(filterOptions).forEach(key => {
+  const { id, opts } = filterOptions[key];
+  const el = document.getElementById(id);
+  opts.forEach(opt => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.textContent = opt;
+    chip.onclick = () => {
+      el.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      filterSelections[key] = opt === '상관없음' ? '' : opt;
+    };
+    el.appendChild(chip);
+  });
+});
+
+function switchMode(mode) {
+  document.getElementById('random-mode').style.display = mode === 'random' ? 'block' : 'none';
+  document.getElementById('filter-mode').style.display = mode === 'filter' ? 'block' : 'none';
+  document.getElementById('tab-random').classList.toggle('active', mode === 'random');
+  document.getElementById('tab-filter').classList.toggle('active', mode === 'filter');
+}
+
+function pickRandom() {
+  const picks = [];
+  const pool = [...menus];
+  while (picks.length < 3 && pool.length > 0) {
+    const idx = Math.floor(Math.random() * pool.length);
+    picks.push(pool.splice(idx, 1)[0]);
+  }
+  const grid = document.getElementById('random-results');
+  grid.innerHTML = picks.map(m => `
+    <div class="random-result-item">
+      <span class="rri-emoji">${m.emoji}</span>
+      <div class="rri-name">${m.name}</div>
+      <span class="rri-tag">${m.cuisine} · ${m.type}</span>
+    </div>
+  `).join('');
+  grid.style.display = 'grid';
+  document.getElementById('random-again-wrap').style.display = 'block';
+  grid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function filterMenu() {
+  const { spicy, type, cuisine, taste, amount } = filterSelections;
+  let results = menus.filter(m => {
+    if (spicy && m.spicy !== spicy) return false;
+    if (type && m.type !== type) return false;
+    if (cuisine && m.cuisine !== cuisine) return false;
+    if (taste && m.taste !== taste) return false;
+    if (amount && m.amount !== amount) return false;
+    return true;
+  });
+  // 섞어서 최대 6개
+  results = results.sort(() => Math.random() - 0.5).slice(0, 6);
+
+  const listEl = document.getElementById('filter-result-list');
+  if (results.length === 0) {
+    listEl.innerHTML = '<div class="no-result">😅 조건에 맞는 메뉴가 없어요!<br/>조건을 조금 바꿔서 다시 시도해봐요</div>';
+  } else {
+    listEl.innerHTML = results.map(m => `
+      <div class="filter-result-item">
+        <span class="fri-emoji">${m.emoji}</span>
+        <div class="fri-body">
+          <div class="fri-name">${m.name}</div>
+          <div class="fri-info">
+            <span class="fri-badge">${m.cuisine}</span>
+            <span class="fri-badge">${m.type}</span>
+            ${m.tags.map(t => `<span class="fri-badge">#${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('filter-results').style.display = 'block';
+  document.getElementById('filter-results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetFilter() {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  filterSelections = { spicy:'', type:'', cuisine:'', taste:'', amount:'' };
+  document.getElementById('filter-results').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

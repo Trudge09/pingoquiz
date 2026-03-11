@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나는 곰 타입? 여우 타입? 🐻🦊 연애 유형 테스트</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="나는 곰 타입? 여우 타입? 🐻🦊" />
+  <meta property="og:description" content="연애할 때 나는 곰? 여우? 아니면 곰인척하는 여우? 12문항으로 정확히 알아봐요!" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/bearfox" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #fdf8f0;
+      --bg2: #fff4e6;
+      --card: #ffffff;
+      --card2: #fff9f0;
+      --bear: #c0763a;
+      --bear2: #e8a060;
+      --bear-bg: #fff3e6;
+      --fox: #e05a1a;
+      --fox2: #f07840;
+      --fox-bg: #fff0e8;
+      --text: #2d1f0e;
+      --muted: #a08060;
+      --border: #f0dfc8;
+      --radius: 20px;
+      --shadow: 0 4px 24px rgba(180,100,30,0.10);
+      --shadow-hover: 0 12px 40px rgba(180,100,30,0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; top: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(224,90,26,0.07) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(192,118,58,0.07) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--bear), var(--bear2), #fff, var(--fox2), var(--fox));
+    }
+
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: var(--card);
+      border: 1.5px dashed var(--border);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow);
+    }
+
+    /* 씬 오버레이 */
+    #scene-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; padding: 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease; text-align: center;
+    }
+    #scene-overlay.show { opacity: 1; pointer-events: all; }
+    .overlay-emoji { font-size: 3.5rem; animation: wobble 0.8s ease infinite; }
+    @keyframes wobble {
+      0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)}
+    }
+    .overlay-title { font-family: 'Jua', cursive; font-size: 1.2rem; color: var(--fox); }
+    .overlay-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 40px 0 32px; animation: fadeUp 0.6s ease; }
+    .back-btn {
+      display: block; text-align: left;
+      color: var(--muted); font-size: 0.85rem; text-decoration: none;
+      margin-bottom: 24px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--fox); }
+
+    /* 곰 vs 여우 로고 */
+    .bf-logo {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; margin-bottom: 20px;
+    }
+    .logo-bear {
+      font-family: 'Jua', cursive; font-size: 3.2rem;
+      background: linear-gradient(135deg, var(--bear), var(--bear2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .logo-vs {
+      font-family: 'Jua', cursive; font-size: 1.1rem;
+      color: #d0b090; margin: 0 10px; margin-top: 14px;
+    }
+    .logo-fox {
+      font-family: 'Jua', cursive; font-size: 3.2rem;
+      background: linear-gradient(135deg, var(--fox), var(--fox2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    h1 {
+      font-family: 'Jua', cursive;
+      font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 6px; color: var(--text);
+    }
+    .intro-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 24px; }
+
+    /* 인트로 카드 */
+    .intro-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 24px 22px;
+      margin-bottom: 28px; text-align: left;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .intro-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--bear), var(--bear2), #fff, var(--fox2), var(--fox));
+    }
+    .intro-card-title {
+      font-family: 'Jua', cursive; font-size: 0.88rem; color: var(--muted);
+      letter-spacing: 1px; margin-bottom: 14px;
+    }
+    .type-preview {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .type-row {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card2); border-radius: 10px; padding: 10px 14px;
+      border: 1px solid var(--border);
+    }
+    .type-row-emoji { font-size: 1.4rem; min-width: 28px; }
+    .type-row-body { flex: 1; }
+    .type-row-name { font-family: 'Jua', cursive; font-size: 0.9rem; color: var(--text); }
+    .type-row-desc { font-size: 0.78rem; color: var(--muted); margin-top: 1px; }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--bear), var(--fox));
+      color: white; border: none; border-radius: 99px;
+      padding: 18px 52px; font-family: 'Jua', cursive;
+      font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(192,118,58,0.3);
+      transition: all 0.15s ease;
+    }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(192,118,58,0.4); }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 28px 0; display: none; }
+
+    /* 실시간 게이지 헤더 */
+    .quiz-header { margin-bottom: 14px; }
+    .quiz-header-top {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+    }
+    .q-badge { font-size: 0.75rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; }
+
+    .live-gauge {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .lg-emoji { font-size: 1.2rem; }
+    .lg-bar {
+      flex: 1; height: 10px; background: var(--border);
+      border-radius: 99px; overflow: hidden; position: relative;
+    }
+    .lg-fill-bear {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--bear), var(--bear2));
+      border-radius: 99px; transition: width 0.5s ease;
+    }
+    .lg-fill-fox {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      background: linear-gradient(270deg, var(--fox), var(--fox2));
+      border-radius: 99px; transition: width 0.5s ease;
+    }
+
+    /* 상황 배너 */
+    .situation-banner {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 12px 16px; margin-bottom: 12px;
+      display: flex; align-items: flex-start; gap: 10px;
+      box-shadow: var(--shadow);
+    }
+    .sit-icon { font-size: 1.5rem; min-width: 30px; }
+    .sit-body { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .sit-label { font-size: 0.7rem; color: var(--fox); font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px; }
+
+    .quiz-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 26px 22px;
+      animation: fadeUp 0.3s ease; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--bear), var(--bear2), #fff8f0, var(--fox2), var(--fox));
+    }
+
+    .q-text {
+      font-family: 'Jua', cursive; font-size: clamp(1.05rem, 3.5vw, 1.2rem);
+      color: var(--text); margin-bottom: 18px; line-height: 1.6;
+    }
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .option-btn {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 13px; padding: 14px 16px;
+      text-align: left; color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.18s ease;
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+    }
+    .option-btn.bear-opt:hover {
+      border-color: var(--bear); background: var(--bear-bg);
+      transform: translateX(4px);
+    }
+    .option-btn.fox-opt:hover {
+      border-color: var(--fox); background: var(--fox-bg);
+      transform: translateX(4px);
+    }
+    .opt-icon { font-size: 1.2rem; min-width: 26px; }
+
+    /* 결과 */
+    #result-screen { padding: 28px 0; display: none; animation: fadeUp 0.5s ease; }
+
+    .result-hero {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 36px 28px;
+      text-align: center; box-shadow: var(--shadow);
+      margin-bottom: 16px; position: relative; overflow: hidden;
+    }
+    .result-hero::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+
+    .res-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; letter-spacing: 3px; margin-bottom: 16px; }
+    .res-emoji-big {
+      font-size: 6rem; display: block; margin-bottom: 14px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100%{transform:translateY(0) rotate(-3deg)}
+      50%{transform:translateY(-12px) rotate(3deg)}
+    }
+    .res-type-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+    .res-type-name { font-family: 'Jua', cursive; font-size: 2rem; margin-bottom: 4px; line-height: 1.3; }
+    .res-type-eng { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; }
+    .res-tag {
+      display: inline-block; border-radius: 99px;
+      padding: 5px 20px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px;
+    }
+
+    /* 최종 게이지 */
+    .final-gauge-wrap { margin-bottom: 0; }
+    .final-gauge-labels {
+      display: flex; justify-content: space-between; margin-bottom: 6px;
+    }
+    .fgl { font-family: 'Jua', cursive; font-size: 0.95rem; }
+    .fgl.bear { color: var(--bear); }
+    .fgl.fox { color: var(--fox); }
+    .final-gauge-bar {
+      height: 18px; border-radius: 99px; overflow: hidden;
+      background: var(--border); position: relative;
+    }
+    .fgb-bear {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--bear), var(--bear2));
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+    }
+    .fgb-fox {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      background: linear-gradient(270deg, var(--fox), var(--fox2));
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: flex-start; padding-left: 8px;
+    }
+    .fgb-pct { font-size: 0.72rem; font-weight: 700; color: white; }
+
+    /* 분석 카드 */
+    .analysis-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+      margin-bottom: 14px; box-shadow: var(--shadow);
+    }
+    .analysis-title {
+      font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--fox);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+      padding-bottom: 10px; border-bottom: 1.5px solid var(--border);
+    }
+    .analysis-text { font-size: 0.9rem; color: var(--muted); line-height: 1.9; }
+    .analysis-text strong { color: var(--text); font-weight: 700; }
+
+    /* 특성 그리드 */
+    .trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .trait-box {
+      background: var(--card); border-radius: 14px; padding: 14px;
+      border: 1.5px solid var(--border); box-shadow: var(--shadow);
+    }
+    .trait-title { font-family: 'Jua', cursive; font-size: 0.82rem; color: var(--fox); margin-bottom: 8px; }
+    .trait-tag {
+      display: inline-block; border-radius: 99px;
+      padding: 3px 10px; font-size: 0.75rem; font-weight: 700;
+      margin: 2px; background: var(--bear-bg); color: var(--bear);
+      border: 1px solid #f0d0b0;
+    }
+    .trait-tag.fox-tag {
+      background: var(--fox-bg); color: var(--fox); border-color: #f0c0a0;
+    }
+
+    /* 찰떡 궁합 */
+    .match-card {
+      background: var(--card); border-radius: var(--radius); padding: 20px;
+      border: 1.5px solid var(--border); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow);
+    }
+    .match-emoji { font-size: 2.8rem; }
+    .match-body { flex: 1; }
+    .match-title { font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--text); margin-bottom: 5px; }
+    .match-text { font-size: 0.83rem; color: var(--muted); line-height: 1.7; }
+
+    /* 명대사 카드 */
+    .quote-card {
+      background: linear-gradient(135deg, var(--bear-bg), var(--fox-bg));
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      padding: 22px; margin-bottom: 14px; text-align: center;
+      position: relative;
+    }
+    .quote-mark { font-size: 2rem; color: var(--bear2); line-height: 1; margin-bottom: 8px; display: block; }
+    .quote-text { font-family: 'Jua', cursive; font-size: 1rem; color: var(--text); line-height: 1.7; }
+    .quote-name { font-size: 0.78rem; color: var(--muted); margin-top: 10px; }
+
+    .share-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--bear-bg), var(--fox-bg));
+      color: var(--fox); border: 1.5px solid var(--border);
+      border-radius: 99px; padding: 14px;
+      font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px;
+      box-shadow: var(--shadow);
+    }
+    .share-btn:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: 99px;
+      padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .retry-btn:hover { border-color: var(--bear); color: var(--bear); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+
+<div id="scene-overlay">
+  <div class="overlay-emoji" id="overlay-emoji">🐻</div>
+  <div class="overlay-title" id="overlay-title"></div>
+  <div class="overlay-sub" id="overlay-sub"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="bf-logo">
+      <span class="logo-bear">곰</span>
+      <span class="logo-vs">VS</span>
+      <span class="logo-fox">여우</span>
+    </div>
+    <h1>나는 곰 타입? 여우 타입?<br/>🐻🦊 연애 유형 테스트</h1>
+    <p class="intro-sub">연애할 때 나는 어떤 동물일까요?</p>
+
+    <div class="intro-card">
+      <div class="intro-card-title">📋 결과 미리보기</div>
+      <div class="type-preview">
+        <div class="type-row">
+          <span class="type-row-emoji">🦊</span>
+          <div class="type-row-body">
+            <div class="type-row-name">순수 여우</div>
+            <div class="type-row-desc">타고난 연애러. 설레게 하는 게 자연스러워</div>
+          </div>
+        </div>
+        <div class="type-row">
+          <span class="type-row-emoji">🐻🦊</span>
+          <div class="type-row-body">
+            <div class="type-row-name">곰인척하는 여우</div>
+            <div class="type-row-desc">겉은 순수한데 속은 치밀한 그 사람</div>
+          </div>
+        </div>
+        <div class="type-row">
+          <span class="type-row-emoji">🦊🐻</span>
+          <div class="type-row-body">
+            <div class="type-row-name">여우인척하는 곰</div>
+            <div class="type-row-desc">끼 있어 보이는데 사실 제일 순수한 타입</div>
+          </div>
+        </div>
+        <div class="type-row">
+          <span class="type-row-emoji">🐻</span>
+          <div class="type-row-body">
+            <div class="type-row-name">순수 곰</div>
+            <div class="type-row-desc">우직하고 진심인 연애. 한 번 좋아하면 다야</div>
+          </div>
+        </div>
+        <div class="type-row">
+          <span class="type-row-emoji">🐼</span>
+          <div class="type-row-body">
+            <div class="type-row-name">판다 (보너스!)</div>
+            <div class="type-row-desc">곰도 여우도 아닌 나만의 연애 스타일</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startTest()">🐾 테스트 시작하기</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="quiz-header">
+      <div class="quiz-header-top">
+        <div class="q-badge">Q<span id="q-num">1</span> / 12</div>
+      </div>
+      <div class="live-gauge">
+        <span class="lg-emoji">🐻</span>
+        <div class="lg-bar">
+          <div class="lg-fill-bear" id="live-bear" style="width:50%"></div>
+          <div class="lg-fill-fox" id="live-fox" style="width:50%"></div>
+        </div>
+        <span class="lg-emoji">🦊</span>
+      </div>
+    </div>
+
+    <div class="situation-banner">
+      <div class="sit-icon" id="sit-icon">💬</div>
+      <div class="sit-body">
+        <span class="sit-label" id="sit-label">상황</span>
+        <span id="sit-text"></span>
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-hero" id="result-hero">
+      <div class="res-label">🐾 당신의 연애 동물 유형</div>
+      <span class="res-emoji-big" id="res-emoji"></span>
+      <div class="res-type-label" id="res-type-label"></div>
+      <div class="res-type-name" id="res-type-name"></div>
+      <div class="res-type-eng" id="res-type-eng"></div>
+      <span class="res-tag" id="res-tag"></span>
+
+      <div style="margin-top:20px;">
+        <div class="final-gauge-labels">
+          <span class="fgl bear">🐻 곰 <span id="bear-pct-lbl">0</span>%</span>
+          <span class="fgl fox">🦊 여우 <span id="fox-pct-lbl">0</span>%</span>
+        </div>
+        <div class="final-gauge-bar">
+          <div class="fgb-bear" id="fgb-bear" style="width:0%">
+            <span class="fgb-pct" id="fgb-bear-txt"></span>
+          </div>
+          <div class="fgb-fox" id="fgb-fox" style="width:0%">
+            <span class="fgb-pct" id="fgb-fox-txt"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card">
+      <div class="analysis-title" id="res-analysis-title">🔍 성향 분석</div>
+      <div class="analysis-text" id="res-analysis"></div>
+    </div>
+
+    <div class="trait-grid">
+      <div class="trait-box">
+        <div class="trait-title">💕 연애할 때 나는</div>
+        <div id="res-traits"></div>
+      </div>
+      <div class="trait-box">
+        <div class="trait-title">💬 자주 하는 행동</div>
+        <div id="res-behaviors"></div>
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <span class="quote-mark">"</span>
+      <div class="quote-text" id="res-quote"></div>
+      <div class="quote-name" id="res-quote-name"></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-emoji" id="match-emoji"></div>
+      <div class="match-body">
+        <div class="match-title" id="match-title"></div>
+        <div class="match-text" id="match-text"></div>
+      </div>
+    </div>
+
+    <div class="analysis-card">
+      <div class="analysis-title">🌟 주변에서 보는 나</div>
+      <div class="analysis-text" id="res-vibe"></div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#c0763a1a,#c0763a08);border:1.5px solid #c0763a55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#c0763a;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#c0763a22;color:#c0763a;border:1px solid #c0763a55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+
+    <!-- 광고 슬롯: 하단 -->
+    <div class="ad-slot" style="margin-top:16px;">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+</div>
+<script>
+// fox 점수가 높을수록 여우, 낮을수록 곰
+const questions = [
+  {
+    icon: "👀", label: "첫인상",
+    sit: "마음에 드는 사람이 생겼어요.",
+    text: "처음에 어떻게 행동해요?",
+    options: [
+      { text: "눈 마주칠 때마다 살짝 웃어줘. 티 내지 않게, 근데 확실하게", icon: "😊", fox: 1 },
+      { text: "그냥 평소대로. 티 내는 게 너무 부끄러워", icon: "😶", fox: 0 }
+    ]
+  },
+  {
+    icon: "💬", label: "카톡",
+    sit: "좋아하는 사람에게 카톡을 보내야 해요.",
+    text: "나의 카톡 스타일은?",
+    options: [
+      { text: "\"뭐해?\" 한 마디로 시작. 근데 그 뒤가 자연스럽게 이어져", icon: "📱", fox: 1 },
+      { text: "뭐라고 보낼지 한 시간 고민하다 결국 그냥 \"ㅎㅎ 잘 지내?\"", icon: "😅", fox: 0 }
+    ]
+  },
+  {
+    icon: "🎭", label: "밀당",
+    sit: "상대가 먼저 관심을 보여요.",
+    text: "나는 어떻게 반응해요?",
+    options: [
+      { text: "살짝 뜸 들여. 바로 반응하면 재미없잖아", icon: "😏", fox: 1 },
+      { text: "좋으면 좋다고 바로 티 내. 감추는 게 더 힘들어", icon: "😊", fox: 0 }
+    ]
+  },
+  {
+    icon: "🌙", label: "고백",
+    sit: "고백을 해야 할 것 같은 상황이에요.",
+    text: "나의 스타일은?",
+    options: [
+      { text: "분위기 만들고 타이밍 재다가 자연스럽게 고백", icon: "✨", fox: 1 },
+      { text: "그냥 직접 말해. \"나 너 좋아해\" — 이게 제일 솔직하잖아", icon: "💬", fox: 0 }
+    ]
+  },
+  {
+    icon: "💔", label: "싸움",
+    sit: "연인이랑 사소하게 다퉜어요.",
+    text: "나는 어떻게 해요?",
+    options: [
+      { text: "일부러 좀 내버려 둬. 서로 진정되면 먼저 풀자고 함", icon: "⏳", fox: 1 },
+      { text: "먼저 연락해. 이거 오래 끌면 더 힘들어", icon: "📞", fox: 0 }
+    ]
+  },
+  {
+    icon: "😍", label: "설레임",
+    sit: "좋아하는 사람 앞에서요.",
+    text: "나의 모습은?",
+    options: [
+      { text: "오히려 더 차가워지거나 능청스러워져. 티 안 내는 스타일", icon: "😎", fox: 1 },
+      { text: "얼굴 빨개지고 말 더듬고 어색해져. 감추질 못해", icon: "😳", fox: 0 }
+    ]
+  },
+  {
+    icon: "🎁", label: "챙기기",
+    sit: "연인이나 좋아하는 사람을 챙길 때요.",
+    text: "나의 방식은?",
+    options: [
+      { text: "\"이거 네 생각 나서\"라며 작은 것들을 센스있게 챙겨줘", icon: "🎀", fox: 1 },
+      { text: "\"필요한 거 있어? 내가 다 해줄게\" 직접적으로 챙겨줘", icon: "🤗", fox: 0 }
+    ]
+  },
+  {
+    icon: "🪞", label: "자기인식",
+    sit: "솔직하게 물어볼게요.",
+    text: "연애에서 나는 어떤 편이에요?",
+    options: [
+      { text: "설레게 해주는 편. 분위기를 만들거나 타이밍을 맞추는 게 자연스러워", icon: "💫", fox: 1 },
+      { text: "한번 좋아하면 올인하는 편. 설레임보다 진심이 중요해", icon: "💗", fox: 0 }
+    ]
+  },
+  {
+    icon: "📸", label: "SNS",
+    sit: "연인이랑 찍은 사진이 잘 나왔어요.",
+    text: "어떻게 해요?",
+    options: [
+      { text: "바로 올리거나 스토리에 올려. 자랑하고 싶잖아", icon: "📲", fox: 1 },
+      { text: "상대한테만 보내줘. SNS는 좀 부끄럽고 우리끼리 보면 되지", icon: "🤫", fox: 0 }
+    ]
+  },
+  {
+    icon: "😮", label: "이별",
+    sit: "헤어지자는 말을 들었어요.",
+    text: "첫 반응은?",
+    options: [
+      { text: "\"왜?\" 침착하게 이유를 물어봐. 감정 드러내기 싫어", icon: "😶", fox: 1 },
+      { text: "눈물부터 나거나 바로 감정이 터져. 숨길 수가 없어", icon: "😢", fox: 0 }
+    ]
+  },
+  {
+    icon: "💭", label: "이상형",
+    sit: "이상적인 연애 스타일을 물어본다면요.",
+    text: "솔직히 더 끌리는 쪽은?",
+    options: [
+      { text: "설레고 두근두근한 연애. 적당한 긴장감이 있는 관계", icon: "✨", fox: 1 },
+      { text: "편하고 안정적인 연애. 옆에 있으면 그냥 든든한 사람", icon: "🏡", fox: 0 }
+    ]
+  },
+  {
+    icon: "🌟", label: "마지막",
+    sit: "친구가 물어봤어요: \"너 연애 잘 해?\"",
+    text: "솔직한 내 대답은?",
+    options: [
+      { text: "\"뭐... 그냥 분위기 타는 편?\" (은근 자신 있음)", icon: "😏", fox: 1 },
+      { text: "\"아 몰라 그냥 좋아하면 다 줘버리는 것 같아\"", icon: "😅", fox: 0 }
+    ]
+  }
+];
+
+// fox 점수, bear 점수 → 5가지 결과
+function getResult(foxScore, bearScore) {
+  const total = foxScore + bearScore;
+  const foxPct = Math.round((foxScore / total) * 100);
+
+  if (foxPct >= 83) return {
+    type: 'fox',
+    emoji: '🦊',
+    typeLabel: '순수 여우형',
+    typeName: '타고난 연애러',
+    typeEng: 'Natural Fox',
+    tag: '여우력 MAX 🦊',
+    tagBg: 'rgba(224,90,26,0.12)', tagColor: '#e05a1a', tagBorder: 'rgba(224,90,26,0.25)',
+    heroBefore: 'linear-gradient(90deg, #e05a1a, #f07840)',
+    analysisTitle: '🦊 여우 성향 분석',
+    analysis: '연애가 자연스럽게 몸에 배어있는 타입이에요. <strong>설레게 하는 타이밍을 본능적으로 알고</strong>, 분위기를 만들고 이끄는 게 자연스러워요. 계산이라기보다는 감각이에요. 주변에서 "저 사람 연애 잘 하겠다"는 말을 들어본 적 있을 거예요.',
+    traits: ['타이밍 귀신', '능청스러움', '분위기 메이커', '쿨한 척'],
+    traitClass: 'fox-tag',
+    behaviors: ['살짝 뜸 들이기', '눈빛으로 티 내기', '자연스러운 고백', '감정 숨기기'],
+    behaviorClass: 'fox-tag',
+    quote: '설레게 하는 게 특기인데, 정작 나는 설레고 싶어.',
+    quoteName: '— 순수 여우형의 속마음',
+    matchEmoji: '🐻',
+    matchTitle: '찰떡 궁합: 순수 곰 타입',
+    matchText: '당신의 여우력에 진심으로 반응해주는 곰 타입이 최고예요. 당신이 이끌고 상대가 든든하게 따라오는 케미!',
+    vibe: '연애할 때 "저 사람 왜 저렇게 자연스럽지?" 소리 들을 것 같은 타입이에요. 티 나지 않게 설레게 하고, 먼저 다가가는 것 같기도 하고 아닌 것 같기도 한 — 그 애매함이 매력이에요.'
+  };
+
+  if (foxPct >= 62) return {
+    type: 'fox-bear',
+    emoji: '🐻🦊',
+    typeLabel: '곰인척하는 여우',
+    typeName: '겉은 순수, 속은 치밀',
+    typeEng: 'Fox in Bear\'s Clothing',
+    tag: '반전 매력 🎭',
+    tagBg: 'rgba(192,118,58,0.12)', tagColor: '#c0763a', tagBorder: 'rgba(192,118,58,0.25)',
+    heroBefore: 'linear-gradient(90deg, #c0763a, #e05a1a)',
+    analysisTitle: '🐻🦊 반전 매력 분석',
+    analysis: '겉으로 보면 순수하고 털털한 것 같은데, 실은 <strong>아주 계산된 자연스러움</strong>을 가진 타입이에요. 이 사람 앞에서 무너지고 있는데 내가 먼저 다가간 것 같은 느낌이 드는 그 사람. 연애 안 해봤을 것 같은 인상인데 실제론 연애를 정말 잘해요.',
+    traits: ['순진한 척 달인', '은근한 설레임', '자연스러운 매력', '반전 있음'],
+    traitClass: 'fox-tag',
+    behaviors: ['순수한 척 질문하기', '무심한 듯 챙겨주기', '들키지 않는 밀당', '나중에 솔직해짐'],
+    behaviorClass: 'fox-tag',
+    quote: '나 사실 그때부터 다 알고 있었어. 그냥 티 안 냈을 뿐.',
+    quoteName: '— 곰인척하는 여우형의 고백',
+    matchEmoji: '🦊🐻',
+    matchTitle: '찰떡 궁합: 여우인척하는 곰 타입',
+    matchText: '서로 반전 있는 두 사람이 만나면? 겉은 다른 것 같아도 속은 비슷해서 이상하게 통해요. 서로가 서로의 반전을 즐기는 관계!',
+    vibe: '처음엔 "쟤는 연애 어떻게 하지?" 싶었는데, 어느새 내가 그 사람한테 설레고 있는 느낌. 그게 이 타입의 가장 강력한 매력이에요.'
+  };
+
+  if (foxPct >= 42) return {
+    type: 'panda',
+    emoji: '🐼',
+    typeLabel: '판다형',
+    typeName: '곰도 여우도 아닌 나',
+    typeEng: 'Unique Panda',
+    tag: '나만의 스타일 🐼',
+    tagBg: 'rgba(80,80,80,0.08)', tagColor: '#606060', tagBorder: 'rgba(80,80,80,0.15)',
+    heroBefore: 'linear-gradient(90deg, #888, #c0763a)',
+    analysisTitle: '🐼 판다 성향 분석',
+    analysis: '<strong>곰처럼 진심이면서도 여우처럼 감각도 있는</strong>, 어떤 틀로도 딱 맞아떨어지지 않는 독특한 연애 스타일이에요. 상황에 따라 곰이 되기도 하고 여우가 되기도 해요. 연애 유형 테스트마다 결과가 달라지는 타입이기도 해요 ㅋㅋ',
+    traits: ['상황 따라 다름', '예측 불가', '다재다능', '자기만의 스타일'],
+    traitClass: '',
+    behaviors: ['때론 직진, 때론 밀당', '감정 솔직하게도', '전략적으로도', '그때그때 달라요'],
+    behaviorClass: '',
+    quote: '나 곰이야 여우야? 몰라. 그냥 나야.',
+    quoteName: '— 판다형의 정체성 선언',
+    matchEmoji: '🐼',
+    matchTitle: '잘 맞는 유형: 다양해요',
+    matchText: '유연한 판다형은 어떤 타입과도 맞출 수 있어요. 다만 너무 예측 가능한 사람보다는 본인처럼 다양한 면을 가진 사람과 잘 맞아요.',
+    vibe: '"저 사람 연애 타입이 뭐야?" 라고 물으면 친구들이 대답 못 하는 타입이에요. 그냥 자기만의 방식이 있고, 그게 오히려 매력으로 작용해요.'
+  };
+
+  if (foxPct >= 17) return {
+    type: 'bear-fox',
+    emoji: '🦊🐻',
+    typeLabel: '여우인척하는 곰',
+    typeName: '끼 있어 보이는 순수함',
+    typeEng: 'Bear in Fox\'s Clothing',
+    tag: '순수 반전 🐻',
+    tagBg: 'rgba(192,118,58,0.12)', tagColor: '#c0763a', tagBorder: 'rgba(192,118,58,0.25)',
+    heroBefore: 'linear-gradient(90deg, #e05a1a, #c0763a)',
+    analysisTitle: '🦊🐻 순수 반전 분석',
+    analysis: '끼 있고 연애 잘 할 것 같은 인상인데, <strong>실제로는 제일 순진하고 한 사람에게 올인하는</strong> 타입이에요. 밀당하는 척하다가 결국 다 줘버리고, 쿨한 척하다가 먼저 연락하고. 겉모습과 속마음이 정반대예요.',
+    traits: ['쿨한 척 하는 진심파', '결국 다 줘버림', '올인형', '속은 곰돌이'],
+    traitClass: '',
+    behaviors: ['쿨한 척 연락하기', '사실 엄청 신경 씀', '티 안 나게 챙겨줌', '결국 먼저 삶'],
+    behaviorClass: '',
+    quote: '쿨한 척했는데, 나 사실 제일 신경 쓰고 있었어.',
+    quoteName: '— 여우인척하는 곰형의 고백',
+    matchEmoji: '🐻🦊',
+    matchTitle: '찰떡 궁합: 곰인척하는 여우 타입',
+    matchText: '서로 반전 있는 두 사람! 당신의 순수함을 알아봐줄 수 있는 눈치 있는 상대가 최고예요.',
+    vibe: '처음엔 "저 사람 좀 노는 것 같은데?" 싶었는데 알고 보니 제일 순수한 그 사람. 연애하다 보면 주변에서 "진짜 그 사람 이런 면이 있었어?" 하고 놀라는 타입이에요.'
+  };
+
+  return {
+    type: 'bear',
+    emoji: '🐻',
+    typeLabel: '순수 곰형',
+    typeName: '우직하고 진심인 연애',
+    typeEng: 'Pure Bear',
+    tag: '곰력 MAX 🐻',
+    tagBg: 'rgba(192,118,58,0.15)', tagColor: '#c0763a', tagBorder: 'rgba(192,118,58,0.3)',
+    heroBefore: 'linear-gradient(90deg, #c0763a, #e8a060)',
+    analysisTitle: '🐻 곰 성향 분석',
+    analysis: '한 번 좋아하면 모든 걸 주는 타입이에요. 설레게 하는 전략 같은 건 없어요. <strong>그냥 진심이 전부</strong>예요. 연애에서 계산보다 감정이 앞서고, 좋아한다는 게 온몸에서 티가 나요. 그 솔직함이 이 타입의 가장 큰 매력이에요.',
+    traits: ['진심 올인', '티 다 남', '한 사람에 집중', '절대적 충성'],
+    traitClass: '',
+    behaviors: ['먼저 연락하기', '좋으면 바로 티냄', '직접 챙겨줌', '솔직한 고백'],
+    behaviorClass: '',
+    quote: '설레게 하는 법 같은 거 몰라. 그냥 진심인데?',
+    quoteName: '— 순수 곰형의 연애 철학',
+    matchEmoji: '🦊',
+    matchTitle: '찰떡 궁합: 순수 여우 타입',
+    matchText: '당신의 진심을 받아줄 수 있는 상대가 필요해요. 여우 타입이 이끌고 당신이 든든하게 받쳐주는 케미가 최고예요.',
+    vibe: '"저 사람은 진짜다"는 말을 가장 많이 듣는 타입이에요. 화려하진 않지만, 곁에 있으면 안심이 되고 믿음이 가는 사람. 연애를 오래 하면 할수록 이 사람의 진가가 드러나요.'
+  };
+}
+
+let foxScore = 0;
+let bearScore = 0;
+let currentQ = 0;
+
+function updateLiveGauge() {
+  const total = foxScore + bearScore;
+  if (total === 0) return;
+  const foxPct = Math.round((foxScore / total) * 100);
+  const bearPct = 100 - foxPct;
+  document.getElementById('live-bear').style.width = bearPct + '%';
+  document.getElementById('live-fox').style.width = foxPct + '%';
+}
+
+function showOverlay(emoji, title, sub, cb) {
+  const el = document.getElementById('scene-overlay');
+  document.getElementById('overlay-emoji').textContent = emoji;
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-sub').textContent = sub;
+  el.classList.add('show');
+  setTimeout(() => { el.classList.remove('show'); setTimeout(cb, 350); }, 1000);
+}
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  showOverlay('🐾', '테스트를 시작합니다', '솔직할수록 정확해져요!', () => {
+    document.getElementById('quiz-screen').style.display = 'block';
+    showQuestion();
+  });
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('q-num').textContent = currentQ + 1;
+  document.getElementById('sit-icon').textContent = q.icon;
+  document.getElementById('sit-label').textContent = q.label;
+  document.getElementById('sit-text').textContent = q.sit;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn ' + (opt.fox ? 'fox-opt' : 'bear-opt');
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(opt.fox);
+    optDiv.appendChild(btn);
+  });
+
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none'; card.offsetHeight;
+  card.style.animation = 'fadeUp 0.3s ease';
+}
+
+function selectAnswer(isFox) {
+  if (isFox) foxScore++; else bearScore++;
+  currentQ++;
+  updateLiveGauge();
+
+  if (currentQ >= questions.length) {
+    const total = foxScore + bearScore;
+    const foxPct = Math.round((foxScore / total) * 100);
+    const bearPct = 100 - foxPct;
+    const r = getResult(foxScore, bearScore);
+    showOverlay(r.emoji, '결과가 나왔어요!', `곰 ${bearPct}% · 여우 ${foxPct}%`, showResult);
+    return;
+  }
+  showQuestion();
+}
+
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const total = foxScore + bearScore;
+  const foxPct = Math.round((foxScore / total) * 100);
+  const bearPct = 100 - foxPct;
+  const r = getResult(foxScore, bearScore);
+
+  // 헤더 꾸미기
+  const hero = document.getElementById('result-hero');
+  hero.style.setProperty('--hero-before', r.heroBefore);
+  hero.querySelector('::before');
+  document.querySelector('.result-hero::before');
+  // 직접 스타일 적용
+  hero.style.borderTopColor = 'transparent';
+  const beforeEl = document.createElement('style');
+  beforeEl.textContent = `.result-hero::before { background: ${r.heroBefore} !important; }`;
+  document.head.appendChild(beforeEl);
+
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-type-label').textContent = r.typeLabel;
+  document.getElementById('res-type-name').textContent = r.typeName;
+  document.getElementById('res-type-eng').textContent = r.typeEng;
+
+  const tag = document.getElementById('res-tag');
+  tag.textContent = r.tag;
+  tag.style.background = r.tagBg;
+  tag.style.color = r.tagColor;
+  tag.style.border = `1px solid ${r.tagBorder}`;
+
+  // 게이지
+  setTimeout(() => {
+    document.getElementById('fgb-bear').style.width = bearPct + '%';
+    document.getElementById('fgb-bear-txt').textContent = bearPct > 12 ? bearPct + '%' : '';
+    document.getElementById('fgb-fox').style.width = foxPct + '%';
+    document.getElementById('fgb-fox-txt').textContent = foxPct > 12 ? foxPct + '%' : '';
+    document.getElementById('bear-pct-lbl').textContent = bearPct;
+    document.getElementById('fox-pct-lbl').textContent = foxPct;
+  }, 200);
+
+  document.getElementById('res-analysis-title').textContent = r.analysisTitle;
+  document.getElementById('res-analysis').innerHTML = r.analysis;
+
+  const tClass = r.traitClass;
+  document.getElementById('res-traits').innerHTML = r.traits.map(t => `<span class="trait-tag ${tClass}">${t}</span>`).join('');
+  document.getElementById('res-behaviors').innerHTML = r.behaviors.map(b => `<span class="trait-tag ${tClass}">${b}</span>`).join('');
+
+  document.getElementById('res-quote').textContent = r.quote;
+  document.getElementById('res-quote-name').textContent = r.quoteName;
+  document.getElementById('match-emoji').textContent = r.matchEmoji;
+  document.getElementById('match-title').textContent = r.matchTitle;
+  document.getElementById('match-text').textContent = r.matchText;
+  document.getElementById('res-vibe').innerHTML = r.vibe;
+
+  document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.typeName;
+  document.getElementById('sc-sub').textContent = `곰 ${bearPct}% · 여우 ${foxPct}%`;
+  document.getElementById('sc-tag').textContent = r.tag;
+  if (!fromUrl) history.replaceState(null, '', '?r=' + foxPct);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크 복사해서 공유하기', 2000);
+  });
+}
+
+function restartTest() {
+  foxScore = 0; bearScore = 0; currentQ = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const rp = p.get('r');
+  if (rp !== null) {
+    const foxPct = parseInt(rp);
+    if (!isNaN(foxPct)) {
+      const total = 12;
+      foxScore = Math.round(foxPct / 100 * total);
+      bearScore = total - foxScore;
+      document.getElementById('intro-screen') && (document.getElementById('intro-screen').style.display = 'none');
+      document.getElementById('quiz-screen') && (document.getElementById('quiz-screen').style.display = 'none');
+      showResult(true);
+    }
+  }
+})();
+</script>
+</body>
+</html>

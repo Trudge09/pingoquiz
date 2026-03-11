@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍽️ 나는 어떤 음식 유형?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784"
+     crossorigin="anonymous"></script>
+
+  <!-- OG 태그: 카톡/SNS 공유 미리보기 -->
+  <meta property="og:title" content="나는 어떤 음식 유형? 🍽️" />
+  <meta property="og:description" content="12문항으로 알아보는 나의 음식 성격! 나는 피자형? 스시형? 라면형?" />
+  <meta property="og:image" content="https://pingoquiz-foodmbti.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz-foodmbti.netlify.app" />
+  <meta property="og:type" content="website" />
+
+  <style>
+    :root {
+      --bg: #fff8f0;
+      --card: #ffffff;
+      --primary: #ff6b35;
+      --secondary: #ffd166;
+      --accent: #06d6a0;
+      --dark: #2d2d2d;
+      --muted: #888;
+      --radius: 20px;
+      --shadow: 0 8px 32px rgba(255,107,53,0.13);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background-image:
+        radial-gradient(circle at 10% 20%, #ffe0cc44 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, #ffd16633 0%, transparent 50%);
+    }
+
+    h1 {
+      font-family: 'Jua', cursive;
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 6px;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 560px;
+      animation: fadeUp 0.4s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .progress-bar-wrap {
+      background: #f0e8e0;
+      border-radius: 99px;
+      height: 8px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 99px;
+      transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    .q-num {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .q-text {
+      font-family: 'Jua', cursive;
+      font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+      color: var(--dark);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #fff5ef;
+      border: 2.5px solid #f0e0d0;
+      border-radius: 14px;
+      padding: 16px 20px;
+      text-align: left;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 1rem;
+      color: var(--dark);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-btn:hover {
+      background: #fff0e4;
+      border-color: var(--primary);
+      transform: translateX(6px);
+      box-shadow: 0 4px 16px rgba(255,107,53,0.12);
+    }
+
+    .option-btn .emoji {
+      font-size: 1.5rem;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    /* Start screen */
+    #start-screen {
+      text-align: center;
+    }
+
+    .start-emoji {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 20px;
+      animation: bounce 1.6s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .start-desc {
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.8;
+      font-size: 0.97rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #ff9b5e);
+      color: white;
+      border: none;
+      border-radius: 99px;
+      padding: 16px 48px;
+      font-family: 'Jua', cursive;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(255,107,53,0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      letter-spacing: 1px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(255,107,53,0.38);
+    }
+
+    /* Result screen */
+    #result-screen { text-align: center; display: none; }
+
+    .result-food-emoji {
+      font-size: 6rem;
+      display: block;
+      margin-bottom: 16px;
+      animation: pop 0.5s cubic-bezier(.36,1.6,.4,1);
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.3); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .result-type {
+      font-family: 'Jua', cursive;
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .result-tag {
+      display: inline-block;
+      background: var(--secondary);
+      color: #7a5c00;
+      border-radius: 99px;
+      padding: 4px 18px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .result-desc {
+      color: #555;
+      line-height: 1.8;
+      font-size: 0.97rem;
+      margin-bottom: 28px;
+      text-align: left;
+      background: #fff8f0;
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+
+    .result-traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .trait {
+      background: #f0faf7;
+      color: #04a07a;
+      border: 1.5px solid #b5ead9;
+      border-radius: 99px;
+      padding: 5px 15px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .compatible {
+      background: #fff5ef;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 28px;
+    }
+
+    .compatible strong { color: var(--primary); }
+
+    .retry-btn {
+      background: #f5f5f5;
+      color: #555;
+      border: 2px solid #e0e0e0;
+      border-radius: 99px;
+      padding: 13px 36px;
+      font-family: 'Jua', cursive;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .retry-btn:hover {
+      background: #fff0e4;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* 카카오 공유 버튼 */
+    .share-section {
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .share-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .kakao-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FEE500;
+      color: #3C1E1E;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 3px 12px rgba(254,229,0,0.4);
+    }
+
+    .kakao-btn:hover {
+      background: #F5D800;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(254,229,0,0.5);
+    }
+
+    .kakao-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* 광고 자리 */
+    .ad-slot {
+      width: 100%;
+      max-width: 560px;
+      margin: 16px 0;
+      background: #f9f9f9;
+      border: 2px dashed #ddd;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      color: #bbb;
+      font-size: 0.82rem;
+    }
+
+    .ad-slot-top {
+      margin-bottom: 0;
+    }
+
+    /* hidden utility */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="ad-slot ad-slot-top">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784"
+     crossorigin="anonymous"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2274221145664784"
+     data-ad-slot="7164108177"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<div class="card" id="start-screen">
+  <span class="start-emoji">🍽️</span>
+  <h1>나는 어떤 음식 유형?</h1>
+  <p class="subtitle">MBTI 기반 음식 성격 테스트</p>
+  <p class="start-desc">
+    12개의 질문으로 알아보는<br />
+    <strong>나의 음식 성격 유형!</strong><br /><br />
+    🍕 피자형인지, 🍣 스시형인지,<br />
+    아니면 🍜 라면형인지 지금 바로 확인해보세요 😄
+  </p>
+  <button class="btn-primary" onclick="startTest()">테스트 시작하기 🚀</button>
+</div>
+
+<div class="card hidden" id="quiz-screen">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+  <div class="q-num" id="q-num">질문 1 / 12</div>
+  <div class="q-text" id="q-text"></div>
+  <div class="options" id="options"></div>
+</div>
+
+<div class="card" id="result-screen">
+  <span class="result-food-emoji" id="result-emoji"></span>
+  <div class="result-type" id="result-type"></div>
+  <div class="result-tag" id="result-tag"></div>
+  <div class="result-desc" id="result-desc"></div>
+  <div class="result-traits" id="result-traits"></div>
+  <div class="compatible" id="result-compat"></div>
+
+  <!-- 공유 버튼 -->
+  <div class="share-section">
+    <div class="share-label">📣 친구에게 공유하기</div>
+    <button class="kakao-btn" onclick="copyLink(this)">
+      🔗 링크 복사하기
+    </button>
+  </div>
+
+  <div class="ad-slot" style="margin-top:20px; margin-bottom:20px;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2274221145664784"
+         data-ad-slot="7164108177"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+
+  <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,rgba(255,140,0,0.12),rgba(255,140,0,0.04));border:1.5px solid rgba(255,140,0,0.35);border-radius:20px;padding:28px 24px 20px;text-align:center;">
+    <div style="font-size:0.72rem;color:#ff8c00;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+    <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+    <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+    <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+    <div id="sc-tag" style="display:inline-block;background:rgba(255,140,0,0.15);color:#ff8c00;border:1px solid rgba(255,140,0,0.4);border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+    <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+    <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz</div>
+  </div>
+  <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  <div style="text-align:center;margin-top:16px;font-size:0.62rem;color:rgba(150,150,150,0.35);letter-spacing:0.12em;">pingoquiz</div>
+</div>
+
+<script>
+  function copyLink(btn) {
+    const url = window.location.origin + window.location.pathname + window.location.search;
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = '✅ 링크 복사 완료!';
+      setTimeout(() => { btn.textContent = '🔗 링크 복사하기'; }, 2000);
+    });
+  }
+
+  // E/I, S/N, T/F, J/P 점수 누적
+  // 각 질문의 답변은 4가지 축 중 하나에 +1 점을 줍니다
+  // 축: E(0) vs I(1), S(2) vs N(3), T(4) vs F(5), J(6) vs P(7)
+
+  const questions = [
+    {
+      text: "🎉 주말에 친구들과 모임이 생겼어요! 나는...",
+      options: [
+        { text: "신나게 참여! 사람들이랑 있으면 에너지가 충전돼", emoji: "🥳", axis: 0 },
+        { text: "솔직히 집에서 혼자 쉬고 싶은데... 가야 하나 고민", emoji: "😌", axis: 1 }
+      ]
+    },
+    {
+      text: "🍽️ 새로운 식당을 고를 때 나는...",
+      options: [
+        { text: "리뷰, 별점, 메뉴 다 꼼꼼히 보고 결정해", emoji: "📱", axis: 2 },
+        { text: "그냥 느낌 좋아 보이면 들어가! 직감을 믿어", emoji: "✨", axis: 3 }
+      ]
+    },
+    {
+      text: "🤔 친구가 실연을 당했을 때 나는...",
+      options: [
+        { text: "\"왜 헤어졌어? 어떻게 해결할 수 있을까\" 원인 분석부터", emoji: "🧠", axis: 4 },
+        { text: "\"많이 힘들겠다ㅠㅠ\" 일단 마음을 공감해줘", emoji: "🫂", axis: 5 }
+      ]
+    },
+    {
+      text: "📅 내 하루 일정은...",
+      options: [
+        { text: "미리 계획 짜두고 그대로 움직이는 게 좋아", emoji: "🗓️", axis: 6 },
+        { text: "그날그날 기분 따라! 즉흥이 제맛", emoji: "🎲", axis: 7 }
+      ]
+    },
+    {
+      text: "🍕 피자를 먹을 때 나는...",
+      options: [
+        { text: "사람들이랑 크게 시켜서 나눠 먹는 게 좋아", emoji: "👥", axis: 0 },
+        { text: "내 취향대로 혼자 먹는 게 훨씬 좋아", emoji: "🙋", axis: 1 }
+      ]
+    },
+    {
+      text: "🌶️ 음식 맛을 표현할 때 나는...",
+      options: [
+        { text: "\"이거 진짜 맛있다! 육수가 깊고 면발이 탱탱해\" 구체적으로", emoji: "📝", axis: 2 },
+        { text: "\"뭔가... 따뜻한 느낌? 기분이 좋아지는 맛이야\" 감성적으로", emoji: "🌈", axis: 3 }
+      ]
+    },
+    {
+      text: "🍣 맛집 줄을 1시간 기다릴 때 나는...",
+      options: [
+        { text: "\"이 시간에 다른 걸 할 수 있었는데...\" 비효율이 싫어", emoji: "⏱️", axis: 4 },
+        { text: "\"기다리는 것도 설레잖아\" 과정도 즐거워", emoji: "😊", axis: 5 }
+      ]
+    },
+    {
+      text: "🛒 마트에서 장을 볼 때 나는...",
+      options: [
+        { text: "살 것 미리 리스트 만들어 가서 딱 그것만 사", emoji: "✅", axis: 6 },
+        { text: "가서 눈에 보이는 거 사다 보면 카트가 가득", emoji: "🛍️", axis: 7 }
+      ]
+    },
+    {
+      text: "🎤 단체 모임에서 나는...",
+      options: [
+        { text: "분위기 메이커! 대화 주도하고 분위기 이끄는 편", emoji: "🎉", axis: 0 },
+        { text: "조용히 들으면서 분위기 파악하는 편", emoji: "👂", axis: 1 }
+      ]
+    },
+    {
+      text: "🍜 라면 먹을 때 스프 양은...",
+      options: [
+        { text: "정해진 양 그대로! 레시피가 있는 건 이유가 있어", emoji: "📏", axis: 2 },
+        { text: "조금 넣어봤다가 더 넣어봤다가... 그때그때 달라요", emoji: "🎨", axis: 3 }
+      ]
+    },
+    {
+      text: "🍰 음식 선택에서 나는...",
+      options: [
+        { text: "칼로리, 영양, 가격 따져서 합리적으로 선택해", emoji: "⚖️", axis: 4 },
+        { text: "먹고 싶으면 그냥 먹어! 행복이 먼저야", emoji: "💛", axis: 5 }
+      ]
+    },
+    {
+      text: "🍽️ 오늘 저녁 뭐 먹을지 정할 때 나는...",
+      options: [
+        { text: "아침부터 이미 오늘 저녁 메뉴 결정해뒀어", emoji: "🗂️", axis: 6 },
+        { text: "배고파질 때쯤 생각해보는 거지 뭐", emoji: "🤷", axis: 7 }
+      ]
+    }
+  ];
+
+  const results = {
+    "ESTJ": { emoji: "🍖", name: "바베큐 갈비형", tag: "든든한 리더", desc: "원칙과 계획을 중시하는 당신은 묵직하고 중심 잡힌 바베큐 갈비 같은 존재예요! 모임을 이끌고, 실속 있게 즐기는 걸 좋아하죠. 사람들에게 든든한 에너지를 주는 타입!", traits: ["리더십 최강", "계획의 달인", "책임감 폭발", "현실주의자"], compat: "🍜 라면형과 찰떡 궁합! 서로 부족한 걸 채워줘요." },
+    "ESTP": { emoji: "🌮", name: "타코형", tag: "자유로운 에너자이저", desc: "손에 들고 어디서나 즐기는 타코처럼, 당신은 어디서든 활력이 넘쳐요! 즉흥적이고 자유롭게 새로운 상황을 즐기는 스타일. 인생을 신나게 즐길 줄 아는 타입이에요.", traits: ["에너지 폭발", "즉흥의 귀재", "적응력 끝판", "행동파"], compat: "🍣 스시형과 잘 맞아요! 서로 배울 게 많은 조합." },
+    "ESFJ": { emoji: "🍲", name: "따뜻한 찌개형", tag: "따뜻한 분위기 메이커", desc: "모두를 따뜻하게 품어주는 찌개처럼, 당신은 주변 사람을 챙기고 함께하는 걸 좋아해요. 분위기를 만들고 사람들을 연결하는 소셜 허브 같은 존재!", traits: ["공감 왕", "배려심 만렙", "분위기 제조기", "협력 최고"], compat: "🍕 피자형과 최고의 궁합! 함께라면 무적이에요." },
+    "ESFP": { emoji: "🍭", name: "솜사탕형", tag: "달콤한 즐거움 그 자체", desc: "눈에 띄고 달콤하고 행복한 솜사탕처럼, 당신은 주변을 즐겁고 화사하게 만들어요! 현재를 충분히 즐기고 사람들에게 기쁨을 주는 스타일이에요.", traits: ["긍정 에너지", "현재 충실", "분위기 UP", "자유로운 영혼"], compat: "🍰 케이크형과 달콤한 궁합! 함께 있으면 행복해요." },
+    "ENTJ": { emoji: "🥩", name: "스테이크형", tag: "카리스마 넘치는 리더", desc: "고급스럽고 강렬한 스테이크처럼, 당신은 목표를 향해 강하게 나아가요. 비전을 세우고 팀을 이끄는 데 탁월한 능력을 가졌어요. 강렬하고 인상적인 존재!", traits: ["카리스마 폭발", "전략의 달인", "추진력 최강", "비전 메이커"], compat: "🍜 라면형과 흥미로운 궁합! 서로 자극을 줘요." },
+    "ENTP": { emoji: "🌯", name: "부리또형", tag: "창의적인 아이디어뱅크", desc: "다양한 재료가 가득 찬 부리또처럼, 당신의 머릿속에는 아이디어가 넘쳐나요! 창의적이고 논쟁을 즐기며 새로운 가능성을 탐구하는 걸 좋아하죠.", traits: ["아이디어 폭발", "창의력 만렙", "논쟁 애호가", "가능성 탐험가"], compat: "🍣 스시형과 지적 궁합 최고! 끝없이 대화할 수 있어요." },
+    "ENFJ": { emoji: "🍕", name: "피자형", tag: "모두를 하나로 잇는 존재", desc: "모두가 좋아하고 나눠 먹는 피자처럼, 당신은 사람들을 하나로 모으는 능력이 있어요! 공감 능력이 뛰어나고 다른 사람의 성장을 돕는 것에서 보람을 느껴요.", traits: ["공감력 최강", "리더십 넘침", "사람 좋아", "성장 응원단"], compat: "🍲 찌개형과 환상 궁합! 따뜻함이 두 배로 늘어나요." },
+    "ENFP": { emoji: "🍰", name: "케이크형", tag: "달콤한 상상력 부자", desc: "화려하고 다양한 케이크처럼, 당신은 상상력이 풍부하고 열정이 넘쳐요! 새로운 가능성을 보고 사람들에게 영감을 주는 특별한 존재예요.", traits: ["상상력 만렙", "열정 폭발", "영감 제조기", "가능성 신봉자"], compat: "🌮 타코형과 에너지 넘치는 궁합! 함께면 무엇이든 가능해요." },
+    "ISTJ": { emoji: "🍱", name: "도시락형", tag: "믿음직한 완벽주의자", desc: "꼼꼼하게 준비된 도시락처럼, 당신은 책임감 있고 체계적이에요. 한번 맡은 일은 끝까지 해내는 신뢰의 아이콘! 든든하고 안정적인 존재예요.", traits: ["책임감 최강", "완벽주의자", "체계적", "믿음직함"], compat: "🍕 피자형과 보완 궁합! 서로의 빈틈을 채워줘요." },
+    "ISTP": { emoji: "🍜", name: "라면형", tag: "쿨한 실용주의자", desc: "단순하지만 깊은 맛을 가진 라면처럼, 당신은 겉으로는 쿨해 보이지만 내면이 깊어요. 손재주가 좋고 실용적이며, 필요할 때 빠르게 문제를 해결하죠.", traits: ["쿨함 폭발", "실용적", "손재주 갑", "독립적"], compat: "🥩 스테이크형과 의외의 궁합! 서로 자극이 돼요." },
+    "ISFJ": { emoji: "🍞", name: "따뜻한 빵형", tag: "따뜻한 수호천사", desc: "갓 구운 빵처럼 따뜻하고 포근한 당신은 주변 사람을 세심하게 돌보는 수호천사예요! 조용하지만 없어서는 안 될 소중한 존재랍니다.", traits: ["세심함 최강", "배려의 신", "조용한 강자", "헌신적"], compat: "🎉 타코형과 재미있는 궁합! 균형이 잘 맞아요." },
+    "ISFP": { emoji: "🍣", name: "스시형", tag: "감성적인 예술가", desc: "정갈하고 섬세한 스시처럼, 당신은 아름다움을 느끼고 표현하는 감성 예술가예요. 자유롭고 개성 있으며, 나만의 방식으로 세상을 즐겨요.", traits: ["감성 최강", "예술적", "자유로운 영혼", "개성파"], compat: "🍰 케이크형과 감성 궁합 최고! 서로 영감을 줘요." },
+    "INTJ": { emoji: "☕", name: "블랙커피형", tag: "냉철한 전략가", desc: "쓴 맛 뒤에 깊은 향이 있는 블랙커피처럼, 당신은 겉으로는 냉철하지만 깊은 통찰력을 가지고 있어요. 독자적이고 전략적으로 목표를 향해 나아가죠.", traits: ["전략적 사고", "독립적", "통찰력 갑", "냉철한 현실주의"], compat: "🌯 부리또형과 지적 궁합! 깊은 대화를 나눌 수 있어요." },
+    "INTP": { emoji: "🍦", name: "소프트아이스크림형", tag: "철학적인 몽상가", desc: "부드럽지만 다양한 가능성을 가진 소프트아이스크림처럼, 당신은 끝없이 생각하고 분석하는 걸 즐겨요. 독창적인 아이디어로 주변을 놀라게 하죠.", traits: ["분석력 최강", "창의적 사고", "철학적", "독창적"], compat: "☕ 블랙커피형과 깊은 궁합! 밤새 대화해도 모자라요." },
+    "INFJ": { emoji: "🍵", name: "녹차형", tag: "신비로운 통찰자", desc: "은은하고 깊은 녹차처럼, 당신은 겉으로는 조용하지만 깊은 내면을 가지고 있어요. 사람들의 마음을 잘 이해하고 세상에 긍정적인 영향을 미치고 싶어하죠.", traits: ["공감력 최강", "직관적", "신비로운 매력", "이상주의자"], compat: "🍦 소프트아이스크림형과 감성 궁합! 서로를 깊이 이해해요." },
+    "INFP": { emoji: "🫐", name: "블루베리형", tag: "낭만적인 이상주의자", desc: "작지만 강렬한 블루베리처럼, 당신은 조용하지만 강한 가치관과 풍부한 감성을 가지고 있어요. 세상을 더 아름답게 만들고 싶은 낭만적인 몽상가예요.", traits: ["감성 부자", "이상주의", "창의적", "깊은 공감력"], compat: "🍵 녹차형과 환상 궁합! 서로의 가치관이 잘 맞아요." }
+  };
+
+  let scores = [0, 0, 0, 0, 0, 0, 0, 0]; // E,I,S,N,T,F,J,P
+  let currentQ = 0;
+
+  function startTest() {
+    scores = [0, 0, 0, 0, 0, 0, 0, 0];
+    currentQ = 0;
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[currentQ];
+    const total = questions.length;
+    const pct = (currentQ / total) * 100;
+
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('q-num').textContent = `질문 ${currentQ + 1} / ${total}`;
+    document.getElementById('q-text').textContent = q.text;
+
+    const optDiv = document.getElementById('options');
+    optDiv.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span class="emoji">${opt.emoji}</span><span>${opt.text}</span>`;
+      btn.onclick = () => selectAnswer(opt.axis);
+      optDiv.appendChild(btn);
+    });
+
+    // Animate
+    const card = document.getElementById('quiz-screen');
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'fadeUp 0.35s ease';
+  }
+
+  function selectAnswer(axis) {
+    scores[axis]++;
+    currentQ++;
+    if (currentQ >= questions.length) {
+      showResult();
+    } else {
+      showQuestion();
+    }
+  }
+
+  function getMBTI() {
+    const e = scores[0] >= scores[1] ? 'E' : 'I';
+    const s = scores[2] >= scores[3] ? 'S' : 'N';
+    const t = scores[4] >= scores[5] ? 'T' : 'F';
+    const j = scores[6] >= scores[7] ? 'J' : 'P';
+    return e + s + t + j;
+  }
+
+  function showResult() {
+    document.getElementById('quiz-screen').classList.add('hidden');
+    const rs = document.getElementById('result-screen');
+    rs.style.display = 'block';
+
+    const mbti = getMBTI();
+    const r = results[mbti];
+
+    document.getElementById('result-emoji').textContent = r.emoji;
+    document.getElementById('result-type').textContent = r.name;
+    document.getElementById('result-tag').textContent = `#${r.tag}`;
+    document.getElementById('result-desc').textContent = r.desc;
+
+    const traitsDiv = document.getElementById('result-traits');
+    traitsDiv.innerHTML = r.traits.map(t => `<span class="trait">${t}</span>`).join('');
+
+    document.getElementById('result-compat').innerHTML = `<strong>💕 나와 잘 맞는 음식 유형?</strong><br/>${r.compat}`;
+
+    // 공유 카드 업데이트
+    document.getElementById('sc-emoji').textContent = r.emoji;
+    document.getElementById('sc-title').textContent = r.name;
+    document.getElementById('sc-sub').textContent = '#' + r.tag;
+    document.getElementById('sc-tag').textContent = 'MBTI 음식 유형 테스트';
+
+    // URL 업데이트
+    history.replaceState(null, '', '?r=' + mbti);
+
+    rs.style.animation = 'none';
+    rs.offsetHeight;
+    rs.style.animation = 'fadeUp 0.4s ease';
+  }
+
+  function restartTest() {
+    document.getElementById('result-screen').style.display = 'none';
+    document.getElementById('start-screen').classList.remove('hidden');
+    document.getElementById('start-screen').style.animation = 'none';
+    document.getElementById('start-screen').offsetHeight;
+    document.getElementById('start-screen').style.animation = 'fadeUp 0.4s ease';
+  }
+
+  // URL 파라미터로 결과 바로 표시
+  (function() {
+    const p = new URLSearchParams(window.location.search);
+    const r = p.get('r');
+    if (r && r.length === 4) {
+      // MBTI 문자열로 점수 복원
+      const axes = ['EI','SN','TF','JP'];
+      axes.forEach((ax, i) => {
+        const ch = r[i];
+        const idx = i * 2 + (ax.indexOf(ch) >= 0 ? ax.indexOf(ch) : 0);
+        if (typeof scores !== 'undefined') scores[idx] = 5;
+      });
+      document.getElementById('result-screen').style.display = 'block';
+      document.getElementById('intro-screen') && (document.getElementById('intro-screen').style.display = 'none');
+      showResult();
+    }
+  })();
+</script>
+</body>
+</html>

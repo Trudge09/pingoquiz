@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나의 에겐력 테토력 측정기 🧬 나는 몇 % 테토?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="나의 에겐력 테토력 측정기 🧬" />
+  <meta property="og:description" content="나는 몇 % 테토? 몇 % 에겐? 12문항으로 정밀 측정해드립니다" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/teto" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #0a0a12;
+      --card: #111120;
+      --card2: #181828;
+      --teto: #ff6b9d;
+      --teto2: #ff9ebf;
+      --egen: #7b9eff;
+      --egen2: #adc4ff;
+      --text: #f0f0ff;
+      --muted: #6060a0;
+      --border: #22223a;
+      --radius: 18px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(255,107,157,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(123,158,255,0.06) 0%, transparent 50%);
+    }
+
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--teto), var(--teto2), #fff, var(--egen2), var(--egen));
+    }
+
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1.5px dashed rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* 씬 오버레이 */
+    #scene-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: #050510;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; padding: 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+      text-align: center;
+    }
+    #scene-overlay.show { opacity: 1; pointer-events: all; }
+    .overlay-emoji { font-size: 3rem; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+    .overlay-title { font-family: 'Jua', cursive; font-size: 1.2rem; color: #fff; }
+    .overlay-sub { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 40px 0 32px; animation: fadeUp 0.6s ease; }
+    .back-btn {
+      display: block; text-align: left;
+      color: var(--muted); font-size: 0.85rem; text-decoration: none;
+      margin-bottom: 24px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--teto); }
+
+    /* 테토/에겐 로고 */
+    .te-eg-logo {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; margin-bottom: 20px;
+    }
+    .logo-teto {
+      background: linear-gradient(135deg, var(--teto), var(--teto2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'Jua', cursive; font-size: 3.5rem; line-height: 1;
+    }
+    .logo-vs {
+      font-family: 'Jua', cursive; font-size: 1.2rem;
+      color: #ffffff30; margin: 0 10px; margin-top: 16px;
+    }
+    .logo-egen {
+      background: linear-gradient(135deg, var(--egen), var(--egen2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'Jua', cursive; font-size: 3.5rem; line-height: 1;
+    }
+
+    h1 {
+      font-family: 'Jua', cursive;
+      font-size: clamp(1.4rem, 5vw, 2rem); margin-bottom: 6px;
+      color: #fff;
+    }
+    .intro-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 24px; }
+
+    /* 측정기 카드 */
+    .meter-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 20px;
+      margin-bottom: 24px; text-align: left;
+      position: relative; overflow: hidden;
+    }
+    .meter-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--teto), #fff, var(--egen));
+    }
+    .meter-card-title {
+      font-family: 'Jua', cursive; font-size: 0.85rem;
+      color: var(--muted); margin-bottom: 16px; letter-spacing: 2px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* 가로 게이지 */
+    .gauge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .gauge-label { font-size: 0.8rem; font-weight: 700; min-width: 40px; }
+    .gauge-bar {
+      flex: 1; height: 10px; background: var(--border);
+      border-radius: 99px; overflow: hidden; position: relative;
+    }
+    .gauge-fill {
+      height: 100%; border-radius: 99px;
+      transition: width 1s cubic-bezier(.4,0,.2,1);
+    }
+    .gauge-val { font-size: 0.8rem; font-weight: 700; min-width: 36px; text-align: right; }
+
+    .meter-desc { font-size: 0.85rem; color: #5050a0; line-height: 1.7; margin-top: 14px; }
+    .meter-desc .t { color: var(--teto); font-weight: 700; }
+    .meter-desc .e { color: var(--egen); font-weight: 700; }
+
+    .start-btn {
+      background: linear-gradient(135deg, #8b3fa0, var(--teto));
+      color: white; border: none; border-radius: 99px;
+      padding: 18px 52px; font-family: 'Jua', cursive;
+      font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 6px 28px rgba(255,107,157,0.3);
+      transition: all 0.15s ease;
+    }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(255,107,157,0.4); }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 28px 0; display: none; }
+
+    /* 진행 헤더 */
+    .quiz-header { margin-bottom: 14px; }
+    .quiz-header-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .q-badge {
+      font-size: 0.75rem; color: var(--muted);
+      font-weight: 700; letter-spacing: 1px;
+    }
+    .live-badge {
+      background: rgba(255,107,157,0.15); color: var(--teto);
+      border: 1px solid rgba(255,107,157,0.25);
+      border-radius: 99px; padding: 3px 12px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+      animation: blink 1.5s ease infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* 실시간 게이지 */
+    .live-gauge {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    }
+    .lg-label { font-size: 0.72rem; font-weight: 700; min-width: 36px; }
+    .lg-label.teto { color: var(--teto); }
+    .lg-label.egen { color: var(--egen); }
+    .lg-bar {
+      flex: 1; height: 8px; background: var(--border);
+      border-radius: 99px; overflow: hidden; position: relative;
+    }
+    .lg-fill-teto {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--teto), var(--teto2));
+      border-radius: 99px; transition: width 0.5s ease;
+    }
+    .lg-fill-egen {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      background: linear-gradient(270deg, var(--egen), var(--egen2));
+      border-radius: 99px; transition: width 0.5s ease;
+    }
+
+    /* 상황 배너 */
+    .situation-banner {
+      background: var(--card2); border-radius: 12px;
+      padding: 12px 15px; margin-bottom: 12px;
+      border-left: 3px solid var(--border);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .situation-banner.teto-hint { border-left-color: rgba(255,107,157,0.4); }
+    .situation-banner.egen-hint { border-left-color: rgba(123,158,255,0.4); }
+    .sit-icon { font-size: 1.4rem; min-width: 28px; }
+    .sit-body { font-size: 0.82rem; color: #5050a0; line-height: 1.7; }
+    .sit-label { font-size: 0.7rem; color: var(--muted); font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px; }
+
+    .quiz-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 26px 22px;
+      animation: fadeUp 0.3s ease; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--teto), #fff, var(--egen));
+    }
+
+    .q-text {
+      font-family: 'Jua', cursive; font-size: clamp(1.05rem, 3.5vw, 1.2rem);
+      color: var(--text); margin-bottom: 18px; line-height: 1.6;
+    }
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .option-btn {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 13px; padding: 14px 16px;
+      text-align: left; color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.18s ease;
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+      position: relative; overflow: hidden;
+    }
+    .option-btn.teto-opt:hover {
+      border-color: var(--teto); background: rgba(255,107,157,0.08);
+      transform: translateX(4px);
+    }
+    .option-btn.egen-opt:hover {
+      border-color: var(--egen); background: rgba(123,158,255,0.08);
+      transform: translateX(4px);
+    }
+    .opt-icon { font-size: 1.2rem; min-width: 26px; }
+
+    /* 결과 */
+    #result-screen { padding: 28px 0; display: none; animation: fadeUp 0.5s ease; }
+
+    /* 최종 측정 결과 카드 */
+    .result-header-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 24px;
+      text-align: center; margin-bottom: 16px;
+      position: relative; overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .result-header-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--teto), #fff, var(--egen));
+    }
+
+    .res-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; letter-spacing: 3px; margin-bottom: 16px; }
+    .res-emoji-big { font-size: 5rem; display: block; margin-bottom: 14px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,150,150,0.3)); }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    .res-type-name {
+      font-family: 'Jua', cursive; font-size: 1.8rem; margin-bottom: 4px;
+    }
+    .res-type-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 20px; }
+
+    /* 최종 게이지 */
+    .final-gauge-wrap { margin-bottom: 20px; }
+    .final-gauge-labels {
+      display: flex; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .fgl { font-family: 'Jua', cursive; font-size: 1rem; }
+    .fgl.teto { color: var(--teto); }
+    .fgl.egen { color: var(--egen); }
+    .final-gauge-bar {
+      height: 20px; border-radius: 99px; overflow: hidden;
+      background: var(--border); position: relative;
+    }
+    .fgb-teto {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--teto), var(--teto2));
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: flex-end;
+      padding-right: 8px;
+    }
+    .fgb-teto-pct { font-size: 0.75rem; font-weight: 700; color: white; }
+    .fgb-egen {
+      position: absolute; right: 0; top: 0; bottom: 0;
+      background: linear-gradient(270deg, var(--egen), var(--egen2));
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: flex-start;
+      padding-left: 8px;
+    }
+    .fgb-egen-pct { font-size: 0.75rem; font-weight: 700; color: white; }
+
+    .res-tag {
+      display: inline-block; border-radius: 99px;
+      padding: 5px 20px; font-size: 0.85rem; font-weight: 700;
+      margin-bottom: 0;
+    }
+
+    /* 분석 섹션 */
+    .analysis-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+      margin-bottom: 14px; box-shadow: var(--shadow);
+    }
+    .analysis-title {
+      font-family: 'Jua', cursive; font-size: 0.95rem;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .analysis-text { font-size: 0.9rem; color: #7070b0; line-height: 1.9; }
+    .analysis-text strong { color: var(--text); font-weight: 700; }
+
+    /* 특성 태그 */
+    .trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .trait-box {
+      background: var(--card2); border-radius: 14px; padding: 14px;
+      border: 1px solid var(--border);
+    }
+    .trait-title { font-family: 'Jua', cursive; font-size: 0.82rem; margin-bottom: 8px; }
+    .trait-tag {
+      display: inline-block; border-radius: 99px;
+      padding: 3px 10px; font-size: 0.75rem; font-weight: 700;
+      margin: 2px;
+    }
+    .trait-tag.t {
+      background: rgba(255,107,157,0.1); color: var(--teto);
+      border: 1px solid rgba(255,107,157,0.2);
+    }
+    .trait-tag.e {
+      background: rgba(123,158,255,0.1); color: var(--egen);
+      border: 1px solid rgba(123,158,255,0.2);
+    }
+
+    /* 찰떡 궁합 */
+    .match-card {
+      background: var(--card2); border-radius: 14px; padding: 18px;
+      border: 1px solid var(--border); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .match-icon { font-size: 2.5rem; }
+    .match-body { flex: 1; }
+    .match-title { font-family: 'Jua', cursive; font-size: 0.9rem; color: var(--text); margin-bottom: 6px; }
+    .match-text { font-size: 0.82rem; color: #5050a0; line-height: 1.7; }
+
+    .share-btn {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(123,158,255,0.15));
+      color: var(--text); border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 99px; padding: 14px;
+      font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px;
+    }
+    .share-btn:hover { background: linear-gradient(135deg, rgba(255,107,157,0.25), rgba(123,158,255,0.25)); }
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: 99px;
+      padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .retry-btn:hover { border-color: var(--teto); color: var(--teto); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+
+<div id="scene-overlay">
+  <div class="overlay-emoji" id="overlay-emoji">🧬</div>
+  <div class="overlay-title" id="overlay-title"></div>
+  <div class="overlay-sub" id="overlay-sub"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="te-eg-logo">
+      <span class="logo-teto">테토</span>
+      <span class="logo-vs">VS</span>
+      <span class="logo-egen">에겐</span>
+    </div>
+    <h1>나의 에겐력·테토력<br/>정밀 측정기 🧬</h1>
+    <p class="intro-sub">나는 몇 % 테토? 몇 % 에겐? 12문항으로 알아봐요</p>
+
+    <div class="meter-card">
+      <div class="meter-card-title">📊 측정 전 미리 보기</div>
+
+      <div class="gauge-row">
+        <span class="gauge-label" style="color:var(--teto)">테토력</span>
+        <div class="gauge-bar"><div class="gauge-fill" style="width:67%;background:linear-gradient(90deg,var(--teto),var(--teto2))"></div></div>
+        <span class="gauge-val" style="color:var(--teto)">67%</span>
+      </div>
+      <div class="gauge-row">
+        <span class="gauge-label" style="color:var(--egen)">에겐력</span>
+        <div class="gauge-bar"><div class="gauge-fill" style="width:33%;background:linear-gradient(90deg,var(--egen),var(--egen2))"></div></div>
+        <span class="gauge-val" style="color:var(--egen)">33%</span>
+      </div>
+
+      <div class="meter-desc">
+        <span class="t">테토</span>는 주도적·직진형·행동파,
+        <span class="e">에겐</span>은 감성적·공감형·섬세함.<br/>
+        어느 쪽이 더 강하게 나올지, 솔직하게 답해봐요!
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="startTest()">🧬 측정 시작하기</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="quiz-header">
+      <div class="quiz-header-top">
+        <div class="q-badge">QUESTION <span id="q-num">1</span> / 12</div>
+        <div class="live-badge">● LIVE 측정중</div>
+      </div>
+      <div class="live-gauge">
+        <span class="lg-label teto">테토</span>
+        <div class="lg-bar">
+          <div class="lg-fill-teto" id="live-teto" style="width:50%"></div>
+          <div class="lg-fill-egen" id="live-egen" style="width:50%"></div>
+        </div>
+        <span class="lg-label egen">에겐</span>
+      </div>
+    </div>
+
+    <div class="situation-banner" id="sit-banner">
+      <div class="sit-icon" id="sit-icon">💬</div>
+      <div class="sit-body">
+        <span class="sit-label" id="sit-label">상황</span>
+        <span id="sit-text"></span>
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-header-card">
+      <div class="res-label">🧬 에겐 · 테토 정밀 측정 결과</div>
+      <span class="res-emoji-big" id="res-emoji"></span>
+      <div class="res-type-name" id="res-type-name"></div>
+      <div class="res-type-sub" id="res-type-sub"></div>
+
+      <div class="final-gauge-wrap">
+        <div class="final-gauge-labels">
+          <span class="fgl teto">테토 <span id="teto-pct-label">0</span>%</span>
+          <span class="fgl egen">에겐 <span id="egen-pct-label">0</span>%</span>
+        </div>
+        <div class="final-gauge-bar">
+          <div class="fgb-teto" id="fgb-teto" style="width:0%">
+            <span class="fgb-teto-pct" id="fgb-teto-txt"></span>
+          </div>
+          <div class="fgb-egen" id="fgb-egen" style="width:0%">
+            <span class="fgb-egen-pct" id="fgb-egen-txt"></span>
+          </div>
+        </div>
+      </div>
+
+      <span class="res-tag" id="res-tag"></span>
+    </div>
+
+    <div class="analysis-card">
+      <div class="analysis-title" id="res-analysis-title">🔬 성향 분석</div>
+      <div class="analysis-text" id="res-analysis"></div>
+    </div>
+
+    <div class="trait-grid">
+      <div class="trait-box">
+        <div class="trait-title" id="trait1-title">✨ 강점</div>
+        <div id="res-strengths"></div>
+      </div>
+      <div class="trait-box">
+        <div class="trait-title" id="trait2-title">💬 연애 스타일</div>
+        <div id="res-love"></div>
+      </div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-icon" id="match-icon"></div>
+      <div class="match-body">
+        <div class="match-title" id="match-title"></div>
+        <div class="match-text" id="match-text"></div>
+      </div>
+    </div>
+
+    <div class="analysis-card">
+      <div class="analysis-title">🌟 이런 사람이에요</div>
+      <div class="analysis-text" id="res-vibe"></div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 친구한테 공유하기</button>
+  
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#ff6b9d1a,#ff6b9d08);border:1.5px solid #ff6b9d55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#ff6b9d;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#ff6b9d22;color:#ff6b9d;border:1px solid #ff6b9d55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 측정하기</button>
+
+    <!-- 광고 슬롯: 하단 -->
+    <div class="ad-slot" style="margin-top:16px;">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+</div>
+<script>
+const questions = [
+  {
+    icon: "📱", label: "일상",
+    sit: "카톡이 왔는데 읽었어요. 지금 바쁘진 않아요.",
+    text: "언제 답장해요?",
+    options: [
+      { text: "읽자마자 바로. 나중에 잊어버리면 어떡해", icon: "⚡", teto: 1 },
+      { text: "마음의 준비(?)가 됐을 때. 뭐라고 답할지 생각하고", icon: "💭", teto: 0 }
+    ]
+  },
+  {
+    icon: "🎉", label: "약속",
+    sit: "친구들이 주말에 갑자기 모이자고 했어요.",
+    text: "나의 반응은?",
+    options: [
+      { text: "ㅇㅋ 몇 시야? 어디야? 바로 콜", icon: "🙌", teto: 1 },
+      { text: "...일정 확인해보고. 사실 그냥 집에 있고 싶기도 해", icon: "🛋️", teto: 0 }
+    ]
+  },
+  {
+    icon: "💔", label: "갈등",
+    sit: "친구랑 사소하게 틀어졌어요.",
+    text: "어떻게 해요?",
+    options: [
+      { text: "내가 먼저 연락해. 이런 거 오래 끌기 싫어", icon: "📞", teto: 1 },
+      { text: "상대가 연락할 때까지 기다려. 내가 잘못한 것도 아닌데", icon: "🤐", teto: 0 }
+    ]
+  },
+  {
+    icon: "🍽️", label: "결정",
+    sit: "점심 메뉴를 정해야 해요.",
+    text: "내 스타일은?",
+    options: [
+      { text: "\"나 짬뽕 먹고 싶은데 우리 거기 가자\" 바로 픽", icon: "🥢", teto: 1 },
+      { text: "\"어디 가고 싶어?\" 먼저 물어봐. 나는 아무거나", icon: "🤷", teto: 0 }
+    ]
+  },
+  {
+    icon: "😢", label: "감정",
+    sit: "서운한 일이 있었어요.",
+    text: "어떻게 표현해요?",
+    options: [
+      { text: "바로 말해. \"나 그거 좀 서운했어\"", icon: "💬", teto: 1 },
+      { text: "그냥 참아. 말하기 뻘쭘하고 나중에 괜찮아지겠지", icon: "😶", teto: 0 }
+    ]
+  },
+  {
+    icon: "🎬", label: "주말",
+    sit: "아무 계획 없는 주말이에요.",
+    text: "자연스럽게 하게 되는 건?",
+    options: [
+      { text: "뭐라도 해야 해. 운동이든 약속이든 나가야 함", icon: "🏃", teto: 1 },
+      { text: "넷플릭스 틀어놓고 이불 속. 이게 행복이야", icon: "🛌", teto: 0 }
+    ]
+  },
+  {
+    icon: "💗", label: "연애",
+    sit: "좋아하는 사람이 생겼어요.",
+    text: "나의 행동은?",
+    options: [
+      { text: "표현해봐. 어떻게든 알아채게 만들거나 직접 말해", icon: "💘", teto: 1 },
+      { text: "혼자 좋아해. 들켰다가 어색해지면 어떡해", icon: "🙈", teto: 0 }
+    ]
+  },
+  {
+    icon: "🔥", label: "의견 충돌",
+    sit: "내 의견이 틀렸다고 누군가 지적했어요.",
+    text: "나는?",
+    options: [
+      { text: "아니 왜요? 내 생각이 틀리지 않았거든요. 근거 대봄", icon: "😤", teto: 1 },
+      { text: "어..그런가? 내가 틀렸나 다시 생각해봐", icon: "🤔", teto: 0 }
+    ]
+  },
+  {
+    icon: "👥", label: "단체",
+    sit: "처음 보는 사람들이 많은 모임에 왔어요.",
+    text: "나의 포지션은?",
+    options: [
+      { text: "먼저 말 걸고 분위기 띄우는 편. 낯선 게 뭐 어때", icon: "😄", teto: 1 },
+      { text: "아는 사람 옆에 붙어서 자연스럽게 스며드는 편", icon: "🌊", teto: 0 }
+    ]
+  },
+  {
+    icon: "🚨", label: "위기 상황",
+    sit: "갑자기 예상 못 한 문제가 터졌어요.",
+    text: "첫 번째 반응은?",
+    options: [
+      { text: "일단 움직여. 생각하면서 동시에 처리함", icon: "⚡", teto: 1 },
+      { text: "일단 침착하게 상황 파악. 냅다 뛰면 더 힘들어짐", icon: "🧘", teto: 0 }
+    ]
+  },
+  {
+    icon: "🎤", label: "발표",
+    sit: "갑자기 앞에서 발표를 해야 해요.",
+    text: "나는?",
+    options: [
+      { text: "오케이 해봅시다. 해보기 전엔 모르는 거잖아", icon: "🎯", teto: 1 },
+      { text: "심장이 쪼그라들지만...일단 함. 근데 엄청 긴장됨", icon: "😰", teto: 0 }
+    ]
+  },
+  {
+    icon: "🌙", label: "마무리",
+    sit: "솔직한 마지막 질문이에요.",
+    text: "친구들이 나를 어떤 사람이라고 할 것 같아요?",
+    options: [
+      { text: "\"쟤는 진짜 추진력 있어. 하면 하는 스타일\"", icon: "💪", teto: 1 },
+      { text: "\"쟤는 진짜 감성 있고 배려 깊어. 섬세해\"", icon: "🌸", teto: 0 }
+    ]
+  }
+];
+
+// 결과: tetoPct에 따라 5단계
+function getResult(tetoPct) {
+  if (tetoPct >= 83) return {
+    emoji: "🔥",
+    name: "순수 테토형",
+    sub: "테토력 폭발. 직진 그 자체",
+    tag: "테토력 MAX 🔥",
+    tagBg: "rgba(255,107,157,0.15)", tagColor: "var(--teto)", tagBorder: "rgba(255,107,157,0.3)",
+    analysisTitle: "🔬 테토 성향 분석",
+    analysis: "결정이 빠르고 행동이 앞서는 전형적인 테토 성향이에요. <strong>\"일단 해보고 생각하자\"</strong>는 마인드로 살아가는 타입. 주변에서 추진력 있다는 말을 자주 들을 거예요. 감정보다는 행동으로 표현하는 스타일이라, 말보다 행동을 봐야 진심이 보여요.",
+    strengths: ["직진 추진력", "빠른 결단력", "리더십", "카리스마"],
+    strengthType: "t",
+    love: ["행동으로 표현", "직접 고백", "쿨한 관계", "주도적 연애"],
+    loveType: "t",
+    matchIcon: "💙",
+    matchTitle: "찰떡 궁합: 에겐 성향의 사람",
+    matchText: "당신의 직진함과 상대방의 섬세함이 서로를 채워줘요. 당신이 이끌고, 상대가 감정적으로 보완하는 이상적인 조합!",
+    vibe: "주변에서 에너지를 가져가는 사람이에요. 카리스마 있고, 어디서든 자기 페이스로 움직여요. 때로는 '저 사람 왜 저렇게 자신감 넘치지?' 싶을 정도로 당당한 것이 매력포인트."
+  };
+  if (tetoPct >= 58) return {
+    emoji: "✨",
+    name: "테토 우세형",
+    sub: "기본은 테토, 에겐도 있어요",
+    tag: "테토 우세 ✨",
+    tagBg: "rgba(255,107,157,0.12)", tagColor: "var(--teto)", tagBorder: "rgba(255,107,157,0.25)",
+    analysisTitle: "🔬 테토 우세 분석",
+    analysis: "테토 성향이 우세하지만 에겐의 감수성도 갖추고 있어요. <strong>주도적으로 이끌면서도 상대방의 감정을 챙길 줄 아는</strong> 균형 잡힌 타입. 대부분의 상황에선 직진하지만, 중요한 순간엔 섬세하게 배려해요. 이 조합이 사실 제일 매력있어요.",
+    strengths: ["균형 잡힌 추진력", "눈치 있는 리더십", "감정 공감", "유연한 결단"],
+    strengthType: "t",
+    love: ["주도하되 배려함", "표현은 직접적", "독립적 연애", "신뢰 중시"],
+    loveType: "t",
+    matchIcon: "💜",
+    matchTitle: "잘 맞는 유형: 에겐 ~ 중간형",
+    matchText: "에겐 성향이 강한 사람과의 케미가 좋아요. 당신이 주도하고 상대가 감정적 깊이를 더해줘요. 비슷한 중간 성향과도 잘 맞아요.",
+    vibe: "자기 주관이 확실하면서도 유연해요. 부드럽게 상황을 이끌고, 필요할 때 단호하게 결정하는 사람. 주변에서 '같이 있으면 의지가 된다'는 말 들어본 적 있죠?"
+  };
+  if (tetoPct >= 42) return {
+    emoji: "⚖️",
+    name: "테토에겐 중간형",
+    sub: "테토도 에겐도 아닌, 나만의 균형",
+    tag: "밸런스 완벽 ⚖️",
+    tagBg: "rgba(255,255,255,0.08)", tagColor: "#aaa", tagBorder: "rgba(255,255,255,0.15)",
+    analysisTitle: "🔬 균형형 분석",
+    analysis: "테토도 에겐도 아닌, <strong>상황에 따라 유동적으로 바뀌는</strong> 진정한 중간 유형이에요. 때로는 직진하고, 때로는 섬세하게 배려해요. 어떤 상황에도 적응하는 능력이 있고, 다양한 사람들과 잘 어울려요. 단점이라면 스스로 '나는 어떤 사람이지?' 헷갈릴 때가 있어요.",
+    strengths: ["뛰어난 적응력", "상황 파악 능력", "공감 + 추진력", "폭넓은 매력"],
+    strengthType: "t",
+    love: ["상황에 따라 달라짐", "티키타카 연애", "솔직한 소통", "자연스러운 흐름"],
+    loveType: "e",
+    matchIcon: "💛",
+    matchTitle: "누구랑도 잘 맞는 편",
+    matchText: "어느 성향의 사람과도 어느 정도 맞아요. 테토 성향과는 감정적 깊이를, 에겐 성향과는 가끔 주도적인 역할을 하며 균형을 잡아요.",
+    vibe: "겉으로 보기엔 파악하기 어려운 사람이에요. 처음엔 조용해 보이다가 친해지면 다른 모습이 나오거나, 반대로 처음엔 활발한데 알수록 섬세한 면이 보이는 타입. 그 예측 불가함이 매력이에요."
+  };
+  if (tetoPct >= 17) return {
+    emoji: "🌸",
+    name: "에겐 우세형",
+    sub: "기본은 에겐, 테토도 있어요",
+    tag: "에겐 우세 🌸",
+    tagBg: "rgba(123,158,255,0.12)", tagColor: "var(--egen)", tagBorder: "rgba(123,158,255,0.25)",
+    analysisTitle: "🔬 에겐 우세 분석",
+    analysis: "감수성이 풍부하고 공감 능력이 높은 에겐 우세 성향이에요. <strong>상대방의 감정을 잘 읽고, 배려하는 것이 자연스러운</strong> 타입. 직접 나서기보다 상황을 부드럽게 조율하는 것을 선호해요. 때로는 '내가 너무 맞춰주는 건 아닐까?' 싶은 순간도 있어요.",
+    strengths: ["높은 공감 능력", "섬세한 배려", "감수성", "분위기 파악"],
+    strengthType: "e",
+    love: ["감정 교감 중시", "다정한 표현", "안정적 관계", "말로 소통"],
+    loveType: "e",
+    matchIcon: "🩷",
+    matchTitle: "찰떡 궁합: 테토 성향의 사람",
+    matchText: "당신의 섬세함과 상대의 추진력이 이상적으로 맞아요. 당신이 감정적 깊이를 더하고, 상대가 방향을 이끌어주는 조합!",
+    vibe: "주변 분위기를 빠르게 읽고, 어디서든 자연스럽게 녹아드는 사람이에요. '쟤는 왜 저렇게 눈치가 빠르지?' '어떻게 내 기분을 알았어?' 이런 말 들어본 적 있을 거예요."
+  };
+  return {
+    emoji: "💙",
+    name: "순수 에겐형",
+    sub: "에겐력 폭발. 감성 그 자체",
+    tag: "에겐력 MAX 💙",
+    tagBg: "rgba(123,158,255,0.15)", tagColor: "var(--egen)", tagBorder: "rgba(123,158,255,0.3)",
+    analysisTitle: "🔬 에겐 성향 분석",
+    analysis: "공감력과 감수성이 넘치는 순수 에겐 성향이에요. <strong>상대방의 감정을 누구보다 잘 읽고, 세심하게 배려하는</strong> 것이 자연스러운 타입. 직접 나서기보다 뒤에서 조율하고, 관계를 부드럽게 만드는 역할을 해요. 겉은 조용해 보여도 내면은 엄청나게 풍부한 사람이에요.",
+    strengths: ["최상급 공감력", "섬세한 감수성", "배려와 다정함", "깊은 유대감"],
+    strengthType: "e",
+    love: ["감정 공유가 최우선", "다정한 말 한마디", "깊은 유대", "안정감 있는 연애"],
+    loveType: "e",
+    matchIcon: "❤️",
+    matchTitle: "찰떡 궁합: 테토 성향의 사람",
+    matchText: "당신의 깊은 감수성을 따뜻하게 받아줄 테토 성향과 가장 잘 맞아요. 리드해주는 사람 곁에서 당신의 섬세함이 빛나요.",
+    vibe: "말보다 표정, 행동 하나하나에서 진심이 느껴지는 사람이에요. 조용하지만 그 존재만으로도 주변이 따뜻해지는 타입. '그 사람이랑 있으면 왠지 편해'라는 말, 자주 들어봤죠?"
+  };
+}
+
+let tetoScore = 0;
+let totalQ = 0;
+let currentQ = 0;
+
+function updateLiveGauge() {
+  const tetoPct = totalQ === 0 ? 50 : Math.round((tetoScore / totalQ) * 100);
+  const egenPct = 100 - tetoPct;
+  document.getElementById('live-teto').style.width = tetoPct + '%';
+  document.getElementById('live-egen').style.width = egenPct + '%';
+}
+
+function showOverlay(emoji, title, sub, cb) {
+  const el = document.getElementById('scene-overlay');
+  document.getElementById('overlay-emoji').textContent = emoji;
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-sub').textContent = sub;
+  el.classList.add('show');
+  setTimeout(() => { el.classList.remove('show'); setTimeout(cb, 350); }, 1000);
+}
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  showOverlay('🧬', '측정을 시작합니다', '솔직하게 답할수록 정확해요', () => {
+    document.getElementById('quiz-screen').style.display = 'block';
+    showQuestion();
+  });
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('q-num').textContent = currentQ + 1;
+  document.getElementById('sit-icon').textContent = q.icon;
+  document.getElementById('sit-label').textContent = q.label;
+  document.getElementById('sit-text').textContent = q.sit;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn ' + (opt.teto ? 'teto-opt' : 'egen-opt');
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(opt.teto);
+    optDiv.appendChild(btn);
+  });
+
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none'; card.offsetHeight;
+  card.style.animation = 'fadeUp 0.3s ease';
+}
+
+function selectAnswer(isTeto) {
+  if (isTeto) tetoScore++;
+  totalQ++;
+  currentQ++;
+  updateLiveGauge();
+
+  if (currentQ >= questions.length) {
+    const tetoPct = Math.round((tetoScore / totalQ) * 100);
+    showOverlay('📊', '측정 완료!', `테토 ${tetoPct}% · 에겐 ${100 - tetoPct}%`, showResult);
+    return;
+  }
+  showQuestion();
+}
+
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const tetoPct = Math.round((tetoScore / totalQ) * 100);
+  const egenPct = 100 - tetoPct;
+  const r = getResult(tetoPct);
+
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-type-name').textContent = r.name;
+  document.getElementById('res-type-sub').textContent = r.sub;
+
+  // 게이지 애니메이션
+  setTimeout(() => {
+    document.getElementById('fgb-teto').style.width = tetoPct + '%';
+    document.getElementById('fgb-teto-txt').textContent = tetoPct > 15 ? tetoPct + '%' : '';
+    document.getElementById('fgb-egen').style.width = egenPct + '%';
+    document.getElementById('fgb-egen-txt').textContent = egenPct > 15 ? egenPct + '%' : '';
+    document.getElementById('teto-pct-label').textContent = tetoPct;
+    document.getElementById('egen-pct-label').textContent = egenPct;
+  }, 200);
+
+  const tag = document.getElementById('res-tag');
+  tag.textContent = r.tag;
+  tag.style.background = r.tagBg;
+  tag.style.color = r.tagColor;
+  tag.style.border = `1px solid ${r.tagBorder}`;
+
+  document.getElementById('res-analysis-title').textContent = r.analysisTitle;
+  document.getElementById('res-analysis').innerHTML = r.analysis;
+  document.getElementById('res-strengths').innerHTML = r.strengths.map(s => `<span class="trait-tag ${r.strengthType}">${s}</span>`).join('');
+  document.getElementById('res-love').innerHTML = r.love.map(l => `<span class="trait-tag ${r.loveType}">${l}</span>`).join('');
+  document.getElementById('match-icon').textContent = r.matchIcon;
+  document.getElementById('match-title').textContent = r.matchTitle;
+  document.getElementById('match-text').textContent = r.matchText;
+  document.getElementById('res-vibe').innerHTML = r.vibe;
+
+  document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.name;
+  document.getElementById('sc-sub').textContent = `테토 ${tetoPct}% · 에겐 ${egenPct}%`;
+  document.getElementById('sc-tag').textContent = r.tag;
+  if (!fromUrl) history.replaceState(null, '', '?r=' + tetoPct);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크 복사해서 친구한테 공유하기', 2000);
+  });
+}
+
+function restartTest() {
+  tetoScore = 0; totalQ = 0; currentQ = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const rp = p.get('r');
+  if (rp !== null) {
+    const pct = parseInt(rp);
+    if (!isNaN(pct) && pct >= 0 && pct <= 100) {
+      tetoScore = Math.round(pct / 100 * 12);
+      totalQ = 12;
+      document.getElementById('intro-screen') && (document.getElementById('intro-screen').style.display = 'none');
+      showResult(true);
+    }
+  }
+})();
+</script>
+</body>
+</html>

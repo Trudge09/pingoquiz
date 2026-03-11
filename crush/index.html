@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>좋아하는 사람 공략법 💌 핑고퀴즈</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="좋아하는 사람 공략법 분석기 💌"/>
+  <meta property="og:description" content="상대방 성격을 입력하면 맞춤 공략법을 알려드려요!"/>
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #fff5fb;
+      --card: #ffffff;
+      --card2: #fff0f8;
+      --pink: #e8508a;
+      --pink2: #f080b0;
+      --pink-light: #ffe0f0;
+      --purple: #9060d0;
+      --text: #2a1020;
+      --muted: #a070a0;
+      --border: #f0d0e8;
+      --radius: 20px;
+      --shadow: 0 4px 24px rgba(232,80,138,0.10);
+      --shadow-hover: 0 12px 40px rgba(232,80,138,0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(232,80,138,0.08) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(144,96,208,0.07) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #f080b0, #e8508a, #9060d0, #f080b0);
+    }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    .ad-slot {
+      margin: 0 auto 24px;
+      background: var(--card); border: 1.5px dashed var(--border);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow);
+    }
+
+    .back-btn {
+      display: block; text-align: left; color: var(--muted);
+      font-size: 0.85rem; text-decoration: none;
+      margin: 28px 0 20px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--pink); }
+
+    /* 헤더 */
+    .page-header { text-align: center; padding: 10px 0 28px; }
+    .header-emoji { font-size: 4rem; display: block; margin-bottom: 12px; animation: heartbeat 2s ease-in-out infinite; }
+    @keyframes heartbeat {
+      0%,100%{transform:scale(1)} 14%{transform:scale(1.15)} 28%{transform:scale(1)}
+    }
+    .page-title {
+      font-family: 'Jua', cursive; font-size: clamp(1.5rem,5vw,2rem);
+      color: var(--text); margin-bottom: 6px;
+    }
+    .page-title span {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* 입력 카드 */
+    .input-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 24px 22px;
+      margin-bottom: 16px; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .input-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+    }
+    .section-title {
+      font-family: 'Jua', cursive; font-size: 0.95rem;
+      color: var(--pink); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .section-title span { font-size: 0.72rem; color: var(--muted); font-weight: 400; margin-left: 4px; }
+
+    /* 성별 선택 */
+    .gender-row { display: flex; gap: 10px; margin-bottom: 16px; }
+    .gender-btn {
+      flex: 1; background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 12px; text-align: center;
+      cursor: pointer; transition: all 0.15s; font-family: 'Jua', cursive;
+      font-size: 0.95rem; color: var(--muted);
+    }
+    .gender-btn.active {
+      background: var(--pink-light); border-color: var(--pink); color: var(--pink);
+    }
+    .gender-btn:hover { border-color: var(--pink); }
+
+    /* 체크박스 그리드 */
+    .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+    .check-item {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 10px 12px; cursor: pointer;
+      transition: all 0.15s; user-select: none;
+    }
+    .check-item:hover { border-color: var(--pink); }
+    .check-item.checked {
+      background: var(--pink-light); border-color: var(--pink);
+    }
+    .check-box {
+      width: 18px; height: 18px; border-radius: 5px;
+      border: 2px solid var(--border); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 0.7rem; transition: all 0.15s; flex-shrink: 0;
+      background: white;
+    }
+    .check-item.checked .check-box {
+      background: var(--pink); border-color: var(--pink); color: white;
+    }
+    .check-label { font-size: 0.85rem; color: var(--text); }
+    .check-item.checked .check-label { color: var(--pink); font-weight: 700; }
+
+    /* 텍스트 인풋 */
+    .text-input {
+      width: 100%; background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+      font-family: 'Noto Sans KR', sans-serif; font-size: 0.9rem;
+      color: var(--text); resize: none; outline: none; transition: border-color 0.15s;
+      line-height: 1.6;
+    }
+    .text-input:focus { border-color: var(--pink); }
+    .text-input::placeholder { color: #c0a0c0; }
+    .char-count { text-align: right; font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+    /* 제출 버튼 */
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white; border: none; border-radius: 99px;
+      padding: 18px; font-family: 'Jua', cursive; font-size: 1.1rem;
+      cursor: pointer; box-shadow: 0 6px 24px rgba(232,80,138,0.3);
+      transition: all 0.15s; margin-top: 8px;
+    }
+    .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(232,80,138,0.4); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* 로딩 */
+    #loading-screen {
+      display: none; text-align: center; padding: 60px 20px;
+    }
+    .loading-hearts { font-size: 2.5rem; margin-bottom: 20px; animation: spin-hearts 1.5s linear infinite; }
+    @keyframes spin-hearts { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    .loading-text { font-family: 'Jua', cursive; font-size: 1.1rem; color: var(--pink); margin-bottom: 8px; }
+    .loading-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    .loading-dots::after {
+      content: ''; animation: dots 1.5s steps(4, end) infinite;
+    }
+    @keyframes dots {
+      0%{content:'.'} 33%{content:'..'} 66%{content:'...'} 100%{content:''}
+    }
+
+    /* 결과 */
+    #result-screen { display: none; animation: fadeUp 0.5s ease; }
+
+    .result-hero {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border-radius: var(--radius); padding: 32px 24px;
+      text-align: center; margin-bottom: 16px;
+      box-shadow: 0 8px 32px rgba(232,80,138,0.25);
+      color: white; position: relative; overflow: hidden;
+    }
+    .result-hero::before {
+      content: '💕'; position: absolute; top: -10px; right: -10px;
+      font-size: 5rem; opacity: 0.15;
+    }
+    .result-hero-emoji { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+    .result-hero-title { font-family: 'Jua', cursive; font-size: 1.4rem; margin-bottom: 4px; }
+    .result-hero-sub { font-size: 0.88rem; opacity: 0.85; }
+
+    .result-card {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+      margin-bottom: 14px; box-shadow: var(--shadow);
+    }
+    .result-card-title {
+      font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--pink);
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--border);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .result-text { font-size: 0.92rem; color: #5a3050; line-height: 2; }
+    .result-text strong { color: var(--text); font-weight: 700; }
+
+    /* 전략 리스트 */
+    .strategy-list { display: flex; flex-direction: column; gap: 10px; }
+    .strategy-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--card2); border-radius: 12px; padding: 14px;
+      border: 1px solid var(--border);
+    }
+    .strategy-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white; font-family: 'Jua', cursive; font-size: 0.82rem;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .strategy-text { font-size: 0.88rem; color: #5a3050; line-height: 1.7; }
+    .strategy-text strong { color: var(--pink); }
+
+    /* 이상형 태그 */
+    .ideal-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ideal-tag {
+      background: var(--pink-light); color: var(--pink);
+      border: 1px solid rgba(232,80,138,0.2); border-radius: 99px;
+      padding: 5px 14px; font-size: 0.82rem; font-weight: 700;
+    }
+
+    /* 주의사항 */
+    .caution-box {
+      background: rgba(232,80,138,0.05); border: 1px solid rgba(232,80,138,0.15);
+      border-radius: 10px; padding: 12px 14px; margin-top: 14px;
+      font-size: 0.78rem; color: var(--muted); line-height: 1.7;
+    }
+    .caution-box::before { content: '⚠️ '; }
+
+    .retry-btn {
+      width: 100%; background: var(--pink-light); color: var(--pink);
+      border: 1.5px solid rgba(232,80,138,0.25); border-radius: 99px;
+      padding: 14px; font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; transition: all 0.15s; margin-bottom: 10px;
+    }
+    .retry-btn:hover { background: var(--pink); color: white; }
+
+    /* 에러 */
+    .error-box {
+      background: #fff0f0; border: 1.5px solid #ffcccc;
+      border-radius: 12px; padding: 16px; text-align: center;
+      font-size: 0.9rem; color: #c05050; margin-top: 16px; display: none;
+    }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  
+    .result-btn-group { display:flex; gap:10px; margin:18px 0 8px; }
+    .share-btn-c { flex:1; background:rgba(232,80,138,0.08); color:var(--pink); border:1.5px solid rgba(232,80,138,0.25); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; transition:all 0.15s; }
+    .share-btn-c:hover { background:var(--pink); color:white; }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="wrap">
+  <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+  <!-- 광고 상단 -->
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block"
+      data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- 입력 화면 -->
+  <div id="input-screen">
+    <div class="page-header">
+      <span class="header-emoji">💌</span>
+      <h1 class="page-title">좋아하는 사람<br/><span>공략법 분석기</span></h1>
+      <p class="page-sub">상대방 성격을 알려주시면<br/>맞춤 접근법을 분석해드려요!</p>
+    </div>
+
+    <!-- 상대 성별 -->
+    <div class="input-card">
+      <div class="section-title">💕 상대방 성별</div>
+      <div class="gender-row">
+        <div class="gender-btn" id="g-male" onclick="selectGender('male')">👦 남성</div>
+        <div class="gender-btn" id="g-female" onclick="selectGender('female')">👧 여성</div>
+        <div class="gender-btn" id="g-any" onclick="selectGender('any')">🙂 무관</div>
+      </div>
+    </div>
+
+    <!-- 성격 특징 -->
+    <div class="input-card">
+      <div class="section-title">🎭 상대방 성격 <span>(해당하는 것 모두 선택)</span></div>
+      <div class="check-grid" id="trait-grid"></div>
+    </div>
+
+    <!-- 연애 스타일 -->
+    <div class="input-card">
+      <div class="section-title">💞 연애/관계 스타일 <span>(해당하는 것 선택)</span></div>
+      <div class="check-grid" id="love-grid"></div>
+    </div>
+
+    <!-- 현재 관계 -->
+    <div class="input-card">
+      <div class="section-title">🌱 현재 우리 사이</div>
+      <div class="check-grid" id="relation-grid"></div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="analyzeApproach()">
+      💌 공략법 분석하기
+    </button>
+    <div class="error-box" id="error-box">분석 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.</div>
+  </div>
+
+  <!-- 로딩 -->
+  <div id="loading-screen">
+    <div class="loading-hearts">💕</div>
+    <div class="loading-text">분석 중이에요<span class="loading-dots"></span></div>
+    <div class="loading-sub">상대방 성격을 바탕으로<br/>맞춤 공략법을 찾고 있어요 💭</div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-hero">
+      <span class="result-hero-emoji" id="res-hero-emoji">💌</span>
+      <div class="result-hero-title" id="res-hero-title"></div>
+      <div class="result-hero-sub" id="res-hero-sub"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-title">🔍 이런 사람이에요</div>
+      <div class="result-text" id="res-personality"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-title">💡 공략 포인트 TOP 5</div>
+      <div class="strategy-list" id="res-strategies"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-title">❌ 절대 하면 안 되는 것</div>
+      <div class="strategy-list" id="res-donts"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-title">💘 이런 사람을 좋아할 확률이 높아요</div>
+      <div class="ideal-tags" id="res-ideal"></div>
+      <div class="caution-box">개인차가 있으며 정확하지 않을 수 있습니다. 참고용으로만 활용해주세요.</div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-card-title">🌟 현재 상황 분석 & 한마디</div>
+      <div class="result-text" id="res-situation"></div>
+    </div>
+
+    <!-- 광고 하단 -->
+    <div class="ad-slot" style="margin-bottom:14px;">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <div class="result-btn-group">
+      <button class="share-btn-c" onclick="copyResultLink(this)">🔗 링크 복사</button>
+    </div>
+
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#e8508a1a,#e8508a08);border:1.5px solid #e8508a55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#e8508a;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#e8508a22;color:#e8508a;border:1px solid #e8508a55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+    <button class="retry-btn" onclick="resetAll()">🔄 다시 분석하기</button>
+  </div>
+</div>
+
+<script>
+const traits = [
+  '내향적', '외향적', '조용한 편', '말 많은 편',
+  '감성적', '이성적', '직설적', '돌려 말하는 편',
+  '낯가림 있음', '사람 잘 사귐', '독립적', '의존적',
+  '꼼꼼함', '즉흥적', '완벽주의', '대충하는 편',
+  '자신감 있음', '소심한 편', '리더형', '따라가는 편',
+  '유머 있음', '진지한 편', '다정함', '츤데레'
+];
+
+const loveTraits = [
+  '연락 자주 하는 편', '연락 별로 안 함',
+  '스킨십 좋아함', '스킨십 어색해함',
+  '표현 잘 함', '표현 잘 못 함',
+  '질투 많음', '질투 별로 없음',
+  '연애경험 있어보임', '연애경험 없어보임',
+  '집에 있는 걸 좋아함', '활동적인 편'
+];
+
+const relations = [
+  '그냥 아는 사이', '자주 보는 사이',
+  '친구 사이', '썸 타는 중',
+  '카톡은 함', '카톡도 거의 없음',
+  '단둘이 만난 적 있음', '단둘이 만난 적 없음'
+];
+
+let selectedGender = '';
+let selectedTraits = new Set();
+let selectedLove = new Set();
+let selectedRelation = new Set();
+
+function makeGrid(containerId, items, setRef) {
+  const el = document.getElementById(containerId);
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'check-item';
+    div.innerHTML = `<div class="check-box"></div><span class="check-label">${item}</span>`;
+    div.onclick = () => {
+      if (setRef.has(item)) { setRef.delete(item); div.classList.remove('checked'); div.querySelector('.check-box').textContent = ''; }
+      else { setRef.add(item); div.classList.add('checked'); div.querySelector('.check-box').textContent = '✓'; }
+    };
+    el.appendChild(div);
+  });
+}
+
+function selectGender(g) {
+  selectedGender = g;
+  ['male','female','any'].forEach(id => document.getElementById('g-'+id).classList.remove('active'));
+  document.getElementById('g-'+g).classList.add('active');
+}
+
+
+makeGrid('trait-grid', traits, selectedTraits);
+makeGrid('love-grid', loveTraits, selectedLove);
+makeGrid('relation-grid', relations, selectedRelation);
+
+// ===== 성격 분류 =====
+const traitCat = {
+  introvert:    ['내향적','조용한 편','낯가림 있음','소심한 편'],
+  extrovert:    ['외향적','말 많은 편','사람 잘 사귐','리더형'],
+  emotional:    ['감성적','의존적','다정함'],
+  logical:      ['이성적','독립적','꼼꼼함','완벽주의'],
+  tsundere:     ['츤데레','돌려 말하는 편'],
+  perfectionist:['완벽주의','꼼꼼함'],
+  playful:      ['유머 있음','즉흥적'],
+  confident:    ['자신감 있음','리더형','직설적'],
+};
+
+function classifyType(traits, loveSet, relationSet) {
+  let s = {};
+  Object.keys(traitCat).forEach(k => s[k] = 0);
+  traits.forEach(t => {
+    Object.keys(traitCat).forEach(k => {
+      if (traitCat[k].includes(t)) s[k]++;
+    });
+  });
+
+  const isIntro   = s.introvert    >= s.extrovert;
+  const isEmot    = s.emotional    >= s.logical;
+  const isTsun    = s.tsundere     >= 1;
+  const isPerf    = s.perfectionist >= 2;
+  const isPlay    = s.playful      >= 1;
+  const isConf    = s.confident    >= 2;
+  const isJealous = loveSet.has('질투 많음');
+  const isNoContact = loveSet.has('연락 별로 안 함') && !loveSet.has('연락 자주 하는 편');
+  const isNewRelation = relationSet.has('그냥 아는 사이') || relationSet.has('카톡도 거의 없음');
+  const isSom     = relationSet.has('썸 타는 중');
+
+  // 특수 유형 우선 판별
+  if (isTsun) return 'TSUN';
+  if (isJealous && isEmot) return 'JEAL';
+  if (isPerf && isIntro) return 'PERF';
+  if (isPlay && !isIntro && isEmot) return 'PLAY';
+  if (isConf && !isIntro && !isEmot) return 'CONF';
+  if (isSom && isEmot) return 'SOM';
+  if (isNoContact && isIntro) return 'COOL';
+
+  // 기본 4가지
+  if (isIntro && isEmot)  return 'IE';
+  if (isIntro && !isEmot) return 'IL';
+  if (!isIntro && isEmot) return 'EE';
+  return 'EL';
+}
+
+// ===== 11가지 결과 풀 =====
+const resultPool = {
+  TSUN: {
+    heroEmoji:'🌹', heroTitle:'츤데레 — 겉과 속이 다른 타입', heroSub:'차갑게 굴수록 사실은 더 신경 쓰고 있어요',
+    personality:'겉으로는 쿨하거나 무뚝뚝해 보이지만 속은 의외로 섬세하고 감정이 풍부한 타입이에요. 좋아하는 감정을 직접 표현하는 게 어색해서 장난처럼 넘기거나 티를 안 내는 경우가 많아요. 쉽게 마음을 열지 않지만 한번 열리면 굉장히 진심이에요.',
+    strategies:[
+      {title:'😄 편하게 친구처럼 대하기', desc:'처음부터 들이대면 도망가요. 그냥 편한 사람처럼 자연스럽게 대하면서 거리를 좁히는 게 우선이에요.'},
+      {title:'🎯 장난스럽게 반응 끌어내기', desc:'약간 도발적인 질문이나 장난으로 반응을 유도해보세요. 츤데레는 반응을 숨기려다 오히려 티가 나요.'},
+      {title:'👀 관심 있는 듯 없는 듯', desc:'너무 적극적이면 부담스러워해요. 줄다리기하는 느낌으로 적당히 여유를 갖는 게 효과적이에요.'},
+      {title:'🤫 둘만의 공감대 만들기', desc:'"우리만 아는" 이야기나 공감대를 쌓아가세요. 이 타입은 그런 특별한 연결감을 좋아해요.'},
+      {title:'⏳ 먼저 열어줄 때까지 기다리기', desc:'먼저 표현하는 게 어색한 타입이에요. 조금씩 마음을 열 때까지 여유 있게 기다려주세요.'},
+    ],
+    donts:[
+      {title:'❌ 너무 적극적으로 들이대기', desc:'부담을 느끼면 오히려 더 차가워지는 타입이에요. 천천히, 자연스럽게가 답이에요.'},
+      {title:'❌ 감정 표현 강요', desc:'"나 좋아해? 싫어해?" 식으로 확인하려 하면 불편해해요. 알아서 표현할 때까지 기다려주세요.'},
+      {title:'❌ 장난을 너무 진지하게 받기', desc:'츤데레 특유의 장난 섞인 표현을 진지하게 받으면 더 도망가요. 같이 가볍게 주고받는 게 좋아요.'},
+    ],
+    idealTypes:['눈치 있는','여유로운','재밌는','강요 안 하는','비슷한 파장','기다려주는'],
+    situation:'이 타입은 내가 먼저 열어주길 기다리고 있어요. 너무 들이대지 않으면서 꾸준히 관심을 보여주는 게 핵심이에요.',
+  },
+  JEAL: {
+    heroEmoji:'🔥', heroTitle:'질투심 강한 감성파 — 독점욕이 있는 타입', heroSub:'나만 바라봐주는 사람에게 마음이 열려요',
+    personality:'감수성이 풍부하고 애정 표현도 많은 편이지만, 질투심과 독점욕이 꽤 강한 타입이에요. 자기가 우선순위가 아니라고 느끼면 크게 상처받아요. 반면 자기 사람이라고 생각하면 엄청나게 헌신적이에요. 상대의 작은 행동 하나에도 많은 의미를 부여하는 편이에요.',
+    strategies:[
+      {title:'🎯 나만 본다는 느낌 주기', desc:'다른 이성 이야기는 절대 금물이에요. "나는 너한테 집중하고 있어"라는 느낌을 행동으로 꾸준히 보여주세요.'},
+      {title:'📱 연락 성실하게 하기', desc:'연락이 뜸하면 불안해해요. 바쁠 때도 "지금 바빠, 이따 연락할게" 정도는 꼭 해주세요.'},
+      {title:'💕 먼저 감정 표현하기', desc:'상대가 나를 얼마나 소중하게 생각하는지가 매우 중요해요. 먼저 좋다고 표현해주세요.'},
+      {title:'🏆 특별한 존재로 대해주기', desc:'"너는 나한테 특별해"라는 느낌을 주는 행동이 중요해요. 작은 것들을 기억하고 챙겨주세요.'},
+      {title:'🚫 오해받을 상황 미리 설명하기', desc:'다른 이성과의 접촉은 모르게 알게 되면 상처가 훨씬 커져요. 미리 자연스럽게 설명해두세요.'},
+    ],
+    donts:[
+      {title:'❌ 다른 이성 이야기 꺼내기', desc:'아무리 친구 사이라도 이성 이야기는 극도로 불편해해요. 가능하면 아예 꺼내지 않는 게 좋아요.'},
+      {title:'❌ 연락 불통', desc:'한동안 연락이 없으면 최악의 상상을 해요. 바빠도 짧은 연락은 필수예요.'},
+      {title:'❌ 우선순위에서 밀어내기', desc:'"친구 약속이 생겨서 못 만나"가 반복되면 크게 상처받아요.'},
+    ],
+    idealTypes:['나만 보는','헌신적인','연락 잘 하는','표현 잘 하는','믿음직한','진심인'],
+    situation:'이 타입과 잘 되려면 내가 이 사람을 얼마나 소중히 여기는지 꾸준히 보여주는 게 가장 중요해요. 질투심은 그만큼 애정이 깊다는 뜻이기도 해요.',
+  },
+  PERF: {
+    heroEmoji:'💎', heroTitle:'완벽주의 내향파 — 기준이 높은 타입', heroSub:'작은 디테일에서 신뢰가 쌓여요',
+    personality:'꼼꼼하고 신중하며 일에서도 관계에서도 높은 기준을 가진 타입이에요. 아무나와 쉽게 가까워지지 않고 상대를 충분히 관찰한 후에야 마음을 열어요. 감정보다 행동으로 마음을 표현하는 경우가 많고, 실수나 허술한 모습을 보이는 걸 불편해해요.',
+    strategies:[
+      {title:'📌 작은 약속도 철저히 지키기', desc:'"이따가 연락할게" 같은 사소한 말도 꼭 지키세요. 한번 신뢰가 깨지면 회복이 어려운 타입이에요.'},
+      {title:'🧹 정돈된 모습 보이기', desc:'외모보다는 단정하고 깔끔한 느낌이 중요해요. 정돈된 생활 습관이 호감으로 이어져요.'},
+      {title:'📚 깊이 있는 대화 시도하기', desc:'가볍고 피상적인 대화보다 서로 생각을 나누는 진지한 대화를 좋아해요.'},
+      {title:'🎖️ 노력하는 모습 자연스럽게 드러내기', desc:'목표가 있고 성실하게 사는 모습이 매력적으로 보여요. 자랑이 아니라 자연스럽게 드러나도록 하세요.'},
+      {title:'⏰ 시간 약속 칼같이 지키기', desc:'약속 시간에 늦는 건 신뢰를 크게 깎아요. 5분 일찍 도착하는 모습을 보여주세요.'},
+    ],
+    donts:[
+      {title:'❌ 즉흥적이고 허술한 모습', desc:'준비 없이 대충 행동하거나 계획이 없는 모습은 매력을 크게 떨어뜨려요.'},
+      {title:'❌ 자기 자랑 남발', desc:'잘난 척하거나 과장하는 모습은 역효과예요. 행동으로 보여주세요.'},
+      {title:'❌ 감정적으로 다그치기', desc:'차분한 상황에서 갑자기 감정적이 되면 당황해해요. 이성적으로 대화하는 게 잘 통해요.'},
+    ],
+    idealTypes:['성실한','신뢰할 수 있는','깔끔한','목표 있는','진지한','약속 잘 지키는'],
+    situation:'이 타입은 첫인상이 매우 중요해요. 작은 디테일에서 신뢰를 쌓아가는 게 핵심이에요.',
+  },
+  PLAY: {
+    heroEmoji:'🎪', heroTitle:'유쾌한 에너지 폭발 타입', heroSub:'같이 있으면 웃음이 끊이지 않는 사람에게 끌려요',
+    personality:'에너지 넘치고 유머 감각이 뛰어난 타입이에요. 사람들과 어울리는 걸 좋아하고 웃음을 주는 사람에게 자연스럽게 마음이 열려요. 감수성도 풍부해서 같이 있을 때 즐거운 감정을 공유하는 게 중요해요. 주변에 사람이 많지만 나를 특별하게 봐주는 사람을 원해요.',
+    strategies:[
+      {title:'🎉 신나는 경험 함께하기', desc:'평범한 카페보다 색다른 활동이나 이벤트가 훨씬 효과적이에요. 함께한 특별한 경험이 기억에 남아요.'},
+      {title:'😂 유머로 분위기 띄우기', desc:'같이 있을 때 웃음이 나야 해요. 재치 있는 한마디, 센스 있는 리액션이 마음을 열게 해요.'},
+      {title:'💕 솔직하게 감정 표현하기', desc:'"오늘 진짜 재밌었어"처럼 솔직한 표현이 잘 통해요. 이 타입은 표현받는 걸 좋아해요.'},
+      {title:'👥 친구들과도 잘 어울리기', desc:'주변 사람들의 반응을 중요하게 여겨요. 친구 무리에서 자연스럽게 어울리는 모습을 보여주세요.'},
+      {title:'🌟 특별한 점 콕 집어 칭찬하기', desc:'남들과 다른 이 사람만의 특별한 점을 발견해서 말해주면 굉장히 효과적이에요.'},
+    ],
+    donts:[
+      {title:'❌ 처음부터 너무 무겁게 굴기', desc:'처음부터 진지하게 가면 부담스러워해요. 가볍고 즐겁게 시작하세요.'},
+      {title:'❌ 혼자만 있으려 하기', desc:'사람과 함께하는 걸 좋아하는 타입이에요. 둘만의 시간만 고집하면 답답해할 수 있어요.'},
+      {title:'❌ 시크한 척 쿨하게 굴기', desc:'관심 없는 척하면 오히려 흥미를 잃어요. 솔직하게 좋다고 표현하세요.'},
+    ],
+    idealTypes:['함께 있으면 즐거운','유머 있는','에너지 있는','표현 잘 하는','긍정적인','따뜻한'],
+    situation:'이 타입은 같이 있을 때 에너지를 주고받는 게 핵심이에요. 즐거운 기억을 함께 쌓는 것에서 감정이 싹트는 경우가 많아요.',
+  },
+  CONF: {
+    heroEmoji:'⚡', heroTitle:'자신감 넘치는 리더형', heroSub:'나만의 색깔과 대등한 관계가 핵심이에요',
+    personality:'외향적이고 자기 주관이 뚜렷한 타입이에요. 리더십이 있고 결단력도 빠르며, 서로 독립적인 파트너 관계를 이상적으로 생각해요. 매력 있는 사람에게 끌리고 나약하거나 우유부단한 모습엔 흥미를 잃어요.',
+    strategies:[
+      {title:'💪 나만의 색깔 보여주기', desc:'무조건 맞춰주기보다 본인만의 의견과 매력을 보여주세요. 주체적인 사람에게 끌려요.'},
+      {title:'🎯 명확하게 의사 표현하기', desc:'하고 싶은 것을 명확하게 말하세요. 결단력 있는 모습이 매력적으로 보여요.'},
+      {title:'🏆 성취와 목표 자연스럽게 드러내기', desc:'열심히 살고 있는 모습을 자연스럽게 보여주세요. 꿈이나 목표가 있는 사람을 좋아해요.'},
+      {title:'😎 여유 있게 대하기', desc:'너무 집착하거나 매달리는 모습은 역효과예요. 적당한 여유와 자신감이 더 매력적이에요.'},
+      {title:'🤝 대등하게 대해주기', desc:'같은 눈높이에서 대화하는 사람에게 편안함을 느껴요. 일방적으로 리드하려 하면 불편해해요.'},
+    ],
+    donts:[
+      {title:'❌ 우유부단하고 의존적인 모습', desc:'결정을 못 내리거나 항상 상대 의견만 따라가는 모습은 답답하게 느껴질 수 있어요.'},
+      {title:'❌ 자기 비하', desc:'스스로를 낮추는 말이나 과한 겸손은 매력을 떨어뜨려요.'},
+      {title:'❌ 감정으로 밀어붙이기', desc:'갈등이 생겼을 때 감정으로 압박하면 답답해해요. 이성적으로 대화하세요.'},
+    ],
+    idealTypes:['주체적인','목표 있는','자신감 있는','독립적인','성취 지향적인','여유 있는'],
+    situation:'이 타입에겐 내가 얼마나 매력 있는 사람인지가 핵심이에요. 나 자신을 갈고닦는 게 최고의 공략법이에요.',
+  },
+  SOM: {
+    heroEmoji:'💫', heroTitle:'썸 분위기에 민감한 감성파', heroSub:'지금 이 순간의 분위기와 감정을 중요하게 여겨요',
+    personality:'감수성이 풍부하고 관계에서 감정의 흐름을 매우 중요하게 여기는 타입이에요. 썸 단계에서의 설레는 분위기를 좋아하고, 그 분위기가 깨지면 급격히 식을 수 있어요. 자기 감정에 솔직하고, 상대의 작은 행동에서 많은 의미를 읽어내요.',
+    strategies:[
+      {title:'✨ 설레는 순간을 자꾸 만들기', desc:'예상치 못한 깜짝 연락, 특별한 장소, 의미 있는 선물 등 설레는 순간들을 만들어주세요.'},
+      {title:'💬 감정을 자연스럽게 표현하기', desc:'"오늘 너랑 있으니까 좋다"처럼 현재 감정을 솔직하게 표현하는 게 잘 통해요.'},
+      {title:'🌙 분위기 있는 상황 만들기', desc:'조용한 저녁 산책, 야경, 감성 카페 등 분위기 있는 장소에서의 만남이 효과적이에요.'},
+      {title:'📱 적절한 타이밍에 연락하기', desc:'자기 전 안부 메시지, 생각났을 때 연락 등 타이밍 있는 연락이 설렘을 만들어요.'},
+      {title:'⏰ 타이밍 놓치지 않기', desc:'이 타입은 분위기가 무르익었을 때 자연스럽게 감정을 확인하는 게 중요해요. 너무 오래 끌면 식어요.'},
+    ],
+    donts:[
+      {title:'❌ 분위기 깨는 행동', desc:'설레는 분위기에서 갑자기 현실적인 이야기를 꺼내거나 어색한 행동을 하면 급격히 식어요.'},
+      {title:'❌ 너무 오래 끌기', desc:'이 타입은 썸 단계가 너무 길어지면 지쳐요. 적절한 시점에 감정을 확인하는 게 좋아요.'},
+      {title:'❌ 일관성 없는 태도', desc:'뜨겁다 차갑다를 반복하면 불안해해요. 꾸준하고 안정적인 관심이 중요해요.'},
+    ],
+    idealTypes:['감성적인','설렘을 주는','표현 잘 하는','분위기 있는','타이밍 아는','진심인'],
+    situation:'이미 썸 단계라면 지금이 중요한 시점이에요. 분위기가 무르익었을 때 자연스럽게 마음을 확인해보세요. 타이밍을 놓치지 마세요!',
+  },
+  COOL: {
+    heroEmoji:'🧊', heroTitle:'쿨한 내향파 — 연락이 뜸한 타입', heroSub:'만남의 질이 연락 횟수보다 훨씬 중요해요',
+    personality:'조용하고 내향적이며 기본적으로 연락을 많이 하지 않는 타입이에요. 연락이 뜸해도 무관심이 아닐 수 있어요. 직접 만나는 시간을 더 중요하게 여기고, 억지로 끊임없이 연락하는 걸 오히려 부담스러워해요. 느리지만 진심으로 관계를 쌓아가는 타입이에요.',
+    strategies:[
+      {title:'🎯 만날 때 최대한 인상 남기기', desc:'연락보다 직접 만나는 시간의 질이 훨씬 중요해요. 만날 때마다 좋은 기억을 만들어주세요.'},
+      {title:'📩 가볍고 부담 없는 연락 하기', desc:'긴 메시지보다 짧고 가벼운 연락이 부담이 없어요. "이거 보다가 생각났어"식의 자연스러운 연락이 좋아요.'},
+      {title:'🌿 기다려주기', desc:'연락이 늦어도 다그치지 마세요. 이 타입은 강요받으면 더 멀어지는 경향이 있어요.'},
+      {title:'🎁 만날 이유 만들기', desc:'단둘이 만날 자연스러운 이유를 만들어보세요. 같은 관심사, 공통의 활동이 좋은 핑계가 돼요.'},
+      {title:'⏳ 천천히 꾸준하게', desc:'이 타입은 갑자기 뜨거워지는 사람보다 꾸준하게 옆에 있는 사람에게 마음이 열려요.'},
+    ],
+    donts:[
+      {title:'❌ 연락 재촉하기', desc:'"왜 답장 안 해?"는 이 타입에게 최악의 말이에요. 답장이 늦어도 여유 있게 기다려주세요.'},
+      {title:'❌ 매일 연락 강요', desc:'매일 연락하는 걸 원하지 않는 타입일 수 있어요. 상대의 페이스를 존중해주세요.'},
+      {title:'❌ 갑작스럽게 들이대기', desc:'갑자기 적극적으로 변하면 부담스러워해요. 서서히 자연스럽게 가까워지는 게 중요해요.'},
+    ],
+    idealTypes:['강요 안 하는','여유 있는','독립적인','만남의 질 중시하는','기다려주는','진심인'],
+    situation:'연락이 뜸하다고 포기하지 마세요. 이 타입은 만나는 순간에 더 집중해요. 자연스러운 만남의 기회를 만들어가는 게 핵심이에요.',
+  },
+  IE: {
+    heroEmoji:'🌙', heroTitle:'감성적인 내향파', heroSub:'천천히, 하지만 진심으로 다가가야 해요',
+    personality:'조용하고 감수성이 풍부한 타입이에요. 처음엔 낯가림이 있어서 거리를 두는 것처럼 보일 수 있지만 한번 마음을 열면 깊고 진한 감정을 나눌 수 있어요. 혼자만의 시간을 중요하게 여기고, 관계에서 안정감과 신뢰를 무엇보다 중요하게 생각해요.',
+    strategies:[
+      {title:'⏳ 절대 서두르지 말기', desc:'마음을 여는 데 시간이 걸려요. 처음부터 들이대면 오히려 멀어져요. 천천히 편한 존재가 되는 게 우선이에요.'},
+      {title:'💬 단둘이 대화 늘려가기', desc:'단체 자리보다 단둘이 조용한 카페나 산책 같은 상황이 마음을 열게 해요.'},
+      {title:'📖 관심사를 진심으로 들어주기', desc:'자기가 좋아하는 것에 대해 이야기할 때 눈이 빛나요. 그 관심사를 진심으로 물어보고 들어주세요.'},
+      {title:'💌 카톡으로 먼저 친해지기', desc:'직접 만나는 것보다 카톡으로 먼저 대화를 쌓는 게 효과적이에요.'},
+      {title:'🌿 안정감 주기', desc:'"나랑 있으면 편하다"는 느낌을 줘야 해요. 예측 불가한 행동은 불안감을 줄 수 있어요.'},
+    ],
+    donts:[
+      {title:'❌ 갑작스러운 고백', desc:'충분히 친해지기 전 직접적인 고백은 당황스럽게 해요. 분위기가 무르익을 때까지 기다리세요.'},
+      {title:'❌ 사람 많은 자리에서 주목 끌기', desc:'여러 사람 앞에서 관심을 표현하면 부담스러워해요. 둘만 있을 때 조용히 표현하세요.'},
+      {title:'❌ 답장 재촉하기', desc:'혼자만의 시간이 필요한 타입이에요. 연락에 즉각 반응을 강요하면 질려할 수 있어요.'},
+    ],
+    idealTypes:['조용하고 듬직한','잘 들어주는','강요하지 않는','진심 있는','감성적인','안정적인'],
+    situation:'이 타입은 시간이 답이에요. 먼저 편한 친구 같은 존재가 되는 게 가장 좋은 시작점이에요.',
+  },
+  IL: {
+    heroEmoji:'🔍', heroTitle:'신중한 분석파', heroSub:'꾸준함과 신뢰가 전부예요',
+    personality:'차분하고 이성적으로 상황을 판단하는 타입이에요. 감정보다 논리를 중시하고 상대를 충분히 파악하기 전까지는 쉽게 마음을 열지 않아요. 신뢰와 일관성을 매우 중요하게 여기며 한번 믿으면 깊이 믿어요.',
+    strategies:[
+      {title:'📊 말과 행동이 일치하기', desc:'약속은 반드시 지키고 한 말은 끝까지 지키는 모습을 보여주세요. 이 타입에게 신뢰는 전부예요.'},
+      {title:'🧠 깊이 있는 대화 나누기', desc:'피상적인 대화보다 서로 생각을 나누는 진지한 이야기가 효과적이에요.'},
+      {title:'📅 꾸준하고 일관되게', desc:'뜨거웠다 식었다 하는 태도는 신뢰를 깎아요. 꾸준하고 일관된 관심이 훨씬 효과적이에요.'},
+      {title:'🚫 감정 폭발 자제', desc:'감정적인 상황을 불편해해요. 갈등이 생겼을 때도 차분하게 대화하면 잘 통해요.'},
+      {title:'🎯 명확하게 의도 전달', desc:'뚜렷한 의도를 가진 사람을 좋아해요. 애매하게 눈치만 보는 것보다 명확하게 대화하세요.'},
+    ],
+    donts:[
+      {title:'❌ 약속 어기기', desc:'한번 신뢰를 잃으면 회복이 매우 어려운 타입이에요.'},
+      {title:'❌ 즉흥적인 계획 강요', desc:'"지금 나와!"식의 갑작스러운 요청은 당황스럽게 해요. 미리 계획을 알려주세요.'},
+      {title:'❌ 감정적 압박', desc:'감정으로 압박하면 오히려 멀어져요. 이성적으로 대화하세요.'},
+    ],
+    idealTypes:['성실하고 믿음직한','지적인','일관성 있는','독립적인','현실적인','약속 잘 지키는'],
+    situation:'이 타입에겐 시간과 신뢰가 가장 중요해요. 처음엔 차갑게 느껴질 수 있지만 꾸준히 신뢰를 쌓으면 깊은 관계가 돼요.',
+  },
+  EE: {
+    heroEmoji:'☀️', heroTitle:'밝고 감성적인 에너지 타입', heroSub:'함께할 때 즐거움을 주는 게 핵심이에요',
+    personality:'에너지 넘치고 사람을 좋아하는 타입이에요. 감수성도 풍부해서 분위기에 잘 반응하고 함께 있으면 웃음이 끊이질 않아요. 표현이 풍부하고 공감 능력이 뛰어나요. 주변에 사람이 많지만 자기를 특별하게 봐주는 사람에게 마음이 열려요.',
+    strategies:[
+      {title:'🎉 재밌는 경험 함께하기', desc:'평범한 카페보다 색다른 활동, 이벤트가 훨씬 효과적이에요.'},
+      {title:'😂 유머 감각 보여주기', desc:'같이 있을 때 웃음이 나야 해요. 재치 있는 한마디가 마음을 열어요.'},
+      {title:'💕 감정 표현 아끼지 않기', desc:'"오늘 너무 좋았어"같은 솔직한 감정 표현이 잘 통해요.'},
+      {title:'👥 친구 무리에 자연스럽게 녹아들기', desc:'주변 사람들의 반응을 중요하게 여겨요. 친구들이랑 잘 어울리는 모습을 보여주면 플러스예요.'},
+      {title:'🌟 이 사람만의 특별한 점 칭찬하기', desc:'남들과 다른 이 사람만의 특별한 점을 콕 집어 말해주면 굉장히 효과적이에요.'},
+    ],
+    donts:[
+      {title:'❌ 처음부터 너무 진지하게 굴기', desc:'가볍고 즐겁게 시작해서 자연스럽게 깊어지는 게 좋아요.'},
+      {title:'❌ 혼자만 있으려 하기', desc:'사람과 함께하는 걸 좋아하는 타입이에요.'},
+      {title:'❌ 시크한 척하기', desc:'관심 없는 척하면 오히려 흥미를 잃어요.'},
+    ],
+    idealTypes:['함께 있으면 즐거운','에너지 있는','표현 잘 하는','따뜻한','유머 있는','긍정적인'],
+    situation:'이 타입은 같이 있을 때 에너지를 주고받는 게 핵심이에요. 즐거운 기억을 함께 쌓는 것에서 감정이 싹트는 경우가 많아요.',
+  },
+  EL: {
+    heroEmoji:'⚡', heroTitle:'자신감 넘치는 현실파', heroSub:'대등한 관계, 존중이 핵심 키워드예요',
+    personality:'외향적이고 자기 주관이 뚜렷한 타입이에요. 자신감이 있고 리더십도 강해요. 의존적인 관계보다 서로 대등하게 독립적으로 살아가는 파트너 관계를 이상적으로 생각해요.',
+    strategies:[
+      {title:'💪 자기 자신을 가져가기', desc:'무조건 따라가기보다는 나만의 의견과 매력을 보여주세요.'},
+      {title:'🎯 명확하게 의사 표현하기', desc:'하고 싶은 것을 명확하게 말해요. 결단력 있는 모습이 매력적으로 보여요.'},
+      {title:'🏆 성취와 목표 이야기하기', desc:'열심히 살고 있는 자신의 모습을 자연스럽게 보여주세요.'},
+      {title:'😎 쿨하게 여유 있게', desc:'너무 집착하거나 매달리는 모습은 역효과예요.'},
+      {title:'🤝 대등하게 대해주기', desc:'같은 눈높이에서 대화하는 사람에게 더 편안함을 느껴요.'},
+    ],
+    donts:[
+      {title:'❌ 의존적이거나 우유부단한 모습', desc:'결정을 못 내리거나 항상 상대 의견만 따라가는 모습은 답답하게 느껴질 수 있어요.'},
+      {title:'❌ 자기 비하', desc:'과한 겸손은 매력을 떨어뜨려요. 자신감 있게 표현하세요.'},
+      {title:'❌ 감정으로 밀어붙이기', desc:'이성적으로 대화하는 게 훨씬 효과적이에요.'},
+    ],
+    idealTypes:['주체적인','목표 있는','자신감 있는','독립적인','대등한 관계','성취 지향적인'],
+    situation:'이 타입에겐 내가 얼마나 매력 있는 사람인지가 핵심이에요. 나 자신이 매력 있는 사람이 되는 게 최고의 공략법이에요.',
+  },
+};
+
+// ===== 관계/질투 상황 추가 문구 =====
+function getSituationAdd(loveSet, relationSet) {
+  if (relationSet.has('썸 타는 중')) return ' 이미 썸 단계라면 타이밍을 놓치지 않는 게 중요해요!';
+  if (relationSet.has('친구 사이')) return ' 친구에서 연인으로 발전할 때는 서서히 분위기를 바꾸는 게 중요해요.';
+  if (relationSet.has('그냥 아는 사이')) return ' 아직 접점이 적은 단계예요. 자연스러운 대화 기회를 먼저 만드는 게 우선이에요.';
+  if (relationSet.has('단둘이 만난 적 없음')) return ' 아직 단둘이 만난 적이 없다면 자연스러운 이유를 만들어 단둘이 만나는 기회를 만들어보세요.';
+  if (loveSet.has('연락 별로 안 함')) return ' 연락이 뜸해도 만났을 때의 질이 더 중요한 타입일 수 있어요.';
+  if (loveSet.has('표현 잘 못 함')) return ' 표현이 서툴러서 마음이 없는 것처럼 보일 수 있어요. 상대의 작은 행동에서 마음을 읽어보세요.';
+  return '';
+}
+
+function analyzeApproach() {
+  const allTraits   = [...selectedTraits];
+  const allLove     = [...selectedLove];
+  const allRelation = [...selectedRelation];
+
+  if (allTraits.length < 2) {
+    alert('성격 특징을 2개 이상 선택해주세요!');
+    return;
+  }
+
+  document.getElementById('input-screen').style.display = 'none';
+  document.getElementById('loading-screen').style.display = 'block';
+
+  setTimeout(() => {
+    const loveSet     = new Set(allLove);
+    const relationSet = new Set(allRelation);
+    const typeKey     = classifyType(allTraits, loveSet, relationSet);
+    const base        = resultPool[typeKey];
+    const add         = getSituationAdd(loveSet, relationSet);
+    showResult({ ...base, situation: base.situation + add });
+  }, 1800);
+}
+
+function copyResultLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✅ 복사완료!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+function showResult(r) {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  document.getElementById('res-hero-emoji').textContent = r.heroEmoji || '💌';
+  document.getElementById('res-hero-title').textContent = r.heroTitle || '';
+  document.getElementById('res-hero-sub').textContent = r.heroSub || '';
+  document.getElementById('res-personality').innerHTML = r.personality || '';
+
+  const strEl = document.getElementById('res-strategies');
+  strEl.innerHTML = '';
+  (r.strategies || []).forEach((s, i) => {
+    strEl.innerHTML += `<div class="strategy-item"><div class="strategy-num">${i+1}</div><div class="strategy-text"><strong>${s.title}</strong><br/>${s.desc}</div></div>`;
+  });
+
+  const dontEl = document.getElementById('res-donts');
+  dontEl.innerHTML = '';
+  (r.donts || []).forEach((d, i) => {
+    dontEl.innerHTML += `<div class="strategy-item"><div class="strategy-num" style="background:linear-gradient(135deg,#e05050,#f07070)">✕</div><div class="strategy-text"><strong>${d.title}</strong><br/>${d.desc}</div></div>`;
+  });
+
+  const idealEl = document.getElementById('res-ideal');
+  idealEl.innerHTML = (r.idealTypes || []).map(t => `<span class="ideal-tag">${t}</span>`).join('');
+
+  document.getElementById('res-situation').innerHTML = r.situation || '';
+  // 공유카드
+  document.getElementById('sc-emoji').textContent = r.heroEmoji || '💘';
+  document.getElementById('sc-title').textContent = r.heroTitle || '';
+  document.getElementById('sc-sub').textContent = r.heroSub || '';
+  document.getElementById('sc-tag').textContent = r.type || '';
+  history.replaceState(null, '', '?r=' + encodeURIComponent(r.type || ''));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetAll() {
+  selectedGender = '';
+  selectedTraits.clear();
+  selectedLove.clear();
+  selectedRelation.clear();
+  document.querySelectorAll('.check-item').forEach(el => {
+    el.classList.remove('checked');
+    el.querySelector('.check-box').textContent = '';
+  });
+  ['male','female','any'].forEach(id => document.getElementById('g-'+id).classList.remove('active'));
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('input-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

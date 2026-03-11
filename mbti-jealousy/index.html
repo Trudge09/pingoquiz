@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MBTI 질투 유형 테스트 😤 나는 어떻게 질투하나?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="MBTI 질투 유형 테스트 😤 나는 어떻게 질투하나?"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/mbti-jealousy"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #1a0a00;
+      --card: #221200;
+      --primary: #ff8c00;
+      --secondary: #ffb347;
+      --text: #fff0d0;
+      --muted: #aa8050;
+      --border: #3d2200;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">😤</span>
+    <h1>나는 어떤 방식으로<br/>질투할까?</h1>
+    <p class="intro-desc">질투도 스타일이 있어요.<br/>당신의 질투 유형을 분석해드려요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">😤 내 질투 유형 알아보기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"🧊", label:"ICY JEALOUSY", name:"속으로만 삭이는 냉각형", sub:"겉은 쿨, 속은 끓는 중", tag:"티 안 내는 질투러", desc:"질투가 생겨도 겉으로는 절대 표현하지 않아요. 혼자 속으로 삭히는 타입이에요. 티 안 내는 것처럼 보이지만, 쌓이면 예상치 못한 순간에 폭발할 수 있어요.", traits:["냉각형", "속앓이", "표현 억제", "차가운 겉", "뜨거운 속"], extraLabel:"💡 조언", extraText:"감정을 억누르면 결국 더 크게 터지게 돼요. 작은 불편함이 있을 때 가볍게 표현하는 연습을 해봐요." },
+  1: { emoji:"🎯", label:"DIRECT JEALOUSY", name:"솔직하게 바로 말하는 직구형", sub:"질투나면 바로 말하는 솔직파", tag:"숨김없는 질투러", desc:"질투가 생기면 솔직하게 바로 말하는 타입이에요. 억누르거나 돌려 말하지 않아요. 솔직한 만큼 오해가 없고 빨리 해결되는 편이에요.", traits:["솔직함", "직접적", "빠른 해결", "표현력"], extraLabel:"💡 조언", extraText:"솔직함은 장점이지만, 타이밍과 방식도 중요해요. 상대방이 받아들일 준비가 됐을 때 표현해봐요." },
+  2: { emoji:"🌊", label:"HIDDEN JEALOUSY", name:"행동으로 티 나는 은근형", sub:"말은 안 하지만 다 보임", tag:"행동으로 드러나는 질투러", desc:"말로는 표현 안 하지만 행동이나 표정으로 다 티가 나요. 말수가 줄거나, 평소와 다르게 차가워지거나, 작은 행동으로 질투심을 드러내요.", traits:["은근한 표현", "행동 변화", "티 남", "간접적"], extraLabel:"💡 조언", extraText:"상대방은 이미 알고 있을 가능성이 높아요. 행동으로 드러낼 바에야 솔직하게 말하는 게 훨씬 나을 수 있어요." },
+  3: { emoji:"🌋", label:"VOLCANO JEALOUSY", name:"쌓이다가 폭발하는 화산형", sub:"오래 참다가 한 번에 터지는 타입", tag:"폭발 예고 질투러", desc:"질투를 오래 참는 편이에요. 처음엔 혼자 삭히다가, 어느 순간 임계치를 넘으면 한번에 크게 폭발하는 패턴이에요. 상대방 입장에선 갑자기 왜 이러나? 싶을 수 있어요.", traits:["축적형", "폭발", "감정 억제", "늦은 표현"], extraLabel:"💡 조언", extraText:"쌓이기 전에 조금씩 표현하는 게 서로에게 좋아요. 참는 것이 배려가 아닐 수 있어요." },
+};
+const questions = [
+  { text:"💢 연인이 이성과 단둘이 밥 먹었다고 하면?", options:[
+    {text:"그냥 넘어감, 신뢰하니까",axis:0},
+    {text:"물어보지 않지만 속으로 신경 쓰임",axis:2},
+    {text:"누구냐고 바로 물어봄",axis:1},
+    {text:"그날 하루 기분이 별로임",axis:3},
+  ]},
+  { text:"📱 연인 핸드폰에 모르는 번호로 연락이 오면?", options:[
+    {text:"신경 안 씀, 내가 볼 필요 없음",axis:0},
+    {text:"궁금하지만 참음",axis:2},
+    {text:"누구냐고 자연스럽게 물어봄",axis:1},
+    {text:"그냥 넘어가지만 계속 생각남",axis:3},
+  ]},
+  { text:"😤 질투가 날 때 나의 반응은?", options:[
+    {text:"그냥 없는 척 한다",axis:0},
+    {text:"티 안 내려 하지만 행동에 드러남",axis:2},
+    {text:"바로 솔직하게 말함",axis:1},
+    {text:"혼자 삭이다가 나중에 터짐",axis:3},
+  ]},
+  { text:"👤 연인의 전 연인 이야기가 나오면?", options:[
+    {text:"과거는 과거, 신경 안 씀",axis:0},
+    {text:"겉은 괜찮은 척이지만 속은 불편",axis:2},
+    {text:"더 물어보거나 비교하게 됨",axis:3},
+    {text:"가볍게 언급하고 확인함",axis:1},
+  ]},
+  { text:"💬 질투를 표현하는 방식은?", options:[
+    {text:"표현 안 함, 혼자 삭임",axis:0},
+    {text:"애교 섞어서 투정 부림",axis:1},
+    {text:"평소보다 말이 줄어듦",axis:2},
+    {text:"직접적으로 말함",axis:3},
+  ]},
+  { text:"🔍 연인의 SNS 좋아요, 댓글을 확인하는 편?", options:[
+    {text:"전혀 안 봄",axis:0},
+    {text:"가끔 보는 편",axis:2},
+    {text:"자주 확인하는 편",axis:3},
+    {text:"거의 매일 봄",axis:3},
+  ]},
+  { text:"🌙 연인이 다른 이성을 칭찬하면?", options:[
+    {text:"별 반응 없음",axis:0},
+    {text:"나도 모르게 표정이 굳어짐",axis:2},
+    {text:"나 어때? 하고 관심 돌림",axis:1},
+    {text:"기분 나쁘다고 직접 말함",axis:3},
+  ]},
+  { text:"💭 질투심에 대한 나의 생각은?", options:[
+    {text:"질투는 없는 게 좋다, 믿어야지",axis:0},
+    {text:"질투는 자연스러운 감정이야",axis:2},
+    {text:"질투가 생기면 솔직히 말해야 해",axis:1},
+    {text:"질투가 생기면 나도 힘들어",axis:3},
+  ]},
+];
+let scores=[0,0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

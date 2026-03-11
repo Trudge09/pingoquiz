@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내가 조선의 왕이었다면? 👑 나의 왕 유형 테스트</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="내가 조선의 왕이었다면? 👑" />
+  <meta property="og:description" content="전하, 어좌에 오르실 시간이옵니다. 나는 어떤 성군이었을까?" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/king" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap');
+
+    :root {
+      --bg: #0e0a04;
+      --paper: #1a1208;
+      --paper2: #221a0a;
+      --gold: #c8963c;
+      --gold2: #e8c060;
+      --red: #8b1a1a;
+      --red2: #c02020;
+      --jade: #4a7a5a;
+      --text: #f0e8d0;
+      --muted: #9a8060;
+      --border: #3a2a10;
+      --radius: 4px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.7);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Serif KR', 'Noto Sans KR', serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+
+    /* 한지 텍스처 느낌 배경 */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(200,150,60,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 0% 100%, rgba(139,26,26,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 50%, rgba(74,122,90,0.04) 0%, transparent 50%);
+    }
+
+    /* 상단 단청 장식 바 */
+    .dancheong-bar {
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        #8b1a1a 0px, #8b1a1a 20px,
+        #c8963c 20px, #c8963c 40px,
+        #4a7a5a 40px, #4a7a5a 60px,
+        #1a4a8a 60px, #1a4a8a 80px,
+        #c8963c 80px, #c8963c 100px,
+        #8b1a1a 100px, #8b1a1a 120px
+      );
+      opacity: 0.8;
+    }
+
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: rgba(200,150,60,0.03);
+      border: 1px dashed rgba(200,150,60,0.2);
+      border-radius: var(--radius); padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* 씬 오버레이 */
+    #scene-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: #060402;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; padding: 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      text-align: center;
+    }
+    #scene-overlay.show { opacity: 1; pointer-events: all; }
+    .overlay-divider {
+      display: flex; align-items: center; gap: 12px; width: 200px;
+    }
+    .overlay-line-el { flex: 1; height: 1px; background: var(--gold); opacity: 0.4; }
+    .overlay-diamond { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+    .overlay-scene-label { font-size: 0.7rem; color: var(--gold); letter-spacing: 3px; font-weight: 600; }
+    .overlay-title { font-family: 'Noto Serif KR', serif; font-size: 1.3rem; color: var(--gold2); line-height: 1.6; font-weight: 700; }
+    .overlay-sub { font-size: 0.82rem; color: var(--muted); line-height: 1.7; max-width: 300px; }
+
+    /* 뒤로가기 */
+    .back-btn {
+      display: block; text-align: left;
+      color: var(--muted); font-size: 0.82rem; text-decoration: none;
+      margin-bottom: 24px; transition: color 0.15s;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .back-btn:hover { color: var(--gold); }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 40px 0 32px; animation: fadeUp 0.6s ease; }
+
+    .crown-wrap { margin-bottom: 20px; position: relative; }
+    .crown { font-size: 5rem; display: block; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(200,150,60,0.5)); }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* 제목 - 한자 느낌 */
+    .title-ko {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+      font-weight: 900; line-height: 1.3; margin-bottom: 6px;
+      color: var(--gold2);
+      text-shadow: 0 2px 12px rgba(200,150,60,0.3);
+      letter-spacing: 2px;
+    }
+    .title-sub-line {
+      width: 80px; height: 2px; margin: 10px auto 14px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .intro-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 28px; font-family: 'Noto Sans KR', sans-serif; }
+
+    /* 교지(왕의 문서) 스타일 카드 */
+    .edict-card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0; margin-bottom: 28px;
+      overflow: hidden; position: relative;
+      box-shadow: var(--shadow);
+    }
+    .edict-header {
+      background: var(--red); padding: 12px 20px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .edict-header-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.85rem; color: #f0d080; font-weight: 700; letter-spacing: 4px;
+    }
+    .edict-body { padding: 24px 22px; }
+    .edict-date { font-size: 0.72rem; color: var(--muted); letter-spacing: 2px; margin-bottom: 14px; font-family: 'Noto Sans KR', sans-serif; }
+    .edict-text { color: #c8a878; font-size: 0.92rem; line-height: 2.1; font-family: 'Noto Serif KR', serif; }
+    .edict-text .hl { color: var(--gold2); font-weight: 700; }
+    .edict-text .red { color: #e08080; font-weight: 700; }
+    .edict-seal {
+      text-align: right; margin-top: 16px;
+      font-size: 0.78rem; color: var(--muted);
+      font-family: 'Noto Serif KR', serif; letter-spacing: 1px;
+    }
+
+    /* 시작 버튼 */
+    .start-btn {
+      background: linear-gradient(135deg, var(--red), #6b1010);
+      color: #f0d080; border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 18px 52px; font-family: 'Noto Serif KR', serif;
+      font-size: 1.1rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(139,26,26,0.4), inset 0 1px 0 rgba(255,220,100,0.2);
+      transition: all 0.15s ease; letter-spacing: 3px;
+    }
+    .start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(139,26,26,0.5), inset 0 1px 0 rgba(255,220,100,0.2); }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 28px 0; display: none; }
+
+    /* 연도/회차 헤더 */
+    .year-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .year-badge {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.75rem; color: var(--gold);
+      letter-spacing: 2px;
+    }
+    .progress-wrap {
+      flex: 1; background: var(--border); border-radius: 99px;
+      height: 3px; margin-left: 14px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--gold2));
+      border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* 상황 배너 */
+    .situation-banner {
+      background: var(--paper2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 12px 16px; margin-bottom: 14px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .situation-icon { font-size: 1.5rem; min-width: 30px; }
+    .situation-body { font-size: 0.82rem; color: var(--muted); line-height: 1.7; font-family: 'Noto Sans KR', sans-serif; }
+    .situation-label { font-size: 0.7rem; color: var(--gold); font-weight: 700; letter-spacing: 2px; display: block; margin-bottom: 2px; font-family: 'Noto Serif KR', serif; }
+
+    /* 퀴즈 카드 */
+    .quiz-card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      animation: fadeUp 0.35s ease;
+      box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--gold2), var(--jade), var(--gold));
+    }
+
+    /* 상소문 느낌 나레이션 */
+    .memo-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.8rem; color: #7a6040;
+      line-height: 1.8; margin-bottom: 14px;
+      padding: 10px 14px;
+      background: rgba(200,150,60,0.04);
+      border-radius: var(--radius);
+      border: 1px solid rgba(200,150,60,0.1);
+      font-style: italic;
+    }
+
+    .q-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(1.05rem, 3.5vw, 1.2rem);
+      color: var(--gold2); margin-bottom: 20px; line-height: 1.7;
+      font-weight: 700; letter-spacing: 1px;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 9px; }
+    .option-btn {
+      background: var(--paper2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px;
+      text-align: left; color: var(--text);
+      font-family: 'Noto Serif KR', serif; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.18s ease;
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.6;
+    }
+    .option-btn:hover {
+      background: #2a1c08; border-color: var(--gold);
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(200,150,60,0.1);
+    }
+    .opt-icon { font-size: 1.2rem; min-width: 26px; padding-top: 2px; }
+
+    /* 결과 */
+    #result-screen { padding: 28px 0; display: none; animation: fadeUp 0.5s ease; }
+
+    /* 왕의 초상화 카드 */
+    .portrait-card {
+      background: var(--paper);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 36px 28px; text-align: center;
+      box-shadow: 0 0 60px rgba(200,150,60,0.15), var(--shadow);
+      position: relative; overflow: hidden; margin-bottom: 16px;
+    }
+    .portrait-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: repeating-linear-gradient(90deg, var(--red) 0px,var(--red) 12px,var(--gold) 12px,var(--gold) 24px,var(--jade) 24px,var(--jade) 36px,#1a4a8a 36px,#1a4a8a 48px,var(--gold) 48px,var(--gold) 60px);
+    }
+    .portrait-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+      background: repeating-linear-gradient(90deg, var(--red) 0px,var(--red) 12px,var(--gold) 12px,var(--gold) 24px,var(--jade) 24px,var(--jade) 36px,#1a4a8a 36px,#1a4a8a 48px,var(--gold) 48px,var(--gold) 60px);
+    }
+
+    .res-dynasty { font-size: 0.72rem; color: var(--gold); letter-spacing: 4px; margin-bottom: 16px; font-family: 'Noto Serif KR', serif; font-weight: 600; }
+    .res-king-emoji { font-size: 5.5rem; display: block; margin-bottom: 16px; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 0 16px rgba(200,150,60,0.4)); }
+    .res-king-title { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; font-family: 'Noto Serif KR', serif; letter-spacing: 2px; }
+    .res-king-name {
+      font-family: 'Noto Serif KR', serif; font-size: 2.2rem; font-weight: 900;
+      color: var(--gold2); margin-bottom: 4px; letter-spacing: 3px;
+      text-shadow: 0 2px 12px rgba(200,150,60,0.4);
+    }
+    .res-king-hanja { font-size: 0.9rem; color: var(--muted); margin-bottom: 16px; letter-spacing: 2px; font-family: 'Noto Serif KR', serif; }
+    .res-tag {
+      display: inline-block; background: rgba(139,26,26,0.3);
+      color: #e08080; border: 1px solid rgba(139,26,26,0.5);
+      border-radius: 2px; padding: 4px 18px;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 2px;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    /* 실록 섹션 */
+    .sillok-card {
+      background: var(--paper); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+      margin-bottom: 14px; box-shadow: var(--shadow);
+      position: relative;
+    }
+    .sillok-title {
+      font-family: 'Noto Serif KR', serif; font-size: 0.88rem;
+      color: var(--gold); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+      letter-spacing: 2px; font-weight: 700;
+    }
+    .sillok-text { color: #b09070; font-size: 0.9rem; line-height: 2; font-family: 'Noto Serif KR', serif; }
+    .sillok-text strong { color: var(--gold2); font-weight: 700; }
+
+    /* 치적 그리드 */
+    .merit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .merit-box {
+      background: var(--paper2); border-radius: var(--radius); padding: 14px;
+      border: 1px solid var(--border);
+    }
+    .merit-title { font-family: 'Noto Serif KR', serif; font-size: 0.82rem; color: var(--gold); margin-bottom: 8px; letter-spacing: 1px; font-weight: 700; }
+    .merit-tag {
+      display: inline-block; background: rgba(200,150,60,0.08);
+      color: #b08040; border-radius: 2px;
+      padding: 3px 10px; font-size: 0.76rem; font-weight: 600;
+      margin: 2px; border: 1px solid rgba(200,150,60,0.2);
+      font-family: 'Noto Serif KR', serif; letter-spacing: 1px;
+    }
+
+    /* 신하의 평가 */
+    .retainer-box {
+      background: var(--paper2); border-radius: var(--radius); padding: 16px 18px;
+      border: 1px solid var(--border); margin-bottom: 14px;
+      border-left: 3px solid var(--jade);
+    }
+    .retainer-label { font-size: 0.7rem; color: var(--jade); font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; display: block; font-family: 'Noto Serif KR', serif; }
+    .retainer-text { color: #9a8060; font-size: 0.88rem; line-height: 1.9; font-family: 'Noto Serif KR', serif; font-style: italic; }
+
+    .share-btn {
+      width: 100%; background: rgba(139,26,26,0.2);
+      color: var(--gold); border: 1px solid rgba(200,150,60,0.3);
+      border-radius: var(--radius); padding: 14px;
+      font-family: 'Noto Serif KR', serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+    .share-btn:hover { background: rgba(139,26,26,0.35); }
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 12px; font-family: 'Noto Serif KR', serif; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.15s; letter-spacing: 2px;
+    }
+    .retry-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div class="dancheong-bar"></div>
+
+<!-- 씬 오버레이 -->
+<div id="scene-overlay">
+  <div class="overlay-divider"><div class="overlay-line-el"></div><div class="overlay-diamond"></div><div class="overlay-line-el"></div></div>
+  <div class="overlay-scene-label" id="overlay-label">어전</div>
+  <div class="overlay-title" id="overlay-title"></div>
+  <div class="overlay-sub" id="overlay-sub"></div>
+  <div class="overlay-divider"><div class="overlay-line-el"></div><div class="overlay-diamond"></div><div class="overlay-line-el"></div></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="crown-wrap"><span class="crown">👑</span></div>
+    <div class="title-ko">내가 조선의 왕이었다면</div>
+    <div class="title-sub-line"></div>
+    <p class="intro-desc">전하, 어좌에 오르실 시간이옵니다</p>
+
+    <div class="edict-card">
+      <div class="edict-header">
+        <span class="edict-header-text">✦ 조선왕조 어명 ✦</span>
+      </div>
+      <div class="edict-body">
+        <div class="edict-date">조선국 한양 경복궁 근정전</div>
+        <div class="edict-text">
+          짐은 오늘 그대를 이 궁으로 불러들였노라.<br/><br/>
+          수백 년의 왕조 역사 속, 수많은 왕들이 이 자리를 거쳐 갔다. 혹자는 <span class="hl">학문으로 나라를 빛냈고</span>, 혹자는 <span class="hl">개혁으로 세상을 바꿨으며</span>, 혹자는 민심을 다독이며 태평성대를 이루었다.<br/><br/>
+          만약 그대가 이 어좌에 앉았다면, 어떤 왕이 되었을까.<br/><br/>
+          지금부터 주어지는 상황에 그대의 뜻을 밝히라. <span class="red">그대 안에 잠든 왕의 기질이 드러날 것이니.</span>
+        </div>
+        <div class="edict-seal">— 조선왕조실록 外傳 —</div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startTest()">입궁하여 어좌에 오르다</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="year-header">
+      <div class="year-badge" id="year-badge">즉위 원년</div>
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="situation-banner">
+      <div class="situation-icon" id="scene-icon">🏯</div>
+      <div class="situation-body">
+        <span class="situation-label" id="scene-label">어전</span>
+        <span id="scene-text"></span>
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <div class="memo-text" id="q-memo"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="portrait-card">
+      <div class="res-dynasty">✦ 조선왕조 실록 ✦</div>
+      <span class="res-king-emoji" id="res-emoji"></span>
+      <div class="res-king-title" id="res-title-label"></div>
+      <div class="res-king-name" id="res-name"></div>
+      <div class="res-king-hanja" id="res-hanja"></div>
+      <span class="res-tag" id="res-tag"></span>
+    </div>
+
+    <div class="sillok-card">
+      <div class="sillok-title">📜 실록에 기록된 전하의 치세</div>
+      <div class="sillok-text" id="res-sillok"></div>
+    </div>
+
+    <div class="merit-grid">
+      <div class="merit-box">
+        <div class="merit-title">⚔️ 왕의 덕목</div>
+        <div id="res-virtues"></div>
+      </div>
+      <div class="merit-box">
+        <div class="merit-title">📖 치세의 방식</div>
+        <div id="res-style"></div>
+      </div>
+    </div>
+
+    <div class="sillok-card">
+      <div class="sillok-title">🌟 전하의 빛나는 순간</div>
+      <div class="sillok-text" id="res-moment"></div>
+    </div>
+
+    <div class="retainer-box">
+      <span class="retainer-label">✦ 신하들의 평가 ✦</span>
+      <div class="retainer-text" id="res-retainer"></div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크를 복사하여 공유하기</button>
+
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#c8963c1a,#c8963c08);border:1.5px solid #c8963c55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#c8963c;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#c8963c22;color:#c8963c;border:1px solid #c8963c55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="restartTest()">↩ 다시 어좌에 오르다</button>
+
+    <!-- 광고 슬롯: 하단 -->
+    <div class="ad-slot" style="margin-top:16px;">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+</div>
+<script>
+const yearLabels = [
+  "즉위 원년", "즉위 2년", "즉위 3년", "즉위 4년",
+  "즉위 5년", "즉위 6년", "즉위 7년", "즉위 8년",
+  "즉위 9년", "즉위 10년", "즉위 11년", "즉위 12년"
+];
+
+const questions = [
+  {
+    label: "어전회의",
+    icon: "🏯",
+    scene: "첫 어전회의가 열렸습니다. 대신들이 일제히 전하를 주시하고 있습니다.",
+    memo: "왕으로서 첫 번째 공식 자리. 모두가 전하의 첫 마디를 기다립니다.",
+    text: "전하께서 입을 여시어 첫 번째로 하신 말씀은?",
+    options: [
+      { text: "\"백성의 소리가 어떠한지 먼저 듣고 싶도다\"", icon: "👂", axis: 0 },
+      { text: "\"이 나라의 폐단부터 하나씩 고쳐나갈 것이다\"", icon: "✍️", axis: 1 },
+      { text: "\"경들의 충언을 기다리겠소. 거리낌 없이 말하오\"", icon: "📜", axis: 2 },
+      { text: "\"북방의 국경이 걱정이오. 병력부터 정비하시오\"", icon: "⚔️", axis: 3 }
+    ]
+  },
+  {
+    label: "민정 순찰",
+    icon: "🌾",
+    scene: "미행으로 한양 저잣거리에 나섰습니다. 굶주린 백성들이 보입니다.",
+    memo: "평복 차림으로 나선 전하. 백성들은 눈앞의 인물이 왕인지 모릅니다.",
+    text: "전하께서는 어떻게 하시겠습니까?",
+    options: [
+      { text: "가진 것을 모두 꺼내어 바로 나눠주었다", icon: "🤲", axis: 0 },
+      { text: "이름과 사연을 일일이 물어 기록해 두었다", icon: "📋", axis: 2 },
+      { text: "환궁하여 즉시 진휼청에 명을 내렸다", icon: "🏛️", axis: 1 },
+      { text: "이 광경을 눈에 새기고 분노를 억눌렀다", icon: "😤", axis: 3 }
+    ]
+  },
+  {
+    label: "상소문 처리",
+    icon: "📜",
+    scene: "새벽 편전에 상소문이 산더미처럼 쌓여 있습니다.",
+    memo: "오늘도 어김없이 쌓인 상소들. 전하의 아침은 늘 이렇게 시작됩니다.",
+    text: "전하께서는 상소를 어떻게 대하십니까?",
+    options: [
+      { text: "빠뜨리지 않고 모두 읽는다. 한 글자도 허투루 보지 않는다", icon: "📖", axis: 2 },
+      { text: "백성의 목소리가 담긴 것을 먼저 골라 읽는다", icon: "👁️", axis: 0 },
+      { text: "시급한 것과 그렇지 않은 것을 나눠 체계적으로 처리한다", icon: "⚖️", axis: 1 },
+      { text: "직접 상소자를 불러 면담한다. 글보다 말이 진실되다", icon: "💬", axis: 3 }
+    ]
+  },
+  {
+    label: "대신과의 갈등",
+    icon: "⚖️",
+    scene: "권세 있는 대신이 전하의 뜻을 정면으로 거스르며 반대합니다.",
+    memo: "조정에 긴장이 흐릅니다. 모든 신하들이 전하의 반응을 살핍니다.",
+    text: "전하께서는 어떻게 처신하시겠습니까?",
+    options: [
+      { text: "충분히 듣고, 설득하되 끝내 내 뜻을 관철한다", icon: "🗣️", axis: 1 },
+      { text: "그가 옳다면 내 생각을 바꾸겠다. 왕도 틀릴 수 있다", icon: "🙏", axis: 0 },
+      { text: "그 자리에서 조용히, 그러나 단호하게 물리친다", icon: "✋", axis: 3 },
+      { text: "시간을 두고 신중히 판단한다. 감정으로 결정 말라", icon: "⏳", axis: 2 }
+    ]
+  },
+  {
+    label: "가뭄과 흉년",
+    icon: "🌵",
+    scene: "극심한 가뭄으로 팔도가 흉년입니다. 백성들이 굶어 죽고 있습니다.",
+    memo: "하늘도 돕지 않는 재앙 앞에 전하는 무엇을 하시겠습니까.",
+    text: "전하의 첫 번째 결단은?",
+    options: [
+      { text: "왕실의 창고를 열어 백성에게 나눠주라 명한다", icon: "🏚️", axis: 0 },
+      { text: "전국의 수령들을 소집해 즉각적인 대책을 논한다", icon: "📣", axis: 1 },
+      { text: "왕 스스로 수라상 반찬을 줄이고 기도를 올린다", icon: "🙏", axis: 2 },
+      { text: "수해와 가뭄에 대비한 제도 자체를 뜯어고친다", icon: "📐", axis: 3 }
+    ]
+  },
+  {
+    label: "밤의 편전",
+    icon: "🌙",
+    scene: "신하들이 모두 물러간 밤, 전하 홀로 편전에 앉아 계십니다.",
+    memo: "왕도 사람입니다. 아무도 없는 밤, 전하의 마음은 어떻습니까.",
+    text: "혼자인 밤, 전하는 무엇을 하십니까?",
+    options: [
+      { text: "오늘 만난 백성들의 얼굴을 떠올린다", icon: "😔", axis: 0 },
+      { text: "내일의 정사를 정리하고 글을 쓴다", icon: "✍️", axis: 1 },
+      { text: "책을 펼친다. 역대 성군들의 기록을 읽는다", icon: "📚", axis: 2 },
+      { text: "지도를 펼쳐 변방의 상황을 점검한다", icon: "🗺️", axis: 3 }
+    ]
+  },
+  {
+    label: "세자 교육",
+    icon: "🎓",
+    scene: "세자에게 가장 먼저 가르치고 싶은 것이 있습니다.",
+    memo: "왕이 다음 세대에게 전하는 것. 그것이 전하의 진짜 철학입니다.",
+    text: "전하께서 세자에게 제일 먼저 가르치는 것은?",
+    options: [
+      { text: "\"백성의 눈물을 절대 외면하지 마라\"", icon: "💧", axis: 0 },
+      { text: "\"바꾸어야 할 것은 두려워 말고 바꾸어라\"", icon: "🔥", axis: 1 },
+      { text: "\"먼저 배우고 또 배워라. 아는 것이 힘이다\"", icon: "📖", axis: 2 },
+      { text: "\"왕은 혼자 강해야 한다. 흔들리지 마라\"", icon: "⚔️", axis: 3 }
+    ]
+  },
+  {
+    label: "외교 사절",
+    icon: "🌏",
+    scene: "이웃 나라에서 사신이 왔습니다. 다소 무례한 요구를 해왔습니다.",
+    memo: "나라의 체면과 실리 사이. 전하의 선택은 무엇입니까.",
+    text: "전하께서는 어떻게 하시겠습니까?",
+    options: [
+      { text: "백성에게 피해가 없다면 유연하게 타협한다", icon: "🤝", axis: 0 },
+      { text: "협상을 통해 우리에게 유리한 조건을 끌어낸다", icon: "📊", axis: 1 },
+      { text: "사신을 예로써 대하되, 요구는 정중히 거절한다", icon: "🎎", axis: 2 },
+      { text: "한 치도 물러서지 않는다. 나라의 자존심이다", icon: "🚫", axis: 3 }
+    ]
+  },
+  {
+    label: "역모의 의심",
+    icon: "🗡️",
+    scene: "측근 신하가 역모를 꾸민다는 고변이 들어왔습니다.",
+    memo: "믿었던 사람에 대한 의심. 어떻게 하시겠습니까.",
+    text: "전하께서는 어떻게 처신하시겠습니까?",
+    options: [
+      { text: "직접 불러 눈을 마주치며 진심을 확인한다", icon: "👀", axis: 0 },
+      { text: "섣불리 움직이지 않고 증거를 충분히 모은다", icon: "🔍", axis: 2 },
+      { text: "고변한 자와 의심받는 자를 모두 엄중히 심문한다", icon: "⚖️", axis: 1 },
+      { text: "단호하게 처리한다. 왕권이 흔들려서는 안 된다", icon: "🗡️", axis: 3 }
+    ]
+  },
+  {
+    label: "학문과 예술",
+    icon: "🎨",
+    scene: "잠시 정사를 내려놓을 시간이 생겼습니다.",
+    memo: "왕도 사람. 전하께서 가장 즐기시는 것은 무엇입니까.",
+    text: "전하께서 한가로운 시간을 어떻게 보내십니까?",
+    options: [
+      { text: "궁 밖으로 나가 백성들 사이에서 어울린다", icon: "🚶", axis: 0 },
+      { text: "새로운 제도와 정책을 구상하고 글로 남긴다", icon: "✍️", axis: 1 },
+      { text: "서책을 읽거나 시를 짓는다", icon: "📜", axis: 2 },
+      { text: "무예를 연마하거나 군사 전략을 연구한다", icon: "🏹", axis: 3 }
+    ]
+  },
+  {
+    label: "신하의 눈물",
+    icon: "😢",
+    scene: "오랜 신하가 눈물을 흘리며 간언합니다. 전하가 틀렸다고.",
+    memo: "왕의 판단에 감히 눈물로 맞서는 신하. 어떻게 하시겠습니까.",
+    text: "전하께서는 어떻게 하시겠습니까?",
+    options: [
+      { text: "그 눈물의 의미를 헤아려 다시 생각한다", icon: "💔", axis: 0 },
+      { text: "그 말이 옳다면 즉시 명을 거둔다", icon: "🙏", axis: 1 },
+      { text: "신하를 달래고, 왜 내 결정이 옳은지 설득한다", icon: "🗣️", axis: 2 },
+      { text: "눈물에 흔들리지 않는다. 결정은 이미 내렸다", icon: "😶", axis: 3 }
+    ]
+  },
+  {
+    label: "치세의 마무리",
+    icon: "🌅",
+    scene: "오랜 치세 끝, 전하의 곁에서 사관이 마지막 기록을 남깁니다.",
+    memo: "역사는 거짓말하지 않습니다. 전하는 어떻게 기억되고 싶으십니까.",
+    text: "실록에 어떤 왕으로 기록되고 싶으십니까?",
+    options: [
+      { text: "\"백성을 제 몸처럼 여긴 왕이었노라\"", icon: "🫀", axis: 0 },
+      { text: "\"나라의 낡은 것을 새롭게 바꾼 왕이었노라\"", icon: "🌱", axis: 1 },
+      { text: "\"학문을 숭상하고 문화를 꽃피운 왕이었노라\"", icon: "🌸", axis: 2 },
+      { text: "\"외적을 물리치고 나라를 지킨 왕이었노라\"", icon: "🛡️", axis: 3 }
+    ]
+  }
+];
+
+const overlays = [
+  null,
+  { label: "즉위 2년", title: "어가가 저잣거리로 향합니다", sub: "백성들은 눈앞의 인물이 왕인지 모릅니다" },
+  { label: "즉위 3년", title: "새벽 편전에 불이 켜집니다", sub: "상소문이 오늘도 쌓여 있습니다" },
+  { label: "즉위 4년", title: "조정에 긴장이 흐릅니다", sub: "모든 신하들이 전하의 반응을 살핍니다" },
+  { label: "즉위 5년", title: "하늘이 비를 내리지 않습니다", sub: "팔도에서 올라오는 소식이 모두 흉흉합니다" },
+  { label: "즉위 6년", title: "어느 깊은 밤의 편전", sub: "촛불 하나만 켜진 고요한 밤입니다" },
+  { label: "즉위 7년", title: "세자가 고개를 조아립니다", sub: "다음 왕이 될 아이가 전하를 올려다봅니다" },
+  { label: "즉위 8년", title: "이웃 나라의 사신이 도착했습니다", sub: "나라의 체면과 실리 사이의 선택입니다" },
+  { label: "즉위 9년", title: "궁 안에 불안한 기운이 맴돕니다", sub: "누군가의 고변이 들어왔습니다" },
+  { label: "즉위 10년", title: "잠시 붓을 내려놓습니다", sub: "오늘은 전하만의 시간입니다" },
+  { label: "즉위 11년", title: "오랜 신하가 무릎을 꿇었습니다", sub: "눈물을 흘리며 간언하고 있습니다" },
+  { label: "즉위 12년 — 마지막", title: "사관이 붓을 들었습니다", sub: "전하의 치세가 역사에 기록될 것입니다" }
+];
+
+const results = {
+  0: {
+    emoji: "🌾",
+    titleLabel: "전하의 묘호",
+    name: "민심의 왕",
+    hanja: "民心王 · 애민군주",
+    tag: "백성이 곧 하늘",
+    sillok: `재위 기간 내내 전하는 백성을 위해 눈물을 흘린 왕이었다. 흉년이 들면 수라상을 줄이고, 저잣거리를 몸소 돌았으며, 굶주린 이를 보면 그 자리에서 지닌 것을 내어주었다.\n\n신하들은 말했다. "<strong>전하께서는 왕이시기 전에 사람이셨다</strong>"고. 역사는 그를 가리켜 조선 최고의 애민군주라 기록했다.`,
+    virtues: ["애민정신", "공감과 배려", "따뜻한 눈빛", "겸손한 왕도"],
+    style: ["민정 순시", "직접 소통", "현장 중심", "백성 우선"],
+    moment: "즉위 5년, 극심한 가뭄으로 백성이 굶어 죽던 해. 전하는 왕실 창고를 모두 열라 명하며 이렇게 말씀하셨다. <strong>\"짐이 굶어야 백성이 먹는다면, 기꺼이 그리하겠노라.\"</strong> 이 말이 팔도에 퍼지자 민심이 하나로 모였다.",
+    retainer: "\"전하 곁에 있으면 나도 더 나은 사람이 되고 싶어졌습니다. 그분의 따뜻함은 정치가 아니라 인품에서 나온 것이었습니다.\" — 좌의정의 회고록"
+  },
+  1: {
+    emoji: "🔥",
+    titleLabel: "전하의 묘호",
+    name: "개혁의 왕",
+    hanja: "改革王 · 혁신군주",
+    tag: "낡은 것을 부수고 새것을 세우다",
+    sillok: `전하의 치세는 조선의 오래된 관습과 제도를 뒤흔든 시간이었다. 반대하는 대신들을 설득하고, 때로는 강제로 밀어붙이며 나라의 틀을 새로 짰다.\n\n"<strong>고통 없이는 변화도 없다</strong>." 전하의 신념이었다. 당대에는 혼란을 일으켰으나, 100년 후의 사가들은 그를 조선 최고의 개혁군주로 기록했다.`,
+    virtues: ["강한 추진력", "선견지명", "결단력", "불굴의 의지"],
+    style: ["제도 혁신", "구조 개편", "전략적 설득", "장기 계획"],
+    moment: "재위 7년, 대신들의 전면 반대에도 조세 제도를 전면 개편하셨다. 폐단을 없애고 백성의 부담을 덜었다. <strong>\"100년을 내다보고 결정했노라.\"</strong> 훗날 이 개혁은 조선의 중흥을 이끈 토대가 되었다.",
+    retainer: "\"전하와 함께라면 불가능이 없었습니다. 두렵기도 했지만, 그분이 그린 그림은 항상 옳았습니다.\" — 이조판서의 기록"
+  },
+  2: {
+    emoji: "📚",
+    titleLabel: "전하의 묘호",
+    name: "학문의 왕",
+    hanja: "聖學王 · 문화군주",
+    tag: "아는 것이 곧 나라를 다스리는 힘",
+    sillok: `전하의 편전에는 늘 책이 가득했다. 학자를 우대하고, 서적을 편찬하며, 교육 기관을 세웠다. 문화와 예술이 꽃피었고, 선비들이 마음껏 학문에 매진할 수 있었다.\n\n신하들은 말했다. "<strong>전하와 경연을 하면 가르치러 갔다가 배우고 돌아온다</strong>"고. 조선 문화의 황금기를 연 왕으로 기록되었다.`,
+    virtues: ["깊은 학식", "신중한 판단", "문화적 소양", "치밀한 논리"],
+    style: ["경연 중시", "기록과 정리", "합리적 결정", "학자 우대"],
+    moment: "재위 9년, 훈민정음에 버금가는 대규모 서적 편찬을 명하셨다. <strong>\"글이 없으면 역사도 없고, 역사가 없으면 나라도 없다.\"</strong> 이 작업은 조선의 지식 체계를 완성했다.",
+    retainer: "\"전하께서는 무엇 하나 허투루 결정하시는 법이 없었습니다. 모든 결정 뒤에는 깊은 공부와 사색이 있었습니다.\" — 홍문관 대제학의 회고"
+  },
+  3: {
+    emoji: "⚔️",
+    titleLabel: "전하의 묘호",
+    name: "강인의 왕",
+    hanja: "武勇王 · 호국군주",
+    tag: "나라를 지키는 것이 곧 백성을 살리는 것",
+    sillok: `전하의 치세는 도전과 위기의 연속이었다. 외적의 침입, 내부의 갈등, 기후의 재앙. 그러나 전하는 단 한 번도 흔들리지 않으셨다.\n\n"<strong>왕이 두려워하면 나라가 무너진다.</strong>" 전하의 신념이었다. 압도적인 존재감과 단호한 결단으로 위기마다 나라를 지켜냈다. 후대는 그를 호국군주라 불렀다.`,
+    virtues: ["압도적 결단력", "강인한 의지", "전략적 사고", "흔들리지 않는 중심"],
+    style: ["위기 대응", "군사 강화", "강력한 왕권", "단호한 처결"],
+    moment: "재위 10년, 북방 침입군이 국경을 넘었다. 대신들이 화친을 논할 때 전하께서 일어나 말씀하셨다. <strong>\"짐이 직접 나서겠노라.\"</strong> 그 말 한마디에 군사들의 사기가 치솟았고 외적은 물러났다.",
+    retainer: "\"전하 앞에 서면 등줄기가 곧아졌습니다. 두렵다기보다는 — 그분처럼 강해지고 싶다는 마음이 들었습니다.\" — 병조판서의 기록"
+  }
+};
+
+let scores = [0, 0, 0, 0];
+let currentQ = 0;
+
+function showOverlay(data, cb) {
+  const el = document.getElementById('scene-overlay');
+  document.getElementById('overlay-label').textContent = data.label || '어전';
+  document.getElementById('overlay-title').textContent = data.title;
+  document.getElementById('overlay-sub').textContent = data.sub || '';
+  el.classList.add('show');
+  setTimeout(() => { el.classList.remove('show'); setTimeout(cb, 380); }, 1200);
+}
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  showOverlay(
+    { label: '즉위식', title: '전하, 어좌에 오르시옵소서', sub: '문무백관이 엎드려 절을 올립니다' },
+    () => { document.getElementById('quiz-screen').style.display = 'block'; showQuestion(); }
+  );
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  const pct = ((currentQ + 1) / questions.length) * 100;
+  document.getElementById('year-badge').textContent = yearLabels[currentQ];
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('scene-label').textContent = q.label;
+  document.getElementById('scene-icon').textContent = q.icon;
+  document.getElementById('scene-text').textContent = q.scene;
+  document.getElementById('q-memo').textContent = q.memo;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(opt.axis);
+    optDiv.appendChild(btn);
+  });
+
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none'; card.offsetHeight;
+  card.style.animation = 'fadeUp 0.35s ease';
+}
+
+function selectAnswer(axis) {
+  scores[axis]++;
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showOverlay(
+      { label: '실록 기록', title: '사관이 붓을 놓았습니다', sub: '전하의 치세가 역사에 남겨졌습니다' },
+      showResult
+    );
+    return;
+  }
+  const ov = overlays[currentQ];
+  if (ov) showOverlay(ov, showQuestion);
+  else showQuestion();
+}
+
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const maxScore = Math.max(...scores);
+  const topAxis = scores.indexOf(maxScore);
+  const r = results[topAxis];
+
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-title-label').textContent = r.titleLabel;
+  document.getElementById('res-name').textContent = r.name;
+  document.getElementById('res-hanja').textContent = r.hanja;
+  document.getElementById('res-tag').textContent = r.tag;
+  document.getElementById('res-sillok').innerHTML = r.sillok.replace(/\n/g, '<br/>');
+  document.getElementById('res-virtues').innerHTML = r.virtues.map(v => `<span class="merit-tag">${v}</span>`).join('');
+  document.getElementById('res-style').innerHTML = r.style.map(s => `<span class="merit-tag">${s}</span>`).join('');
+  document.getElementById('res-moment').innerHTML = r.moment;
+  document.getElementById('res-retainer').textContent = r.retainer;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크를 복사하여 공유하기', 2000);
+  });
+}
+
+function restartTest() {
+  scores = [0, 0, 0, 0]; currentQ = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const r = p.get('r');
+  if (r !== null && results[parseInt(r)]) {
+    const idx = parseInt(r);
+    scores = [0,0,0,0,0];
+    scores[idx] = 1;
+    document.getElementById('intro-screen') && (document.getElementById('intro-screen').style.display = 'none');
+    showResult(true);
+  }
+})();
+</script>
+</body>
+</html>

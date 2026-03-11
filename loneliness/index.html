@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>당신의 외로움 유형 🌙 나는 어떻게 외로울까?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="당신의 외로움 유형 🌙 나는 어떻게 외로울까?"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/loneliness"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #0a0a18;
+      --card: #0f0f22;
+      --primary: #7b9fff;
+      --secondary: #a8bcff;
+      --text: #e8eaff;
+      --muted: #7070aa;
+      --border: #1e1e40;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🌙</span>
+    <h1>나는 어떤 방식으로<br/>외로움을 느낄까?</h1>
+    <p class="intro-desc">외로움에도 유형이 있어요.<br/>당신의 외로움 방식을 찾아드릴게요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🌙 내 외로움 유형 찾기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      <div style="margin-top:20px;padding:12px 16px;background:rgba(0,0,0,0.05);border-radius:10px;font-size:0.72rem;color:#999;line-height:1.6;text-align:center;">⚠️ 이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요.<br/>실제 고민이 있다면 전문 상담사와 상담하는 것을 권장해요.</div>
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"🏠", label:"SOCIAL LONELINESS", name:"물리적 외로움형", sub:"함께할 사람이 필요한 타입", tag:"곁에 있어줄 사람이 필요해", desc:"혼자 있는 시간이 외로움으로 연결되는 타입이에요. 누군가와 함께하는 것 자체가 외로움을 해소해줘요. 사람들과 있을 때 에너지를 얻고, 관계의 물리적 존재가 중요한 타입이에요.", traits:["동반자 필요", "활동 공유", "존재감 중시", "사교 지향"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  1: { emoji:"🌍", label:"COLLECTIVE LONELINESS", name:"소속 외로움형", sub:"어딘가에 속하고 싶은 타입", tag:"내가 있을 곳을 찾아", desc:"집단 속에서도 혼자인 느낌을 받는 타입이에요. 어딘가에 진정으로 소속되고 싶은 욕구가 있어요. 나와 비슷한 가치관이나 취향을 가진 커뮤니티가 필요해요.", traits:["소속감 필요", "집단 정체성", "공동체 지향", "비슷한 사람 탐색"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  2: { emoji:"🪞", label:"INNER LONELINESS", name:"내면 외로움형", sub:"나 자신과의 연결이 필요한 타입", tag:"내 안의 나를 찾아", desc:"외부 관계보다 내면의 고립감을 더 강하게 느끼는 타입이에요. 스스로를 충분히 이해받지 못하고 있다는 느낌, 나 자신도 나를 모르는 것 같은 느낌을 경험할 수 있어요.", traits:["자기 이해 필요", "내면 탐구", "정체성 추구", "자기 수용"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  3: { emoji:"💎", label:"INTIMATE LONELINESS", name:"깊은 연결 외로움형", sub:"진심으로 이해해줄 사람이 필요한 타입", tag:"나를 진심으로 알아줄 사람이 필요해", desc:"주변에 사람이 있어도 진심으로 대화하고 이해받을 수 없다는 외로움을 느끼는 타입이에요. 깊이 있는 연결과 진심 어린 소통이 필요해요.", traits:["깊은 연결 필요", "이해 욕구", "진심 소통", "친밀감 갈망"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+};
+const questions = [
+  { text:"🌙 외로움을 가장 많이 느끼는 순간은?", options:[
+    {text:"혼자 있을 때",axis:0},
+    {text:"사람들 속에 있지만 아무도 나를 모르는 것 같을 때",axis:1},
+    {text:"중요한 결정을 혼자 내려야 할 때",axis:2},
+    {text:"진심으로 대화할 사람이 없을 때",axis:3},
+  ]},
+  { text:"📱 연락이 뜸해지는 친구를 보면?", options:[
+    {text:"빨리 연락하고 싶어짐",axis:0},
+    {text:"나도 연락하기 어렵지만 그리움을 느낌",axis:3},
+    {text:"자연스러운 일이라고 생각하지만 외로움",axis:1},
+    {text:"나만의 문제인가? 내가 부족한가? 라고 생각",axis:2},
+  ]},
+  { text:"😔 외로울 때 나는?", options:[
+    {text:"누군가에게 연락하거나 만나러 감",axis:0},
+    {text:"혼자 음악 듣거나 감성에 빠짐",axis:3},
+    {text:"SNS를 보거나 바쁘게 지냄",axis:1},
+    {text:"아무것도 안 하고 가만히 있음",axis:2},
+  ]},
+  { text:"👥 많은 사람과 있을 때도 외롭다고 느끼나요?", options:[
+    {text:"사람들과 있으면 외롭지 않아요",axis:0},
+    {text:"가끔 그런 느낌이 있어요",axis:1},
+    {text:"꽤 자주 그런 느낌이에요",axis:1},
+    {text:"항상 그런 것 같아요",axis:2},
+  ]},
+  { text:"💭 외로움의 원인이 뭐라고 생각해?", options:[
+    {text:"함께 있는 사람이 없어서",axis:0},
+    {text:"나를 진정으로 이해하는 사람이 없어서",axis:3},
+    {text:"나 자신이 어딘가 부족해서",axis:2},
+    {text:"세상 속에 동떨어진 느낌이어서",axis:1},
+  ]},
+  { text:"🌟 외로움을 해소하는 방법은?", options:[
+    {text:"친구나 가족을 만나는 것",axis:0},
+    {text:"나와 비슷한 사람을 찾는 것",axis:3},
+    {text:"혼자만의 의미 있는 시간",axis:2},
+    {text:"어딘가에 소속되는 것",axis:1},
+  ]},
+  { text:"😢 가장 힘든 순간은?", options:[
+    {text:"아무도 없는 집에 혼자 있을 때",axis:0},
+    {text:"진심으로 대화할 상대가 없을 때",axis:3},
+    {text:"내가 잘 하고 있는지 아무도 모를 때",axis:2},
+    {text:"집단 속에서 혼자인 느낌이 들 때",axis:1},
+  ]},
+  { text:"🔮 이상적인 연결감은?", options:[
+    {text:"항상 곁에 있어주는 사람",axis:0},
+    {text:"진심으로 이해해주는 사람",axis:3},
+    {text:"나를 인정해주는 존재",axis:2},
+    {text:"같은 세계관을 가진 사람",axis:1},
+  ]},
+];
+let scores=[0,0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

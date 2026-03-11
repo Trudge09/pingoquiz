@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>동물의 숲 속 나는 누구? 🐾 나의 마법 동물 유형</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="동물의 숲 속 나는 누구? 🐾 나의 마법 동물 유형" />
+  <meta property="og:description" content="마법의 숲이 당신을 초대했어요. 당신 안에 잠든 마법 동물을 깨워봐요!" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/animal" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous">
+// URL 파라미터로 결과 바로 표시
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const r = params.get('r');
+  if (r !== null && results[parseInt(r)] !== undefined) {
+    const idx = parseInt(r);
+    scores = [0,0,0,0];
+    scores[idx] = 1;
+    document.getElementById('intro-screen').style.display = 'none';
+    showResult(true);
+  }
+})();
+
+</script>
+  <style>
+    :root {
+      --bg: #0a1208;
+      --card: #0f1c0c;
+      --card2: #152210;
+      --primary: #7ec850;
+      --secondary: #b8f07a;
+      --gold: #f5d76e;
+      --mist: #a8d8a8;
+      --text: #e8f5e0;
+      --muted: #6a9a5a;
+      --border: #1e3a18;
+      --radius: 20px;
+      --shadow: 0 8px 40px rgba(10,40,10,0.5);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+
+    /* 숲 배경 파티클 */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 20%, rgba(180,255,120,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 28% 65%, rgba(180,255,120,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 15%, rgba(200,255,150,0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 60% 75%, rgba(180,255,120,0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 35%, rgba(200,255,150,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 88% 80%, rgba(180,255,120,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 88%, rgba(200,255,150,0.35) 0%, transparent 100%),
+        radial-gradient(circle at 15% 50%, rgba(50,120,30,0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(80,160,40,0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(40,100,20,0.07) 0%, transparent 40%);
+    }
+
+    .top-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #2d6a1a, var(--primary), var(--secondary), var(--gold), var(--primary), #2d6a1a);
+    }
+
+    .wrap { max-width: 580px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+    /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1.5px dashed rgba(126,200,80,0.15);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* 씬 오버레이 */
+    #scene-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+      padding: 24px;
+      text-align: center;
+    }
+    #scene-overlay.show { opacity: 1; pointer-events: all; }
+    .overlay-emoji { font-size: 3.5rem; animation: breathe 1.2s ease infinite; }
+    .overlay-title { font-family: 'Jua', cursive; font-size: 1.2rem; color: var(--primary); }
+    .overlay-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 320px; }
+    @keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+    /* 인트로 */
+    #intro-screen { text-align: center; padding: 48px 0 32px; animation: fadeUp 0.6s ease; }
+    .back-btn {
+      display: block; text-align: left;
+      color: var(--muted); font-size: 0.85rem; text-decoration: none;
+      margin-bottom: 28px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--primary); }
+
+    .forest-title-wrap { margin-bottom: 20px; }
+    .forest-emoji {
+      font-size: 5rem; display: block; margin-bottom: 8px;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(126,200,80,0.4));
+    }
+    @keyframes float {
+      0%,100%{transform:translateY(0) rotate(-2deg);}
+      50%{transform:translateY(-12px) rotate(2deg);}
+    }
+
+    h1 {
+      font-family: 'Jua', cursive;
+      font-size: clamp(1.5rem, 5vw, 2.1rem); margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .intro-sub { color: var(--muted); font-size: 0.93rem; line-height: 1.8; margin-bottom: 24px; }
+
+    .letter-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 26px 22px;
+      text-align: left; margin-bottom: 28px;
+      position: relative; overflow: hidden;
+    }
+    .letter-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #2d6a1a, var(--primary), var(--secondary), var(--gold));
+    }
+    .letter-from {
+      font-size: 0.75rem; color: var(--gold); font-weight: 700;
+      letter-spacing: 1px; display: block; margin-bottom: 14px;
+    }
+    .letter-text {
+      color: #9ac880; font-size: 0.92rem; line-height: 2;
+    }
+    .letter-text .hl { color: var(--secondary); font-weight: 700; }
+    .letter-text .gold { color: var(--gold); font-weight: 700; }
+    .letter-sign {
+      margin-top: 14px; font-size: 0.82rem;
+      color: var(--muted); font-style: italic; text-align: right;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, #2d7a1a, var(--primary));
+      color: white; border: none; border-radius: 99px;
+      padding: 18px 52px; font-family: 'Jua', cursive;
+      font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 6px 28px rgba(80,180,40,0.3);
+      transition: all 0.15s ease;
+    }
+    .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(80,180,40,0.4); }
+
+    /* 퀴즈 */
+    #quiz-screen { padding: 28px 0; display: none; }
+    .progress-wrap {
+      background: var(--border); border-radius: 99px;
+      height: 5px; margin-bottom: 8px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #2d7a1a, var(--primary), var(--secondary));
+      border-radius: 99px; transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .q-num { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; font-weight: 700; letter-spacing: 1px; text-align: right; }
+
+    /* 장면 배너 */
+    .scene-banner {
+      background: var(--card2); border-radius: 12px;
+      padding: 13px 16px; margin-bottom: 14px;
+      border-left: 3px solid var(--primary);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .scene-banner-icon { font-size: 1.5rem; min-width: 30px; }
+    .scene-banner-body { font-size: 0.82rem; color: #7aa860; line-height: 1.7; }
+    .scene-banner-label { font-size: 0.72rem; color: var(--primary); font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 2px; }
+
+    .quiz-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 24px;
+      animation: fadeUp 0.35s ease; box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .quiz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #2d6a1a, var(--primary), var(--secondary));
+    }
+
+    .q-text {
+      font-family: 'Jua', cursive; font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+      color: var(--text); margin-bottom: 20px; line-height: 1.6;
+    }
+    .options { display: flex; flex-direction: column; gap: 9px; }
+    .option-btn {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 13px; padding: 14px 16px;
+      text-align: left; color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif; font-size: 0.92rem;
+      cursor: pointer; transition: all 0.18s ease;
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+    }
+    .option-btn:hover {
+      background: #1a3012; border-color: var(--primary);
+      transform: translateX(5px);
+      box-shadow: 0 4px 16px rgba(126,200,80,0.12);
+    }
+    .opt-icon { font-size: 1.2rem; min-width: 26px; padding-top: 1px; }
+
+    /* 결과 */
+    #result-screen { padding: 28px 0; display: none; animation: fadeUp 0.5s ease; }
+    .result-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 28px;
+      box-shadow: var(--shadow); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #2d6a1a, var(--primary), var(--secondary), var(--gold));
+    }
+
+    .result-label { font-size: 0.75rem; color: var(--primary); font-weight: 700; letter-spacing: 2px; margin-bottom: 14px; }
+    .result-emoji {
+      font-size: 6rem; display: block; margin-bottom: 14px;
+      filter: drop-shadow(0 0 24px rgba(126,200,80,0.45));
+      animation: float 4s ease-in-out infinite;
+    }
+    .result-animal-name {
+      font-family: 'Jua', cursive; font-size: 2.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 4px;
+    }
+    .result-animal-sub { font-family: 'Jua', cursive; font-size: 1rem; color: var(--muted); margin-bottom: 6px; }
+    .result-tag {
+      display: inline-block; background: rgba(126,200,80,0.1);
+      color: var(--primary); border: 1px solid rgba(126,200,80,0.25);
+      border-radius: 99px; padding: 4px 18px;
+      font-size: 0.82rem; font-weight: 700; margin-bottom: 24px;
+    }
+
+    /* 숲의 목소리 */
+    .forest-voice {
+      background: var(--card2); border-radius: 14px; padding: 20px 18px;
+      text-align: left; margin-bottom: 18px;
+      border-left: 3px solid var(--gold);
+    }
+    .forest-voice-label { color: var(--gold); font-weight: 700; font-size: 0.75rem; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+    .forest-voice-text { color: #9ac880; font-size: 0.9rem; line-height: 1.9; }
+
+    .result-desc {
+      text-align: left; color: #7a9a60; font-size: 0.9rem; line-height: 1.8;
+      background: var(--card2); border-radius: 14px; padding: 18px; margin-bottom: 18px;
+    }
+
+    /* 능력치 */
+    .powers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .power-box {
+      background: var(--card2); border-radius: 13px; padding: 14px;
+      border: 1px solid var(--border); text-align: left;
+    }
+    .power-title { font-family: 'Jua', cursive; font-size: 0.85rem; color: var(--primary); margin-bottom: 8px; }
+    .power-tag {
+      display: inline-block; background: rgba(126,200,80,0.08);
+      color: #8acc60; border-radius: 99px;
+      padding: 3px 10px; font-size: 0.76rem; font-weight: 700;
+      margin: 2px; border: 1px solid rgba(126,200,80,0.18);
+    }
+
+    /* 같은 숲의 동물 */
+    .companion-section {
+      background: var(--card2); border-radius: 14px; padding: 18px;
+      text-align: left; margin-bottom: 18px;
+    }
+    .companion-title { font-family: 'Jua', cursive; font-size: 0.95rem; color: var(--secondary); margin-bottom: 10px; }
+    .companion-text { color: #7a9a60; font-size: 0.88rem; line-height: 1.8; }
+
+    .share-btn {
+      width: 100%; background: rgba(126,200,80,0.1);
+      color: var(--primary); border: 1.5px solid rgba(126,200,80,0.25);
+      border-radius: 99px; padding: 14px;
+      font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; transition: all 0.15s ease; margin-bottom: 10px;
+    }
+    .share-btn:hover { background: rgba(126,200,80,0.2); }
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: 99px;
+      padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .retry-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+
+<!-- 씬 오버레이 -->
+<div id="scene-overlay">
+  <div class="overlay-emoji" id="overlay-emoji">🌿</div>
+  <div class="overlay-title" id="overlay-title"></div>
+  <div class="overlay-sub" id="overlay-sub"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 인트로 -->
+  <div id="intro-screen">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="forest-title-wrap">
+      <span class="forest-emoji">🌳</span>
+    </div>
+    <h1>동물의 숲 속<br/>나는 누구?</h1>
+    <p class="intro-sub">마법의 숲이 당신을 초대했어요</p>
+
+    <div class="letter-card">
+      <span class="letter-from">📜 마법 숲으로부터 온 편지</span>
+      <div class="letter-text">
+        어느 날 아침, 당신의 베개 밑에서 이끼 냄새가 나는 편지가 발견됐어요.<br/><br/>
+        <span class="hl">"오랫동안 기다렸어요."</span><br/><br/>
+        마법의 숲 깊은 곳에는 모든 사람 안에 잠든 <span class="gold">영혼 동물</span>이 있어요. 태어날 때부터 당신 안에 깃들어있었지만, 스스로는 알아채지 못했을 뿐이에요.<br/><br/>
+        숲으로 들어오세요. 우리가 길을 안내해 드릴게요. 당신의 영혼 동물이 깊은 숲 어딘가에서 당신을 기다리고 있으니까요. 🌿
+      </div>
+      <div class="letter-sign">— 마법 숲의 수호자로부터</div>
+    </div>
+    <button class="start-btn" onclick="startTest()">🌿 숲으로 들어가기</button>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 12</div>
+    <div class="scene-banner">
+      <div class="scene-banner-icon" id="scene-icon">🌿</div>
+      <div class="scene-banner-body">
+        <span class="scene-banner-label">🗺️ 지금 당신은</span>
+        <span id="scene-text"></span>
+      </div>
+    </div>
+    <div class="quiz-card">
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="result-card">
+      <div class="result-label">✦ 당신의 영혼 동물 ✦</div>
+      <span class="result-emoji" id="res-emoji"></span>
+      <div class="result-animal-name" id="res-name"></div>
+      <div class="result-animal-sub" id="res-sub"></div>
+      <div class="result-tag" id="res-tag"></div>
+
+      <div class="forest-voice">
+        <span class="forest-voice-label">🌳 숲의 목소리</span>
+        <div class="forest-voice-text" id="res-voice"></div>
+      </div>
+
+      <div class="result-desc" id="res-desc"></div>
+
+      <div class="powers-grid">
+        <div class="power-box">
+          <div class="power-title">✨ 마법 능력</div>
+          <div id="res-powers"></div>
+        </div>
+        <div class="power-box">
+          <div class="power-title">🌿 사는 곳</div>
+          <div id="res-habitat"></div>
+        </div>
+      </div>
+
+      <div class="companion-section">
+        <div class="companion-title">🐾 같은 숲의 동료</div>
+        <div class="companion-text" id="res-companion"></div>
+      </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+
+      <!-- 공유 카드 -->
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,rgba(126,200,80,0.12),rgba(126,200,80,0.04));border:1.5px solid rgba(126,200,80,0.35);border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#7ec850;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:rgba(126,200,80,0.15);color:#7ec850;border:1px solid rgba(126,200,80,0.4);border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#bbb;margin-top:10px;letter-spacing:0.1em;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="restartTest()">🔄 다시 숲으로</button>
+
+      <!-- 광고 슬롯: 하단 -->
+      <div class="ad-slot" style="margin-top:20px; margin-bottom:0;">
+        <ins class="adsbygoogle" style="display:block"
+          data-ad-client="ca-pub-2274221145664784"
+          data-ad-slot="7164108177"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+const scenes = [
+  { icon: "🌲", text: "숲 입구에 들어섰어요. 안개가 살짝 깔려 있어요." },
+  { icon: "🍄", text: "거대한 버섯 군락을 지나고 있어요. 발밑에서 빛이 나요." },
+  { icon: "💧", text: "작은 폭포 소리가 들려요. 물빛이 은빛으로 반짝여요." },
+  { icon: "🌸", text: "꽃이 피어있는 빈터에 도착했어요. 바람이 살랑 불어요." },
+  { icon: "🌙", text: "숲 속 밤이 찾아왔어요. 반딧불이들이 주변을 맴돌아요." },
+  { icon: "🪨", text: "이끼 낀 커다란 바위 앞에 섰어요. 오래된 기운이 느껴져요." },
+  { icon: "🌫️", text: "짙은 안개 속을 걷고 있어요. 뭔가가 지켜보는 느낌이에요." },
+  { icon: "🌿", text: "숲의 심장부에 가까워지고 있어요. 공기가 달라진 느낌이에요." },
+  { icon: "⭐", text: "하늘이 열리고 별빛이 숲 속으로 쏟아져 내려요." },
+  { icon: "🌳", text: "가장 오래된 나무 앞에 섰어요. 수천 년의 기억이 담긴 나무예요." },
+  { icon: "✨", text: "나무 뿌리 사이에서 빛이 새어 나오고 있어요." },
+  { icon: "🔮", text: "숲 중심부의 신성한 연못 앞에 섰어요. 수면이 완전히 고요해요." }
+];
+
+const questions = [
+  {
+    text: "숲 입구에서 첫 발을 내딛는 순간, 어떤 기분이 들어요?",
+    options: [
+      { text: "가슴이 두근거려. 어떤 게 나올지 설레!", icon: "💫", axis: 0 },
+      { text: "조용히 귀 기울여. 숲이 무슨 말을 하는지 들어봐", icon: "🌬️", axis: 1 },
+      { text: "주변을 꼼꼼히 살펴봐. 뭔가 놓치면 안 되니까", icon: "👁️", axis: 2 },
+      { text: "그냥 걸어가. 발이 닿는 대로 따라가면 돼", icon: "🚶", axis: 3 }
+    ]
+  },
+  {
+    text: "발밑에서 빛나는 버섯을 발견했어요. 어떻게 해요?",
+    options: [
+      { text: "손을 뻗어서 살짝 만져봐. 호기심이 이겨", icon: "🖐️", axis: 0 },
+      { text: "건드리지 않고 한참 바라봐. 그냥 예뻐", icon: "✨", axis: 1 },
+      { text: "주변에 더 있는지 찾아봐. 군락이 있을 것 같아", icon: "🔍", axis: 2 },
+      { text: "지나쳐. 서두르면 안 되니까", icon: "🚶", axis: 3 }
+    ]
+  },
+  {
+    text: "폭포 옆 작은 웅덩이에 신비로운 물고기가 보여요. 뭘 해요?",
+    options: [
+      { text: "말을 걸어봐. 혹시 말을 할 수도 있잖아", icon: "💬", axis: 0 },
+      { text: "조용히 앉아서 물고기가 헤엄치는 걸 구경해", icon: "🌊", axis: 1 },
+      { text: "물에 손을 담가봐. 온도가 어떤지 궁금해", icon: "💧", axis: 2 },
+      { text: "물고기 눈을 마주쳐. 뭔가 메시지가 있을 것 같아", icon: "🐟", axis: 3 }
+    ]
+  },
+  {
+    text: "꽃이 가득한 빈터에서 길이 세 갈래로 나뉘어요.",
+    options: [
+      { text: "제일 밝아 보이는 길. 빛이 있는 곳이 맞는 길이야", icon: "☀️", axis: 0 },
+      { text: "제일 조용한 길. 고요한 곳에 답이 있어", icon: "🌿", axis: 1 },
+      { text: "발자국이 없는 길. 아무도 안 간 곳이 진짜야", icon: "🗺️", axis: 2 },
+      { text: "마음이 끌리는 길. 직감을 따라가", icon: "💫", axis: 3 }
+    ]
+  },
+  {
+    text: "밤이 되자 작은 요정이 나타났어요. 뭔가 알고 싶다고 물어볼게요.",
+    options: [
+      { text: "이 숲에서 제일 신기한 비밀이 뭐야?", icon: "🔮", axis: 2 },
+      { text: "여기서 제일 아름다운 곳이 어디야?", icon: "🌸", axis: 1 },
+      { text: "이 숲에서 제일 강한 존재가 누구야?", icon: "⚡", axis: 0 },
+      { text: "나는 여기 왜 초대받은 거야?", icon: "🌙", axis: 3 }
+    ]
+  },
+  {
+    text: "이끼 낀 바위 위에서 쉬고 있는데, 낯선 소리가 들려요.",
+    options: [
+      { text: "소리 나는 쪽으로 달려가 봐. 뭔지 알고 싶어!", icon: "🏃", axis: 0 },
+      { text: "움직이지 않고 기다려. 스스로 오게 놔둬", icon: "🧘", axis: 1 },
+      { text: "조용히 숨어서 뭔지 먼저 파악해봐", icon: "🫥", axis: 2 },
+      { text: "눈을 감고 소리에 집중해. 느낌이 올 것 같아", icon: "👂", axis: 3 }
+    ]
+  },
+  {
+    text: "짙은 안개 속에서 희미하게 빛나는 존재를 봤어요.",
+    options: [
+      { text: "이름을 불러봐. 반응이 있을 것 같아", icon: "📣", axis: 0 },
+      { text: "가만히 바라봐. 눈이 마주칠 때까지", icon: "👀", axis: 1 },
+      { text: "천천히 다가가. 겁주면 안 되니까", icon: "🐾", axis: 2 },
+      { text: "그 자리에 앉아. 내가 준비됐을 때 올 거야", icon: "🌫️", axis: 3 }
+    ]
+  },
+  {
+    text: "수천 년 된 나무가 말을 걸었어요. 뭐라고 했을까요?",
+    options: [
+      { text: "\"너는 불꽃처럼 타오르는 영혼이구나\"", icon: "🔥", axis: 0 },
+      { text: "\"너는 물처럼 모든 것을 품는 마음이구나\"", icon: "🌊", axis: 1 },
+      { text: "\"너는 별처럼 혼자서도 빛나는 존재구나\"", icon: "⭐", axis: 2 },
+      { text: "\"너는 바람처럼 어디든 자유로운 영혼이구나\"", icon: "🌬️", axis: 3 }
+    ]
+  },
+  {
+    text: "별빛이 쏟아지는 밤, 숲의 동물들이 모여 잔치를 열었어요. 나는?",
+    options: [
+      { text: "신나게 어울려! 에너지가 넘쳐흘러", icon: "🎉", axis: 0 },
+      { text: "조금 떨어진 곳에서 분위기를 즐겨. 이게 더 좋아", icon: "🌙", axis: 1 },
+      { text: "새로운 친구들에게 먼저 말 걸어봐", icon: "🤝", axis: 0 },
+      { text: "높은 곳에 올라가서 전체를 내려다봐", icon: "🏔️", axis: 2 }
+    ]
+  },
+  {
+    text: "연못의 수면에 내 모습이 비쳤어요. 어떤 모습이었으면 좋겠어요?",
+    options: [
+      { text: "눈부시게 빛나는 모습. 어둠 속에서도 빛나고 싶어", icon: "✨", axis: 0 },
+      { text: "부드럽고 온화한 모습. 보는 것만으로 마음이 편안해지는", icon: "🌸", axis: 1 },
+      { text: "신비롭고 알 수 없는 모습. 함부로 다가올 수 없는", icon: "🔮", axis: 2 },
+      { text: "자유롭고 거침없는 모습. 무엇에도 묶이지 않은", icon: "🌬️", axis: 3 }
+    ]
+  },
+  {
+    text: "영혼 동물에게 한 가지 마법을 줄 수 있다면?",
+    options: [
+      { text: "어떤 어둠도 밝힐 수 있는 빛", icon: "💡", axis: 0 },
+      { text: "상처 입은 것을 치유하는 힘", icon: "💚", axis: 1 },
+      { text: "아무도 모르는 진실을 볼 수 있는 눈", icon: "👁️", axis: 2 },
+      { text: "어떤 경계도 넘을 수 있는 자유", icon: "🕊️", axis: 3 }
+    ]
+  },
+  {
+    text: "마침내 연못 앞에 섰어요. 수면이 출렁이더니 뭔가 떠올랐어요. 당신의 영혼 동물이에요. 마지막으로 물어볼게요 — 당신이 이 숲에 온 이유는?",
+    options: [
+      { text: "새로운 나를 만나고 싶어서", icon: "🌱", axis: 0 },
+      { text: "내 안의 고요함을 찾고 싶어서", icon: "🌙", axis: 1 },
+      { text: "아무도 모르는 비밀을 알고 싶어서", icon: "🔮", axis: 2 },
+      { text: "그냥... 끌렸어. 이유는 모르겠어", icon: "🌬️", axis: 3 }
+    ]
+  }
+];
+
+const results = {
+  0: {
+    emoji: "🦄",
+    name: "불꽃 유니콘",
+    sub: "Flame Unicorn",
+    tag: "빛과 열정의 화신",
+    voice: "오래 기다렸어요. 당신의 에너지가 숲 입구에서부터 느껴졌거든요. 당신 안의 불꽃은 어둠 속에서도 꺼지지 않아요. 주변 사람들이 당신 곁에 있으면 왠지 모르게 따뜻해지는 건, 우연이 아니에요. 당신은 태어날 때부터 빛을 내는 존재였으니까요.",
+    desc: "에너지가 넘치고 존재감이 강해요. 어디서든 자연스럽게 중심이 되고, 사람들을 끌어당기는 매력이 있어요. 감정이 풍부하고 열정적이며, 한번 마음이 움직이면 전력으로 달려가는 타입. 때로는 너무 뜨거워서 지치기도 하지만, 그 불꽃이 바로 당신의 가장 큰 힘이에요.",
+    powers: ["빛 방출", "에너지 전달", "어둠 정화", "열정 불씨"],
+    habitat: ["일출의 봉우리", "불꽃 폭포 옆", "해가 잘 드는 빈터"],
+    companion: "당신 옆에는 언제나 은빛 여우가 함께해요. 당신의 뜨거움을 조용히 지켜보면서, 너무 타오를 때 살짝 식혀주는 존재예요. 처음엔 거리를 두는 것 같아도, 사실 가장 믿는 동료예요."
+  },
+  1: {
+    emoji: "🌊",
+    name: "달빛 셀키",
+    sub: "Moonlight Selkie",
+    tag: "공감과 치유의 수호자",
+    voice: "당신이 연못가에 앉았을 때, 물이 조용히 당신 쪽으로 흘렀어요. 느꼈나요? 당신은 만나는 모든 것에 스며드는 능력이 있어요. 타인의 감정을 읽고, 상처를 어루만지고, 존재만으로도 안심이 되는 그런 존재. 셀키는 바다와 육지 어디서든 살 수 있어요 — 당신처럼요.",
+    desc: "감수성이 깊고 공감 능력이 뛰어나요. 말하지 않아도 상대의 감정을 느끼고, 필요한 말을 정확히 해주는 타입. 혼자만의 시간으로 에너지를 충전하고, 소수와 깊은 유대를 맺어요. 겉은 조용해 보여도 내면에 거대한 감정의 바다가 있어요.",
+    powers: ["감정 공감", "치유의 손길", "물 속 호흡", "꿈 인도"],
+    habitat: ["달빛 호숫가", "안개 낀 폭포 뒤", "이슬 맺힌 꽃밭"],
+    companion: "당신의 동료는 달빛 반딧불이 무리예요. 외로운 밤, 말없이 곁에 와서 빛을 밝혀줘요. 당신이 어두운 곳에 있을 때만 나타나는, 그래서 더 소중한 존재들이에요."
+  },
+  2: {
+    emoji: "🦊",
+    name: "별빛 구미호",
+    sub: "Starlight Kumiho",
+    tag: "지혜와 신비의 탐구자",
+    voice: "숲이 당신을 처음 봤을 때, 모두가 긴장했어요. 당신의 눈빛이 너무 많은 걸 꿰뚫어보거든요. 구미호는 천 년을 살며 세상의 진실을 수집해요 — 당신처럼. 겉으로는 알 수 없는 표정을 짓지만, 그 안에는 누구보다 많은 생각이 소용돌이치고 있어요.",
+    desc: "관찰력이 날카롭고 직관이 뛰어나요. 말보다 침묵으로 더 많은 걸 표현하고, 사람들은 당신을 쉽게 읽지 못해요. 혼자만의 세계가 뚜렷하고, 깊이 있는 것에 끌려요. 한번 신뢰한 사람에게는 놀라울 만큼 솔직하고 따뜻해요.",
+    powers: ["진실 꿰뚫기", "환상 창조", "기억 열람", "별빛 이동"],
+    habitat: ["천년 묵은 고목 위", "별이 모이는 곳", "아무도 모르는 숲 속 비밀 장소"],
+    companion: "당신의 동료는 안개 올빼미예요. 다른 동물들이 잠든 밤에만 나타나, 당신에게만 세상의 비밀을 속삭여줘요. 말이 없지만, 당신과 가장 많은 것을 나눠요."
+  },
+  3: {
+    emoji: "🌬️",
+    name: "바람 그리핀",
+    sub: "Wind Griffin",
+    tag: "자유와 경계 없는 영혼",
+    voice: "당신은 숲 속에서 한 번도 길을 잃지 않았어요. 어떤 방향으로 가도 자신감이 있었죠. 그리핀은 하늘과 땅, 어느 경계에도 묶이지 않아요. 당신처럼. 자유를 가장 사랑하고, 틀에 갇히는 순간 날개가 무거워지는 존재예요. 하지만 하늘에서 보면, 누구보다 멀리 보여요.",
+    desc: "자유롭고 독립적이에요. 계획보다 직감, 규칙보다 자신의 기준을 따라요. 어디서든 적응하는 유연함이 있고, 새로운 것에 두려움이 없어요. 혼자도 충분하지만, 진심으로 연결될 때는 누구보다 깊은 유대를 만들어요.",
+    powers: ["바람 타기", "경계 초월", "높은 곳 시야", "폭풍 가르기"],
+    habitat: ["구름 위 둥지", "산꼭대기 절벽", "바람이 모이는 숲 꼭대기"],
+    companion: "당신의 동료는 빗속 용이에요. 평소엔 보이지 않지만, 당신이 진짜 힘든 순간에만 나타나요. 말도 없이 옆에서 같이 날아줘요. 그걸로 충분한, 그런 관계예요."
+  }
+};
+
+const overlayScenes = [
+  null,
+  { emoji: "🍄", title: "빛나는 버섯 군락을 지나요", sub: "발밑에서 은은한 빛이 올라와요..." },
+  { emoji: "💧", title: "폭포 소리가 가까워져요", sub: "맑은 물소리가 귓가에 울려요..." },
+  { emoji: "🌸", title: "꽃이 핀 빈터에 도착했어요", sub: "달콤한 향기가 바람에 실려와요..." },
+  { emoji: "🌙", title: "숲에 밤이 찾아왔어요", sub: "반딧불이들이 하나둘 깨어나요..." },
+  { emoji: "🪨", title: "거대한 이끼 바위 앞에 섰어요", sub: "수백 년의 시간이 느껴져요..." },
+  { emoji: "🌫️", title: "짙은 안개 속으로 들어가요", sub: "앞이 잘 보이지 않아요. 감각을 열어봐요..." },
+  { emoji: "🌳", title: "천년 고목 앞에 섰어요", sub: "나무가 당신을 알아보는 것 같아요..." },
+  { emoji: "⭐", title: "별빛이 쏟아져 내려요", sub: "하늘이 열리고 빛이 가득해요..." },
+  { emoji: "✨", title: "빛이 뿌리 사이에서 새어 나와요", sub: "뭔가 가까워지고 있어요..." },
+  { emoji: "🔮", title: "신성한 연못에 도착했어요", sub: "드디어 여기까지 왔어요. 마지막 질문이에요..." }
+];
+
+let scores = [0, 0, 0, 0];
+let currentQ = 0;
+
+function showOverlay(data, cb) {
+  const el = document.getElementById('scene-overlay');
+  document.getElementById('overlay-emoji').textContent = data.emoji;
+  document.getElementById('overlay-title').textContent = data.title;
+  document.getElementById('overlay-sub').textContent = data.sub;
+  el.classList.add('show');
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(cb, 350);
+  }, 1100);
+}
+
+function startTest() {
+  document.getElementById('intro-screen').style.display = 'none';
+  showOverlay(
+    { emoji: '🌲', title: '마법의 숲으로 들어가요...', sub: '발 앞에 이끼 길이 펼쳐져요. 천천히 걸어봐요.' },
+    () => {
+      document.getElementById('quiz-screen').style.display = 'block';
+      showQuestion();
+    }
+  );
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  const sc = scenes[currentQ];
+  const pct = ((currentQ + 1) / questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('q-num').textContent = `${currentQ + 1} / ${questions.length}`;
+  document.getElementById('scene-icon').textContent = sc.icon;
+  document.getElementById('scene-text').textContent = sc.text;
+  document.getElementById('q-text').textContent = q.text;
+
+  const optDiv = document.getElementById('options');
+  optDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-icon">${opt.icon}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(opt.axis);
+    optDiv.appendChild(btn);
+  });
+
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none'; card.offsetHeight;
+  card.style.animation = 'fadeUp 0.35s ease';
+}
+
+function selectAnswer(axis) {
+  scores[axis]++;
+  currentQ++;
+
+  if (currentQ >= questions.length) {
+    showOverlay(
+      { emoji: '🔮', title: '연못의 수면이 흔들려요...', sub: '당신의 영혼 동물이 모습을 드러내고 있어요.' },
+      showResult
+    );
+    return;
+  }
+
+  const ov = overlayScenes[currentQ];
+  if (ov) {
+    showOverlay(ov, showQuestion);
+  } else {
+    showQuestion();
+  }
+}
+
+function showResult(fromUrl) {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const maxScore = Math.max(...scores);
+  const topAxis = scores.indexOf(maxScore);
+  const r = results[topAxis];
+
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-name').textContent = r.name;
+  document.getElementById('res-sub').textContent = r.sub;
+  document.getElementById('res-tag').textContent = r.tag;
+  document.getElementById('res-voice').textContent = r.voice;
+  document.getElementById('res-desc').textContent = r.desc;
+  document.getElementById('res-powers').innerHTML = r.powers.map(p => `<span class="power-tag">${p}</span>`).join('');
+  document.getElementById('res-habitat').innerHTML = r.habitat.map(h => `<span class="power-tag">${h}</span>`).join('');
+  document.getElementById('res-companion').textContent = r.companion;
+
+  // 공유카드 업데이트
+  document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.name;
+  document.getElementById('sc-sub').textContent = r.sub;
+  document.getElementById('sc-tag').textContent = r.tag;
+
+  // URL 업데이트
+  if (!fromUrl) history.replaceState(null, '', '?r=' + topAxis);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크 복사해서 공유하기', 2000);
+  });
+}
+
+function restartTest() {
+  scores = [0, 0, 0, 0];
+  currentQ = 0;
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('intro-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

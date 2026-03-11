@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>헷갈리는 상대, 무슨 생각일까? 🤔 핑고퀴즈</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="헷갈리는 상대, 무슨 생각일까? 🤔"/>
+  <meta property="og:description" content="상대 행동을 선택하면 분석해드려요. 썸인지 아닌지 판독!"/>
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #f8f4ff;
+      --card: #ffffff;
+      --card2: #f3eeff;
+      --purple: #8040d0;
+      --purple2: #b070f8;
+      --pink: #e050a0;
+      --yellow: #f8c030;
+      --green: #30b870;
+      --red: #e03030;
+      --text: #1e1030;
+      --muted: #8060a0;
+      --border: #e8d8f8;
+      --radius: 18px;
+      --shadow: 0 4px 20px rgba(128,64,208,0.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; padding: 0 0 60px; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; top: -80px; right: -80px;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(176,112,248,0.10) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar { height: 4px; background: linear-gradient(90deg, var(--purple), var(--pink), var(--yellow), var(--purple)); }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+    .ad-slot {
+      margin: 0 auto 24px; background: var(--card); border: 1.5px dashed var(--border);
+      border-radius: 12px; padding: 14px; text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);
+    }
+    .back-btn { display:block; text-align:left; color:var(--muted); font-size:0.85rem; text-decoration:none; margin:28px 0 20px; transition:color 0.15s; }
+    .back-btn:hover { color: var(--purple); }
+
+    /* 헤더 */
+    .page-header { text-align:center; padding:10px 0 28px; }
+    .header-emoji { font-size:4rem; display:block; margin-bottom:10px; animation: wobble 3s ease-in-out infinite; }
+    @keyframes wobble { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
+    h1 { font-family:'Jua',cursive; font-size:clamp(1.4rem,5vw,2rem); margin-bottom:6px; }
+    h1 span { background:linear-gradient(135deg,var(--purple),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .page-sub { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:4px; }
+    .page-caution { font-size:0.75rem; color:#c0a0d0; margin-top:6px; }
+
+    /* 입력 카드 */
+    .input-card {
+      background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius);
+      padding:22px; margin-bottom:14px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .input-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--purple),var(--pink)); }
+    .section-label { font-family:'Jua',cursive; font-size:0.92rem; color:var(--purple); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+    .section-label span { font-size:0.72rem; color:var(--muted); font-weight:400; }
+
+    /* 행동 체크 */
+    .behavior-grid { display:flex; flex-direction:column; gap:8px; }
+    .beh-item {
+      display:flex; align-items:center; gap:10px;
+      background:var(--card2); border:1.5px solid var(--border);
+      border-radius:12px; padding:12px 14px; cursor:pointer; transition:all 0.15s;
+    }
+    .beh-item:hover { border-color:var(--purple); }
+    .beh-item.checked { background:rgba(128,64,208,0.08); border-color:var(--purple); }
+    .beh-check {
+      width:20px; height:20px; border-radius:6px;
+      border:2px solid var(--border); background:white;
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.72rem; flex-shrink:0; transition:all 0.15s;
+    }
+    .beh-item.checked .beh-check { background:var(--purple); border-color:var(--purple); color:white; }
+    .beh-emoji { font-size:1.3rem; min-width:26px; }
+    .beh-body { flex:1; }
+    .beh-text { font-size:0.88rem; color:var(--text); line-height:1.4; }
+    .beh-sub { font-size:0.75rem; color:var(--muted); margin-top:2px; }
+
+    /* 관계/기간 */
+    .chip-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .chip {
+      background:var(--card2); border:1.5px solid var(--border);
+      border-radius:99px; padding:7px 16px; font-size:0.85rem;
+      color:var(--muted); cursor:pointer; transition:all 0.15s;
+    }
+    .chip:hover { border-color:var(--purple); }
+    .chip.sel { background:rgba(128,64,208,0.1); border-color:var(--purple); color:var(--purple); font-weight:700; }
+
+    .submit-btn {
+      width:100%; background:linear-gradient(135deg,var(--purple),var(--pink));
+      color:white; border:none; border-radius:99px; padding:18px;
+      font-family:'Jua',cursive; font-size:1.1rem; cursor:pointer;
+      box-shadow:0 6px 24px rgba(128,64,208,0.3); transition:all 0.15s;
+    }
+    .submit-btn:hover { transform:translateY(-2px); }
+    .submit-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+    /* 결과 */
+    #result-screen { display:none; animation:fadeUp 0.5s ease; }
+
+    /* 썸 온도계 */
+    .thermo-card {
+      background:var(--card); border:1.5px solid var(--border);
+      border-radius:var(--radius); padding:28px 24px;
+      text-align:center; box-shadow:var(--shadow); margin-bottom:14px;
+      position:relative; overflow:hidden;
+    }
+    .thermo-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--purple),var(--pink)); }
+    .thermo-title { font-family:'Jua',cursive; font-size:0.88rem; color:var(--muted); letter-spacing:2px; margin-bottom:16px; }
+    .thermo-emoji { font-size:4rem; display:block; margin-bottom:10px; animation:bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .thermo-verdict { font-family:'Jua',cursive; font-size:1.6rem; margin-bottom:6px; }
+    .thermo-sub { font-size:0.88rem; color:var(--muted); margin-bottom:20px; }
+
+    /* 온도 바 */
+    .temp-bar-wrap { margin-bottom:8px; }
+    .temp-bar-labels { display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.75rem; color:var(--muted); }
+    .temp-bar { height:16px; background:var(--border); border-radius:99px; overflow:hidden; position:relative; }
+    .temp-fill {
+      height:100%; border-radius:99px;
+      transition:width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    .temp-label-row { display:flex; justify-content:space-between; margin-top:6px; font-size:0.78rem; }
+    .temp-score { font-family:'Jua',cursive; font-size:1rem; }
+
+    /* 행동 분석 */
+    .behavior-analysis-list { display:flex; flex-direction:column; gap:10px; }
+    .ba-item {
+      background:var(--card2); border:1.5px solid var(--border);
+      border-radius:12px; padding:14px 16px; display:flex; gap:12px;
+    }
+    .ba-icon { font-size:1.4rem; min-width:28px; }
+    .ba-body { flex:1; }
+    .ba-beh { font-size:0.85rem; color:var(--muted); margin-bottom:4px; }
+    .ba-analysis { font-size:0.9rem; color:var(--text); line-height:1.7; }
+    .ba-signal {
+      display:inline-block; border-radius:99px; padding:2px 10px;
+      font-size:0.72rem; font-weight:700; margin-top:4px;
+    }
+    .signal-good { background:rgba(48,184,112,0.12); color:var(--green); border:1px solid rgba(48,184,112,0.2); }
+    .signal-bad  { background:rgba(224,48,48,0.10); color:var(--red); border:1px solid rgba(224,48,48,0.2); }
+    .signal-neutral { background:rgba(248,192,48,0.12); color:#c08000; border:1px solid rgba(248,192,48,0.2); }
+
+    /* 종합 조언 */
+    .advice-card {
+      background:var(--card); border:1.5px solid var(--border);
+      border-radius:var(--radius); padding:22px; margin-bottom:14px; box-shadow:var(--shadow);
+    }
+    .advice-title { font-family:'Jua',cursive; font-size:0.95rem; color:var(--purple); margin-bottom:12px; padding-bottom:10px; border-bottom:1.5px solid var(--border); display:flex; align-items:center; gap:6px; }
+    .advice-text { font-size:0.9rem; color:#5a3080; line-height:2; }
+    .advice-text strong { color:var(--text); font-weight:700; }
+
+    .advice-caution {
+      background:rgba(128,64,208,0.04); border:1px solid rgba(128,64,208,0.12);
+      border-radius:10px; padding:12px 14px; margin-top:14px;
+      font-size:0.78rem; color:var(--muted); line-height:1.7;
+    }
+    .advice-caution::before { content:'⚠️ '; }
+
+    .retry-btn {
+      width:100%; background:rgba(128,64,208,0.08); color:var(--purple);
+      border:1.5px solid rgba(128,64,208,0.2); border-radius:99px; padding:14px;
+      font-family:'Jua',cursive; font-size:1rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px;
+    }
+    .retry-btn:hover { background:var(--purple); color:white; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  
+    .result-btn-group { display:flex; gap:10px; margin:18px 0 8px; }
+    .share-btn-s { flex:1; background:rgba(255,107,157,0.1); color:#ff6b9d; border:1.5px solid rgba(255,107,157,0.3); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; transition:all 0.15s; }
+    .share-btn-s:hover { background:#ff6b9d; color:white; }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="wrap">
+  <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block"
+      data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div id="input-screen">
+    <div class="page-header">
+      <span class="header-emoji">🤔</span>
+      <h1>헷갈리는 상대<br/><span>무슨 생각일까?</span></h1>
+      <p class="page-sub">상대방의 행동을 선택하면 분석해드려요</p>
+      <p class="page-caution">⚠️ 재미 목적이며 정확하지 않아요. 참고용으로만 봐주세요!</p>
+    </div>
+
+    <!-- 현재 관계 -->
+    <div class="input-card">
+      <div class="section-label">👥 현재 관계</div>
+      <div class="chip-row" id="rel-chips">
+        <div class="chip" onclick="selChip(this,'rel')">처음 알게 된 사이</div>
+        <div class="chip" onclick="selChip(this,'rel')">자주 보는 지인</div>
+        <div class="chip" onclick="selChip(this,'rel')">친구 사이</div>
+        <div class="chip" onclick="selChip(this,'rel')">썸 타는 중</div>
+        <div class="chip" onclick="selChip(this,'rel')">전 연인</div>
+      </div>
+    </div>
+
+    <!-- 기간 -->
+    <div class="input-card">
+      <div class="section-label">⏱️ 알고 지낸 기간</div>
+      <div class="chip-row" id="dur-chips">
+        <div class="chip" onclick="selChip(this,'dur')">1개월 미만</div>
+        <div class="chip" onclick="selChip(this,'dur')">1~3개월</div>
+        <div class="chip" onclick="selChip(this,'dur')">3~6개월</div>
+        <div class="chip" onclick="selChip(this,'dur')">6개월 이상</div>
+      </div>
+    </div>
+
+    <!-- 헷갈리는 행동 -->
+    <div class="input-card">
+      <div class="section-label">💭 헷갈리는 행동들 <span>(해당하는 것 모두 선택)</span></div>
+      <div class="behavior-grid" id="beh-grid"></div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="analyze()">🔍 분석하기</button>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result-screen">
+    <div class="thermo-card">
+      <div class="thermo-title">💘 썸 가능성 판독기</div>
+      <span class="thermo-emoji" id="res-emoji"></span>
+      <div class="thermo-verdict" id="res-verdict"></div>
+      <div class="thermo-sub" id="res-sub"></div>
+      <div class="temp-bar-wrap">
+        <div class="temp-bar-labels"><span>관심 없음 ❄️</span><span>❤️ 관심 있음</span></div>
+        <div class="temp-bar"><div class="temp-fill" id="temp-fill" style="width:0%"></div></div>
+        <div class="temp-label-row">
+          <span style="color:var(--muted);font-size:0.8rem">썸 가능성</span>
+          <span class="temp-score" id="temp-score" style="color:var(--purple)">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="advice-card">
+      <div class="advice-title">🔍 선택한 행동 분석</div>
+      <div class="behavior-analysis-list" id="beh-analysis-list"></div>
+    </div>
+
+    <div class="advice-card">
+      <div class="advice-title">💡 종합 분석 & 조언</div>
+      <div class="advice-text" id="overall-advice"></div>
+      <div class="advice-caution">이 분석은 재미 목적으로 제작된 콘텐츠입니다. 사람의 마음은 행동만으로 정확히 판단할 수 없어요. 개인차가 크며, 직접 소통하는 것이 가장 정확해요.</div>
+    </div>
+
+    <div class="ad-slot" style="margin-bottom:14px;">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <div class="result-btn-group">
+      <button class="share-btn-s" onclick="copyResultLinkS(this)">🔗 링크 복사</button>
+    </div>
+
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#ff6b9d1a,#ff6b9d08);border:1.5px solid #ff6b9d55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#ff6b9d;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#ff6b9d22;color:#ff6b9d;border:1px solid #ff6b9d55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+    <button class="retry-btn" onclick="resetAll()">🔄 다시 분석하기</button>
+  </div>
+</div>
+
+<script>
+const behaviors = [
+  // 긍정 신호
+  { id:'b1',  emoji:'👀', text:'눈이 자주 마주쳐요', sub:'우연히 보면 시선이 충돌함', score:+15, signal:'good',
+    analysis:'눈이 자주 마주친다는 건 상대가 당신을 자주 보고 있다는 신호예요. 의식하고 있을 가능성이 높아요.' },
+  { id:'b2',  emoji:'😄', text:'나한테만 유독 잘 웃어줘요', sub:'다른 사람보다 더 환하게', score:+18, signal:'good',
+    analysis:'특정 사람에게만 유독 더 잘 웃는다면, 그 사람을 편하고 좋게 생각하고 있다는 강한 신호예요.' },
+  { id:'b3',  emoji:'💬', text:'먼저 말 걸어주는 편이에요', sub:'이유 없이 자주 말 걸음', score:+20, signal:'good',
+    analysis:'특별한 이유 없이 먼저 말을 건다는 건 당신과 대화하고 싶다는 뜻이에요. 긍정적인 신호예요.' },
+  { id:'b4',  emoji:'📱', text:'연락을 먼저 해요', sub:'카톡 등을 먼저 보냄', score:+22, signal:'good',
+    analysis:'먼저 연락을 한다는 건 당신이 생각났다는 거예요. 매우 긍정적인 신호 중 하나예요.' },
+  { id:'b5',  emoji:'🤗', text:'스킨십이 자연스러워요', sub:'어깨, 팔 등 가볍게 터치', score:+18, signal:'good',
+    analysis:'자연스러운 스킨십은 심리적 거리가 가깝다는 신호예요. 단, 원래 스킨십이 많은 성격인지도 확인해봐요.' },
+  { id:'b6',  emoji:'🕐', text:'약속에 항상 일찍 와요', sub:'항상 먼저 도착해 있음', score:+12, signal:'good',
+    analysis:'약속에 일찍 온다는 건 당신과의 만남을 설레하고 있다는 신호일 수 있어요.' },
+  { id:'b7',  emoji:'💭', text:'제 이야기를 잘 기억해요', sub:'예전에 한 말을 기억함', score:+20, signal:'good',
+    analysis:'당신이 했던 말을 기억한다는 건 집중해서 듣고, 관심이 있다는 강한 신호예요.' },
+  { id:'b8',  emoji:'🎁', text:'챙겨줄 때가 있어요', sub:'뭔가 사다 주거나 도와줌', score:+15, signal:'good',
+    analysis:'챙겨준다는 건 당신을 신경 쓰고 있다는 표현이에요. 긍정적으로 볼 수 있어요.' },
+  { id:'b9',  emoji:'😳', text:'나 앞에서 긴장하는 것 같아요', sub:'말 더듬거나 어색해함', score:+16, signal:'good',
+    analysis:'특정 사람 앞에서 긴장한다는 건 의식하고 있다는 증거예요. 좋아할 때 자주 나타나는 행동이에요.' },
+  { id:'b10', emoji:'🗓️', text:'다음 약속을 먼저 잡아요', sub:'먼저 "언제 또 보자" 함', score:+22, signal:'good',
+    analysis:'다음 만남을 먼저 제안한다는 건 또 보고 싶다는 직접적인 신호예요. 매우 긍정적이에요.' },
+  // 헷갈리는 신호
+  { id:'b11', emoji:'📵', text:'카톡을 읽고 답 안 해요 (읽씹)', sub:'읽었는데 한참 뒤에 답장', score:-8, signal:'neutral',
+    analysis:'읽씹은 여러 이유가 있어요. 바쁠 수도 있고, 뭐라고 답할지 몰라서일 수도 있어요. 패턴이 반복되면 관심이 낮은 신호일 수 있어요.' },
+  { id:'b12', emoji:'🙂', text:'만나면 다정한데 연락은 없어요', sub:'같이 있을 땐 좋은데 연락 없음', score:-5, signal:'neutral',
+    analysis:'원래 연락을 잘 안 하는 성격일 수 있어요. 하지만 좋아하는 사람에겐 연락하게 되는 게 자연스럽기 때문에, 좋은 신호라고 보기는 어려워요.' },
+  { id:'b13', emoji:'😶', text:'나한테 뜨겁다 차갑다 반복해요', sub:'어떨 땐 친절, 어떨 땐 무관심', score:-10, signal:'neutral',
+    analysis:'밀당일 수도 있고, 본인도 혼란스러운 상태일 수 있어요. 일관성 없는 태도는 판단이 어려워요.' },
+  { id:'b14', emoji:'👥', text:'단둘이는 안 만나려 해요', sub:'그룹으로만 보자고 함', score:-15, signal:'bad',
+    analysis:'단둘이 만남을 피한다는 건 친밀감을 원치 않는다는 신호일 수 있어요. 단, 소심한 성격이라 단둘이가 어색한 경우도 있어요.' },
+  { id:'b15', emoji:'💙', text:'다른 이성 이야기를 자주 해요', sub:'다른 사람 얘기를 자연스럽게 함', score:-18, signal:'bad',
+    analysis:'좋아하는 상대 앞에서 다른 이성 이야기를 편하게 하는 건 "우리는 그냥 친구"라는 신호일 수 있어요.' },
+  { id:'b16', emoji:'😴', text:'바빠서라며 연락을 자주 미뤄요', sub:'"나중에 답할게"가 반복됨', score:-12, signal:'bad',
+    analysis:'진짜 바쁠 수도 있어요. 하지만 좋아하는 사람한테는 어떻게든 시간을 내는 게 일반적이에요.' },
+  { id:'b17', emoji:'😊', text:'친절한데 모두한테 친절한 것 같아요', sub:'나한테만 특별한 게 없는 것 같음', score:-10, signal:'neutral',
+    analysis:'원래 친절한 성격일 수 있어요. 나에게만 특별히 다르게 대해주는 게 있는지 비교해보는 게 중요해요.' },
+  { id:'b18', emoji:'💬', text:'대화가 잘 통해요', sub:'말이 잘 맞고 재밌음', score:+8, signal:'good',
+    analysis:'대화가 잘 통하는 건 기본 바탕이에요. 호감의 필수 조건이지만 그 자체만으로 판단하긴 어려워요.' },
+  { id:'b19', emoji:'❓', text:'가끔 나를 특별히 신경 써주는 것 같아요', sub:'남들은 안 챙겨주는 걸 챙겨줌', score:+14, signal:'good',
+    analysis:'나만 특별히 챙겨준다는 건 의식하고 있다는 강한 신호예요.' },
+  { id:'b20', emoji:'🌙', text:'늦은 시간에 연락이 와요', sub:'밤에 갑자기 카톡을 보냄', score:+10, signal:'neutral',
+    analysis:'외로울 때 생각나는 사람에게 연락하는 경우도 있어요. 좋은 신호일 수도, 습관적 행동일 수도 있어요.' },
+];
+
+let selectedRel = '', selectedDur = '';
+let selectedBehs = new Set();
+
+// 체크박스 생성
+const grid = document.getElementById('beh-grid');
+behaviors.forEach(b => {
+  const div = document.createElement('div');
+  div.className = 'beh-item';
+  div.id = 'beh-' + b.id;
+  div.innerHTML = `
+    <div class="beh-check" id="chk-${b.id}"></div>
+    <span class="beh-emoji">${b.emoji}</span>
+    <div class="beh-body">
+      <div class="beh-text">${b.text}</div>
+      <div class="beh-sub">${b.sub}</div>
+    </div>
+  `;
+  div.onclick = () => {
+    if (selectedBehs.has(b.id)) {
+      selectedBehs.delete(b.id);
+      div.classList.remove('checked');
+      document.getElementById('chk-' + b.id).textContent = '';
+    } else {
+      selectedBehs.add(b.id);
+      div.classList.add('checked');
+      document.getElementById('chk-' + b.id).textContent = '✓';
+    }
+  };
+  grid.appendChild(div);
+});
+
+function selChip(el, group) {
+  el.closest('.chip-row').querySelectorAll('.chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  if (group === 'rel') selectedRel = el.textContent;
+  else selectedDur = el.textContent;
+}
+
+function analyze() {
+  if (selectedBehs.size < 2) { alert('행동을 2개 이상 선택해주세요!'); return; }
+
+  const selected = behaviors.filter(b => selectedBehs.has(b.id));
+  const rawScore = selected.reduce((s, b) => s + b.score, 0);
+
+  // 점수를 0~100 퍼센트로 변환 (-50 ~ +50 범위 가정)
+  const clampedScore = Math.max(-50, Math.min(50, rawScore));
+  const pct = Math.round(((clampedScore + 50) / 100) * 100);
+
+  // 판정
+  let emoji, verdict, sub, color;
+  if (pct >= 75) { emoji='💘'; verdict='썸 타고 있을 확률 높음!'; sub='여러 신호들이 관심을 나타내고 있어요'; color='linear-gradient(90deg,#f07070,#f03030)'; }
+  else if (pct >= 55) { emoji='😊'; verdict='관심 있을 가능성 있어요'; sub='좋은 신호들이 보이지만 확신은 어려워요'; color='linear-gradient(90deg,#f09040,#f06020)'; }
+  else if (pct >= 40) { emoji='🤔'; verdict='아직 판단하기 어려워요'; sub='긍정 신호와 부정 신호가 섞여 있어요'; color='linear-gradient(90deg,#f0b030,#e09020)'; }
+  else if (pct >= 25) { emoji='😐'; verdict='관심이 크지 않을 수도 있어요'; sub='더 지켜볼 필요가 있어요'; color='linear-gradient(90deg,#70a0f0,#5080d0)'; }
+  else { emoji='❄️'; verdict='현재로선 관심이 없을 수 있어요'; sub='직접 확인하거나 시간을 두는 게 좋을 것 같아요'; color='linear-gradient(90deg,#90a0c0,#6080a0)'; }
+
+  document.getElementById('input-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  document.getElementById('res-emoji').textContent = emoji;
+  document.getElementById('res-verdict').textContent = verdict;
+  document.getElementById('res-sub').textContent = sub;
+
+  const fill = document.getElementById('temp-fill');
+  fill.style.background = color;
+  setTimeout(() => { fill.style.width = pct + '%'; document.getElementById('temp-score').textContent = pct + '%'; }, 200);
+
+  // 행동별 분석
+  const listEl = document.getElementById('beh-analysis-list');
+  listEl.innerHTML = selected.map(b => {
+    const sigClass = b.signal === 'good' ? 'signal-good' : b.signal === 'bad' ? 'signal-bad' : 'signal-neutral';
+    const sigText = b.signal === 'good' ? '✓ 관심 신호' : b.signal === 'bad' ? '✗ 부정 신호' : '△ 판단 어려움';
+    return `
+      <div class="ba-item">
+        <span class="ba-icon">${b.emoji}</span>
+        <div class="ba-body">
+          <div class="ba-beh">${b.text}</div>
+          <div class="ba-analysis">${b.analysis}</div>
+          <span class="ba-signal ${sigClass}">${sigText}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 종합 조언
+  const positiveCount = selected.filter(b => b.signal === 'good').length;
+  const negativeCount = selected.filter(b => b.signal === 'bad').length;
+  const rel = selectedRel || '현재 관계';
+  const dur = selectedDur || '';
+
+  let advice = '';
+  if (pct >= 70) {
+    advice = `<strong>${rel}</strong>이고 긍정적인 신호가 많이 보여요. 상대가 당신을 의식하고 있을 가능성이 높아요. 지금처럼 자연스럽게 더 자주 만날 기회를 만들어보세요. 조금 더 용기를 내서 단둘이 만날 기회를 만들어보는 것도 좋아요.`;
+  } else if (pct >= 50) {
+    advice = `긍정적인 신호(${positiveCount}개)와 판단 어려운 신호가 섞여 있어요. 관심이 없다고 단정짓기는 이르지만, 확신하기도 어려운 상황이에요. 조금 더 가까워질 기회를 만들면서 반응을 보는 것이 좋을 것 같아요.`;
+  } else if (pct >= 35) {
+    advice = `현재로선 판단이 쉽지 않아요. 부정적 신호(${negativeCount}개)도 있지만 전부는 아니에요. 직접적으로 대화를 늘려보면서 상대의 반응을 살펴보세요. 억지로 접근하기보다는 자연스럽게 친해지는 과정이 중요해요.`;
+  } else {
+    advice = `현재 신호들만 보면 관심이 크지 않을 수 있어요. 하지만 사람의 마음은 행동만으로 100% 알 수 없어요. 더 친해지면서 관계를 쌓아가는 게 우선일 것 같아요. 너무 조급해하지 말고, 자연스러운 관계에서 시작해봐요.`;
+  }
+  document.getElementById('overall-advice').innerHTML = advice;
+  // 공유카드 업데이트
+  try {
+    const scEmoji = document.getElementById('sc-emoji');
+    const scTitle = document.getElementById('sc-title');
+    const scSub = document.getElementById('sc-sub');
+    const scTag = document.getElementById('sc-tag');
+    if(scEmoji) scEmoji.textContent = '🔍';
+    if(scTitle && r) scTitle.textContent = r.title || r.heroTitle || '';
+    if(scSub && r) scSub.textContent = r.sub || r.heroSub || '';
+    if(scTag && r) scTag.textContent = r.tag || r.type || '';
+  } catch(e) {}
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetAll() {
+  selectedRel = ''; selectedDur = ''; selectedBehs.clear();
+  document.querySelectorAll('.beh-item').forEach(el => { el.classList.remove('checked'); el.querySelector('.beh-check').textContent = ''; });
+  document.querySelectorAll('.chip').forEach(el => el.classList.remove('sel'));
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('input-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyResultLinkS(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✅ 복사완료!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+</script>
+</body>
+</html>

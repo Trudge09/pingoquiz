@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>내가 혹시 나르시스트? 🪞 나의 자기애 지수</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="내가 혹시 나르시스트? 🪞 나의 자기애 지수"/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/narcissist"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #1a1520;
+      --card: #231d2e;
+      --primary: #d4aaff;
+      --secondary: #e8ccff;
+      --text: #f5f0ff;
+      --muted: #9988bb;
+      --border: #332855;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🪞</span>
+    <h1>나는 어느 정도의<br/>자기애를 가지고 있을까?</h1>
+    <p class="intro-desc">건강한 자존감과 나르시시즘의 차이를 알아봐요.<br/>솔직하게 답해야 정확한 결과가 나와요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🪞 나의 자기애 체크</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      <div style="margin-top:20px;padding:12px 16px;background:rgba(0,0,0,0.05);border-radius:10px;font-size:0.72rem;color:#999;line-height:1.6;text-align:center;">⚠️ 이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요.<br/>실제 고민이 있다면 전문 상담사와 상담하는 것을 권장해요.</div>
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"💚", label:"HEALTHY EGO", name:"건강한 자존감 보유자", sub:"나르시시즘과 거리 멀어요", tag:"건강한 자기애", desc:"자신을 사랑하면서도 타인을 배려하는 건강한 자존감을 가지고 있어요. 나르시시즘과는 거리가 먼 균형잡힌 자아를 가진 사람이에요.", traits:["건강한 자존감", "배려", "균형감", "공감 능력"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  1: { emoji:"🟡", label:"MILD NARCISSISM", name:"약간의 나르시시즘", sub:"많은 사람에게 있는 정상 범위", tag:"자기애 보통", desc:"인정받고 싶고 칭찬이 기쁜 것은 자연스러운 인간의 욕구예요. 약간의 자기중심적 경향이 있지만, 이는 많은 사람들이 가지고 있는 정상 범위예요.", traits:["인정 욕구", "자기중심적 경향", "성취 지향", "자기애"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  2: { emoji:"🟠", label:"HIGH NARCISSISM", name:"높은 나르시시즘 경향", sub:"자기중심적 경향이 강한 편", tag:"자기애 높음", desc:"자신을 매우 중요하게 생각하고, 인정과 칭찬에 대한 욕구가 강한 편이에요. 이런 성향이 관계에 영향을 미칠 수 있어요. 타인의 감정과 필요에 더 주의를 기울여 보는 것이 도움이 될 수 있어요.", traits:["강한 자기중심", "인정 욕구 강함", "공감 부족", "방어적"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요. 실제 어려움이 있다면 전문 상담을 권장해요." },
+};
+const questions = [
+  { text:"🌟 나는 내가 특별한 사람이라고 생각해?", options:[
+    {text:"아니, 나는 평범한 사람이야",axis:0},
+    {text:"나름의 특별함은 있다고 생각해",axis:1},
+    {text:"나는 남들과 다른 뭔가가 있어",axis:2},
+    {text:"당연히 나는 특별한 사람이지",axis:3},
+  ]},
+  { text:"👏 칭찬을 받을 때?", options:[
+    {text:"기쁘지만 겸손하게 받아들임",axis:0},
+    {text:"기쁘고 더 칭찬받고 싶어짐",axis:1},
+    {text:"당연하다는 생각도 듦",axis:2},
+    {text:"칭찬이 부족하면 오히려 실망",axis:3},
+  ]},
+  { text:"💬 다른 사람의 이야기를 들을 때?", options:[
+    {text:"진심으로 관심 갖고 들음",axis:0},
+    {text:"들으려 하지만 내 이야기도 하고 싶음",axis:1},
+    {text:"이야기가 나로 연결되는 경우가 많음",axis:2},
+    {text:"솔직히 내 이야기 하고 싶음",axis:3},
+  ]},
+  { text:"😤 내가 틀렸다는 말을 들으면?", options:[
+    {text:"맞는 말이면 인정하고 수용",axis:0},
+    {text:"기분은 나쁘지만 생각해봄",axis:1},
+    {text:"인정하기 어렵고 방어적이 됨",axis:2},
+    {text:"내가 틀릴 리 없다고 생각",axis:3},
+  ]},
+  { text:"💔 관계에서 나는?", options:[
+    {text:"주고받는 것이 중요하다 생각",axis:0},
+    {text:"나도 인정받고 싶음",axis:1},
+    {text:"내가 더 많이 받아야 한다고 느낌",axis:2},
+    {text:"내 필요가 우선이어야 함",axis:3},
+  ]},
+  { text:"🏆 성공에 대해?", options:[
+    {text:"과정이 중요하고 함께 이룬 성공도 의미있음",axis:0},
+    {text:"성공하면 인정받고 싶음",axis:1},
+    {text:"성공은 내 뛰어남의 증명",axis:2},
+    {text:"성공은 당연하고 인정을 항상 받아야 함",axis:3},
+  ]},
+  { text:"😢 다른 사람이 잘 됐을 때?", options:[
+    {text:"진심으로 기뻐해줄 수 있음",axis:0},
+    {text:"기쁘지만 나도 잘 돼야 한다는 생각",axis:1},
+    {text:"은근히 비교가 됨",axis:2},
+    {text:"기분이 별로임",axis:3},
+  ]},
+  { text:"👤 공감 능력에 대해?", options:[
+    {text:"타인의 감정을 잘 공감하는 편",axis:0},
+    {text:"노력하지만 잘 안 될 때도 있음",axis:1},
+    {text:"타인의 감정보다 내 감정이 우선",axis:2},
+    {text:"타인의 감정은 별로 중요하지 않음",axis:3},
+  ]},
+];
+let scores=[0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

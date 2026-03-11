@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>고기능 우울증 테스트 🎭 겉으론 괜찮아 보이지만...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta property="og:title" content="고기능 우울증 테스트 🎭 겉으론 괜찮아 보이지만..."/>
+  <meta property="og:url" content="https://pingoquiz.netlify.app/high-depression"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #141a14;
+      --card: #1a221a;
+      --primary: #6db06d;
+      --secondary: #90d090;
+      --text: #e8f5e8;
+      --muted: #608060;
+      --border: #2a3a2a;
+      --radius: 22px;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 60px; }
+    .back-btn { display:inline-block; margin:20px 20px 0; color:var(--muted); font-size:0.85rem; text-decoration:none; }
+    .back-btn:hover { color:var(--primary); }
+    .container { max-width:520px; margin:0 auto; padding:0 20px; }
+    .intro-screen { text-align:center; padding-top:40px; }
+    .hero-emoji { font-size:5rem; display:block; margin-bottom:16px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    h1 { font-family:'Jua',cursive; font-size:1.75rem; color:var(--primary); margin-bottom:10px; line-height:1.3; }
+    .intro-desc { color:var(--muted); font-size:0.9rem; line-height:1.7; margin-bottom:32px; }
+    .start-btn { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#fff; border:none; border-radius:99px; padding:16px 44px; font-family:'Jua',cursive; font-size:1.05rem; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:transform 0.15s; }
+    .start-btn:hover { transform:scale(1.04); }
+    .quiz-screen { display:none; padding-top:30px; }
+    .progress-wrap { height:4px; background:var(--border); border-radius:99px; margin-bottom:24px; overflow:hidden; }
+    .progress-bar { height:100%; background:linear-gradient(90deg,var(--primary),var(--secondary)); border-radius:99px; transition:width 0.3s; }
+    .q-num { font-size:0.78rem; color:var(--muted); margin-bottom:10px; }
+    .q-text { font-family:'Jua',cursive; font-size:1.12rem; color:var(--text); margin-bottom:24px; line-height:1.5; }
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .opt-btn { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:16px 18px; text-align:left; color:var(--text); font-size:0.9rem; cursor:pointer; transition:all 0.15s; line-height:1.5; }
+    .opt-btn:hover { border-color:var(--primary); background:rgba(128,128,128,0.05); }
+    .result-screen { display:none; padding-top:30px; }
+    .result-card { background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius); padding:32px 24px; }
+    .res-emoji { font-size:3.8rem; text-align:center; display:block; margin-bottom:12px; }
+    .res-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; text-align:center; margin-bottom:6px; font-weight:700; }
+    .res-name { font-family:'Jua',cursive; font-size:1.55rem; color:var(--text); text-align:center; margin-bottom:4px; }
+    .res-sub { font-size:0.84rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+    .res-tag { display:block; width:fit-content; margin:0 auto 20px; background:rgba(128,128,128,0.1); color:var(--primary); border:1px solid rgba(128,128,128,0.2); border-radius:99px; padding:4px 14px; font-size:0.8rem; }
+    .section-title { font-family:'Jua',cursive; font-size:0.92rem; color:var(--secondary); margin:20px 0 8px; }
+    .res-desc { font-size:0.87rem; color:var(--muted); line-height:1.8; }
+    .trait-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .trait-tag { background:rgba(128,128,128,0.08); color:var(--primary); border:1px solid rgba(128,128,128,0.18); border-radius:99px; padding:4px 12px; font-size:0.78rem; }
+    .extra-box { background:rgba(128,128,128,0.05); border:1px solid var(--border); border-radius:14px; padding:16px; margin-top:8px; }
+    .extra-box p { font-size:0.85rem; color:var(--muted); line-height:1.8; }
+    .ad-slot { margin:24px 0; }
+    .share-btn { width:100%; background:rgba(128,128,128,0.07); color:var(--primary); border:1.5px solid rgba(128,128,128,0.2); border-radius:99px; padding:14px; font-family:'Jua',cursive; font-size:0.95rem; cursor:pointer; transition:all 0.15s; margin-bottom:10px; }
+    .share-btn:hover { background:rgba(128,128,128,0.12); }
+    .retry-btn { width:100%; background:transparent; color:var(--muted); border:1.5px solid var(--border); border-radius:99px; padding:12px; font-family:'Jua',cursive; font-size:0.9rem; cursor:pointer; }
+    .share-card-wrap { margin:24px 0 0; background:rgba(128,128,128,0.05); border:1.5px solid rgba(128,128,128,0.15); border-radius:20px; padding:28px 24px 20px; text-align:center; }
+    .sc-card-label { font-size:0.72rem; color:var(--primary); letter-spacing:0.15em; margin-bottom:12px; font-weight:700; }
+    #sc-emoji { font-size:2.8rem; margin-bottom:8px; }
+    #sc-title { font-family:'Jua',cursive; font-size:1.3rem; margin-bottom:4px; }
+    #sc-sub { font-size:0.82rem; color:var(--muted); margin-bottom:10px; }
+    #sc-tag { display:inline-block; padding:4px 14px; border-radius:99px; font-size:0.78rem; color:var(--primary); background:rgba(128,128,128,0.08); border:1px solid rgba(128,128,128,0.18); }
+    .hint-txt { font-size:0.65rem; color:#aaa; margin-top:10px; }
+    .brand-txt { font-size:0.62rem; color:rgba(150,150,150,0.35); letter-spacing:0.1em; margin-top:6px; }
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🎭</span>
+    <h1>나는 혹시<br/>고기능 우울증일까?</h1>
+    <p class="intro-desc">겉으로는 잘 기능하지만 내면은 지쳐있는 상태를 확인해봐요.<br/>솔직하게 답해야 정확한 결과가 나와요.</p>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🔍 고기능 우울 체크</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num">1 / 8</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-label" id="res-label"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-title">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-title">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-title" id="extra-label-el"></div>
+      <div class="extra-box"><p id="res-extra"></p></div>
+      <div style="margin-top:20px;padding:12px 16px;background:rgba(0,0,0,0.05);border-radius:10px;font-size:0.72rem;color:#999;line-height:1.6;text-align:center;">⚠️ 이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요.<br/>실제 고민이 있다면 전문 상담사와 상담하는 것을 권장해요.</div>
+    </div>
+    <div class="ad-slot">      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-card-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+  </div>
+</div>
+<script>
+const results = {
+  0: { emoji:"🌟", label:"NO SYMPTOMS", name:"고기능 우울 증상 없음", sub:"내면도 잘 지내고 있어요", tag:"양호한 상태", desc:"현재 고기능 우울증의 특징적인 증상들이 보이지 않아요. 겉과 속 모두 비교적 건강한 상태예요. 지금의 상태를 잘 유지해요.", traits:["내외부 일치", "충분한 에너지", "긍정적 전망", "안정적"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  1: { emoji:"🌿", label:"MILD SYMPTOMS", name:"약한 징후 있음", sub:"가끔 지치는 편이에요", tag:"약간 주의 필요", desc:"고기능 우울증의 가벼운 징후들이 보여요. 겉으로는 잘 지내지만 내면이 가끔 지치는 편이에요. 충분한 자기 돌봄과 휴식이 필요해요.", traits:["약간의 불일치", "가끔 공허함", "자기 돌봄 필요", "초기 신호"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요." },
+  2: { emoji:"🎭", label:"MODERATE SYMPTOMS", name:"중간 정도의 징후", sub:"겉과 속이 많이 달라요", tag:"주의가 필요한 상태", desc:"고기능 우울증의 여러 특징들이 나타나고 있어요. 겉으로는 잘 기능하지만 내면은 상당히 지쳐있을 수 있어요. 전문적인 도움을 받아보는 것이 도움이 될 수 있어요.", traits:["겉과 속 차이 큼", "내면 소진", "감정 억압", "도움 필요"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요. 이런 상태가 지속된다면 전문 상담을 권장해요." },
+  3: { emoji:"🌧️", label:"HIGH SYMPTOMS", name:"강한 징후 있음", sub:"지금 많이 힘드실 수 있어요", tag:"전문 도움이 필요한 상태", desc:"고기능 우울증의 강한 징후들이 나타나고 있어요. 겉으로는 모든 것을 잘 해내고 있지만, 내면은 극도로 지쳐있는 상태일 수 있어요. 지금 많이 힘드시다면 혼자 감당하지 않아도 돼요.", traits:["강한 감정 억압", "내면 소진", "무기력", "고립감"], extraLabel:"참고", extraText:"이 결과는 전문적인 심리 검사가 아니에요. 재미로만 참고해주세요. 힘드시다면 가까운 사람에게 털어놓거나 전문 상담을 받아보는 것을 권장해요." },
+};
+const questions = [
+  { text:"😊 겉으로는 괜찮아 보이지만 속으로는?", options:[
+    {text:"겉과 속 모두 괜찮아요",axis:0},
+    {text:"가끔 차이가 있지만 대체로 괜찮아요",axis:1},
+    {text:"겉으론 괜찮아 보이려고 노력해요",axis:2},
+    {text:"항상 겉과 속이 달라요",axis:3},
+  ]},
+  { text:"🎭 사람들 앞에서 웃고 나서 혼자 있으면?", options:[
+    {text:"여전히 좋은 기분이 유지돼요",axis:0},
+    {text:"조금 지치지만 괜찮아요",axis:1},
+    {text:"갑자기 공허하거나 피곤해요",axis:2},
+    {text:"무너지거나 극도로 지쳐요",axis:3},
+  ]},
+  { text:"💭 아무 이유 없이 슬프거나 공허한 느낌?", options:[
+    {text:"거의 없어요",axis:0},
+    {text:"가끔 있어요",axis:1},
+    {text:"꽤 자주 있어요",axis:2},
+    {text:"거의 항상 있어요",axis:3},
+  ]},
+  { text:"🌅 미래에 대한 기대?", options:[
+    {text:"기대가 있어요",axis:0},
+    {text:"약간 막막하지만 있어요",axis:1},
+    {text:"별로 없어요",axis:2},
+    {text:"미래가 그냥 무감각하게 느껴져요",axis:3},
+  ]},
+  { text:"🎯 모든 것을 잘 해내고 있지만?", options:[
+    {text:"잘 해내고 있고 만족해요",axis:0},
+    {text:"잘 해내지만 가끔 허무해요",axis:1},
+    {text:"잘 해내지만 왜 하는지 모르겠어요",axis:2},
+    {text:"잘 해내는 것 자체가 너무 힘들어요",axis:3},
+  ]},
+  { text:"😔 힘들다고 누군가에게 말하는 것?", options:[
+    {text:"자연스럽게 말할 수 있어요",axis:0},
+    {text:"가까운 사람에게는 말해요",axis:1},
+    {text:"말하기 어렵고 혼자 감추는 편이에요",axis:2},
+    {text:"아무에게도 말하지 않고 혼자 감당해요",axis:3},
+  ]},
+  { text:"🔋 에너지 vs 겉으로 보이는 모습은?", options:[
+    {text:"에너지도 충분하고 보이는 것도 같아요",axis:0},
+    {text:"약간 차이는 있지만 괜찮아요",axis:1},
+    {text:"에너지는 부족한데 겉으로는 괜찮아 보여요",axis:2},
+    {text:"에너지는 0인데 겉으로는 멀쩡해 보여요",axis:3},
+  ]},
+  { text:"💤 아무것도 하기 싫지만?", options:[
+    {text:"그런 느낌이 별로 없어요",axis:0},
+    {text:"가끔 그런 날이 있어요",axis:1},
+    {text:"자주 그런 느낌이에요",axis:2},
+    {text:"거의 항상 그런 느낌이지만 해야 하니까 해요",axis:3},
+  ]},
+];
+let scores=[0,0,0,0], current=0;
+function startTest(){ document.getElementById('intro-screen').style.display='none'; document.getElementById('quiz-screen').style.display='block'; showQuestion(); }
+function showQuestion(){
+  const q=questions[current];
+  document.getElementById('q-num').textContent=`${current+1} / ${questions.length}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=`${(current/questions.length)*100}%`;
+  const opts=document.getElementById('options'); opts.innerHTML='';
+  q.options.forEach(o=>{ const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=o.text; btn.onclick=()=>{ scores[o.axis]++; current++; current<questions.length?showQuestion():showResult(); }; opts.appendChild(btn); });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores)), r=results[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-label').textContent=r.label;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  if(r.extraLabel){ document.getElementById('extra-label-el').textContent=r.extraLabel; document.getElementById('res-extra').textContent=r.extraText; } else { document.getElementById('extra-label-el').style.display='none'; document.querySelector('.extra-box').style.display='none'; }
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl) history.replaceState(null,'','?r='+top);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){ const url=location.origin+location.pathname+location.search; navigator.clipboard.writeText(url).then(()=>{ btn.textContent='✅ 링크 복사 완료!'; setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000); }); }
+function restartTest(){ scores=[0,0,0,0]; current=0; document.getElementById('result-screen').style.display='none'; document.getElementById('intro-screen').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+(function(){ const p=new URLSearchParams(location.search),r=p.get('r'); if(r!==null&&results[parseInt(r)]){ scores[parseInt(r)]=1; document.getElementById('intro-screen').style.display='none'; showResult(true); } })();
+</script>
+</body>
+</html>

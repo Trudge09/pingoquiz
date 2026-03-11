@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>우리 혹시 찰떡궁합? 💘 MBTI 궁합 분석</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="우리 혹시 찰떡궁합? 💘 MBTI 궁합 분석" />
+  <meta property="og:description" content="내 MBTI와 상대 MBTI를 입력하면 성향 분석, 잘 맞는 점, 조심할 점, 관계 팁을 알려드려요!" />
+  <meta property="og:image" content="https://pingoquiz.netlify.app/og-image.png" />
+  <meta property="og:url" content="https://pingoquiz.netlify.app/couple" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --card: #ffffff;
+      --primary: #ff4d7d;
+      --secondary: #ff9eb5;
+      --accent: #ffccd8;
+      --dark: #2d2d2d;
+      --muted: #999;
+      --radius: 20px;
+      --shadow: 0 8px 32px rgba(255,77,125,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 32px 16px 60px;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(255,77,125,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 90% 90%, rgba(255,158,181,0.07) 0%, transparent 50%);
+    }
+    .wrap { max-width: 620px; margin: 0 auto; }
+
+    /* 헤더 */
+    .header { text-align: center; margin-bottom: 36px; animation: fadeUp 0.5s ease; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 0.85rem; text-decoration: none;
+      margin-bottom: 20px; transition: color 0.15s;
+    }
+    .back-btn:hover { color: var(--primary); }
+    .header-emoji { font-size: 4rem; display: block; margin-bottom: 12px; animation: heartbeat 1.5s infinite; }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+    h1 { font-family: 'Jua', cursive; font-size: clamp(1.6rem, 5vw, 2.2rem); color: var(--primary); margin-bottom: 8px; }
+    .header-sub { color: var(--muted); font-size: 0.93rem; line-height: 1.6; }
+
+    /* 선택 카드 */
+    .select-card {
+      background: var(--card); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 32px 28px;
+      margin-bottom: 20px; animation: fadeUp 0.5s 0.1s ease both;
+    }
+    .select-label { font-family: 'Jua', cursive; font-size: 1.1rem; color: var(--dark); margin-bottom: 16px; }
+    .select-label span { color: var(--primary); }
+    .mbti-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    }
+    .mbti-btn {
+      background: #fff0f4; border: 2px solid #ffd6e0;
+      border-radius: 10px; padding: 10px 4px;
+      font-family: 'Noto Sans KR', sans-serif; font-weight: 700;
+      font-size: 0.88rem; color: #888; cursor: pointer;
+      transition: all 0.15s ease; text-align: center;
+    }
+    .mbti-btn:hover { background: #ffe0ea; border-color: var(--secondary); color: var(--dark); }
+    .mbti-btn.selected { background: var(--primary); border-color: var(--primary); color: white; transform: scale(1.05); box-shadow: 0 4px 12px rgba(255,77,125,0.3); }
+    .mbti-btn .emoji { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+
+    /* 분석 버튼 */
+    .analyze-btn {
+      width: 100%; background: linear-gradient(135deg, var(--primary), #ff8fab);
+      color: white; border: none; border-radius: 99px;
+      padding: 18px; font-family: 'Jua', cursive; font-size: 1.2rem;
+      cursor: pointer; box-shadow: 0 6px 24px rgba(255,77,125,0.3);
+      transition: all 0.15s ease; margin-top: 8px;
+      animation: fadeUp 0.5s 0.2s ease both;
+    }
+    .analyze-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(255,77,125,0.4); }
+    .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* 결과 카드 */
+    .result-card {
+      background: var(--card); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 32px 28px;
+      margin-top: 24px; display: none; animation: fadeUp 0.5s ease;
+    }
+    .result-header { text-align: center; margin-bottom: 28px; }
+    .result-pair {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-bottom: 16px;
+    }
+    .pair-type {
+      background: linear-gradient(135deg, var(--primary), #ff8fab);
+      color: white; border-radius: 14px; padding: 12px 24px;
+      font-family: 'Jua', cursive; font-size: 1.4rem;
+      box-shadow: 0 4px 16px rgba(255,77,125,0.25);
+    }
+    .pair-heart { font-size: 2rem; animation: heartbeat 1.5s infinite; }
+    .result-title { font-family: 'Jua', cursive; font-size: 1.3rem; color: var(--dark); margin-bottom: 6px; }
+    .result-subtitle { color: var(--muted); font-size: 0.9rem; }
+
+    /* 섹션들 */
+    .section { margin-bottom: 20px; }
+    .section-title {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Jua', cursive; font-size: 1rem;
+      margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
+    }
+    .section-icon { font-size: 1.2rem; }
+    .section-content { color: #555; font-size: 0.92rem; line-height: 1.8; }
+    .section-content ul { padding-left: 0; list-style: none; }
+    .section-content ul li { padding: 4px 0; }
+    .section-content ul li::before { content: "• "; color: var(--primary); font-weight: 700; }
+
+    /* 성향 박스 */
+    .traits-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .trait-box {
+      background: #fff8fa; border-radius: 14px; padding: 16px;
+      border: 1.5px solid var(--accent);
+    }
+    .trait-box-title { font-family: 'Jua', cursive; font-size: 0.9rem; color: var(--primary); margin-bottom: 8px; }
+    .trait-tag {
+      display: inline-block; background: var(--accent); color: #c0395a;
+      border-radius: 99px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700;
+      margin: 2px;
+    }
+
+    /* 공유 버튼 */
+    .share-btn {
+      width: 100%; background: #f5f5f5; color: #555;
+      border: 2px solid #e0e0e0; border-radius: 99px;
+      padding: 14px; font-family: 'Jua', cursive; font-size: 1rem;
+      cursor: pointer; margin-top: 20px; transition: all 0.15s ease;
+    }
+    .share-btn:hover { background: #fff0f4; border-color: var(--primary); color: var(--primary); }
+
+    /* 다시하기 */
+    .retry-btn {
+      width: 100%; background: transparent; color: var(--muted);
+      border: 2px solid #e8e8e8; border-radius: 99px;
+      padding: 12px; font-family: 'Jua', cursive; font-size: 0.95rem;
+      cursor: pointer; margin-top: 10px; transition: all 0.15s;
+    }
+    .retry-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hidden { display: none !important; }
+      /* 광고 슬롯 */
+    .ad-slot {
+      max-width: 100%; margin: 0 auto 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1.5px dashed rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 14px;
+      text-align: center; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+
+    <!-- 광고 슬롯: 상단 -->
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <span class="header-emoji">💘</span>
+    <h1>우리 혹시 찰떡궁합?</h1>
+    <p class="header-sub">MBTI로 알아보는 우리 사이 분석<br/>잘 맞는 점, 조심할 점, 관계 팁까지!</p>
+  </div>
+
+  <!-- 내 MBTI -->
+  <div class="select-card">
+    <div class="select-label">👤 <span>나의</span> MBTI를 선택해주세요</div>
+    <div class="mbti-grid" id="my-grid"></div>
+  </div>
+
+  <!-- 상대 MBTI -->
+  <div class="select-card">
+    <div class="select-label">💕 <span>상대방의</span> MBTI를 선택해주세요</div>
+    <div class="mbti-grid" id="their-grid"></div>
+  </div>
+
+  <button class="analyze-btn" id="analyze-btn" onclick="analyze()" disabled>
+    💘 궁합 분석하기
+  </button>
+
+  <!-- 결과 -->
+  <div class="result-card" id="result-card">
+    <div class="result-header">
+      <div class="result-pair">
+        <div class="pair-type" id="res-my"></div>
+        <div class="pair-heart">💘</div>
+        <div class="pair-type" id="res-their"></div>
+      </div>
+      <div class="result-title" id="res-title"></div>
+      <div class="result-subtitle" id="res-subtitle"></div>
+    </div>
+
+    <!-- 성향 분석 -->
+    <div class="traits-row">
+      <div class="trait-box">
+        <div class="trait-box-title" id="my-trait-title"></div>
+        <div id="my-traits"></div>
+      </div>
+      <div class="trait-box">
+        <div class="trait-box-title" id="their-trait-title"></div>
+        <div id="their-traits"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="section-icon">✨</span> 이런 점이 잘 맞아요</div>
+      <div class="section-content" id="res-good"></div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="section-icon">⚠️</span> 이런 점은 조심해요</div>
+      <div class="section-content" id="res-careful"></div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="section-icon">💡</span> 관계 팁</div>
+      <div class="section-content" id="res-tip"></div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+
+      <div id="share-card" style="margin:24px 0 0;background:linear-gradient(135deg,#ff4d7d1a,#ff4d7d08);border:1.5px solid #ff4d7d55;border-radius:20px;padding:28px 24px 20px;text-align:center;">
+        <div style="font-size:0.72rem;color:#ff4d7d;letter-spacing:0.15em;margin-bottom:12px;font-weight:700;">✦ 결과 공유 카드 ✦</div>
+        <div id="sc-emoji" style="font-size:3rem;margin-bottom:8px;"></div>
+        <div id="sc-title" style="font-family:'Jua',cursive;font-size:1.4rem;margin-bottom:4px;"></div>
+        <div id="sc-sub" style="font-size:0.85rem;color:#888;margin-bottom:10px;"></div>
+        <div id="sc-tag" style="display:inline-block;background:#ff4d7d22;color:#ff4d7d;border:1px solid #ff4d7d55;border-radius:99px;padding:4px 14px;font-size:0.8rem;margin-bottom:8px;"></div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:10px;">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+        <div style="font-size:0.62rem;color:#ccc;margin-top:4px;letter-spacing:0.08em;">pingoquiz.netlify.app</div>
+      </div>
+      <button class="retry-btn" onclick="resetAll()">🔄 다시 분석하기</button>
+
+    <!-- 광고 슬롯: 하단 -->
+    <div class="ad-slot" style="margin-top:20px; margin-bottom:0;">
+      <ins class="adsbygoogle" style="display:block"
+        data-ad-client="ca-pub-2274221145664784"
+        data-ad-slot="7164108177"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+</div>
+
+<script>
+const TYPES = [
+  {type:'INTJ', emoji:'☕'}, {type:'INTP', emoji:'🍦'}, {type:'ENTJ', emoji:'🥩'}, {type:'ENTP', emoji:'🌯'},
+  {type:'INFJ', emoji:'🍵'}, {type:'INFP', emoji:'🫐'}, {type:'ENFJ', emoji:'🍕'}, {type:'ENFP', emoji:'🍰'},
+  {type:'ISTJ', emoji:'🍱'}, {type:'ISFJ', emoji:'🍞'}, {type:'ESTJ', emoji:'🍖'}, {type:'ESFJ', emoji:'🍲'},
+  {type:'ISTP', emoji:'🍜'}, {type:'ISFP', emoji:'🍣'}, {type:'ESTP', emoji:'🌮'}, {type:'ESFP', emoji:'🍭'}
+];
+
+// 각 MBTI 성향 키워드
+const TRAITS = {
+  INTJ: { tags: ['전략적','독립적','완벽주의','냉철함'], desc: '목표 지향적이고 효율을 중시해요. 깊이 있는 대화를 좋아하고, 혼자만의 시간이 꼭 필요해요.' },
+  INTP: { tags: ['분석적','창의적','논리적','자유로움'], desc: '아이디어 탐구를 즐기고 틀에 얽매이기 싫어해요. 감정 표현보다 논리를 앞세우는 편이에요.' },
+  ENTJ: { tags: ['카리스마','추진력','리더십','직설적'], desc: '목표를 향해 강하게 나아가요. 효율과 결과를 중시하고 리드하는 걸 좋아해요.' },
+  ENTP: { tags: ['호기심','논쟁 즐김','창의력','즉흥적'], desc: '새로운 아이디어와 토론을 즐겨요. 가능성을 탐구하고 기존 틀을 깨는 걸 좋아해요.' },
+  INFJ: { tags: ['공감력','직관적','이상주의','신중함'], desc: '깊은 내면과 강한 신념을 가졌어요. 소수와 깊은 관계를 맺고 타인을 세심하게 이해해요.' },
+  INFP: { tags: ['감성적','이상주의','창의력','공감왕'], desc: '자신만의 가치관이 뚜렷해요. 감수성이 풍부하고 진정성 있는 관계를 중시해요.' },
+  ENFJ: { tags: ['배려심','리더십','공감력','사람 좋아'], desc: '사람들을 이끌고 돌보는 걸 좋아해요. 관계에서 조화를 중시하고 따뜻하게 지지해줘요.' },
+  ENFP: { tags: ['열정적','자유로움','상상력','긍정적'], desc: '에너지가 넘치고 새로운 것을 좋아해요. 감정 표현이 풍부하고 사람들과 연결되고 싶어해요.' },
+  ISTJ: { tags: ['책임감','체계적','신뢰성','현실적'], desc: '약속과 규칙을 중요하게 여겨요. 안정적이고 꼼꼼하며 한번 맡은 일은 끝까지 해내요.' },
+  ISFJ: { tags: ['배려심','헌신적','세심함','안정 추구'], desc: '주변을 조용히 챙기는 수호천사예요. 변화보다 안정을 선호하고 감사를 소중히 여겨요.' },
+  ESTJ: { tags: ['리더십','원칙적','책임감','현실주의'], desc: '질서와 규칙을 중시하고 체계적으로 움직여요. 솔직하고 실용적이며 목표 달성에 집중해요.' },
+  ESFJ: { tags: ['사교적','배려심','화합 중시','따뜻함'], desc: '관계를 소중히 여기고 주변을 챙기는 걸 좋아해요. 모두가 편안하도록 분위기를 만들어요.' },
+  ISTP: { tags: ['쿨함','실용적','독립적','문제 해결사'], desc: '말보다 행동으로 보여줘요. 혼자 문제를 해결하는 걸 즐기고 자유를 중요하게 여겨요.' },
+  ISFP: { tags: ['감성적','예술적','자유로운 영혼','온화함'], desc: '조용하지만 강한 자기만의 미학이 있어요. 현재 순간을 즐기고 갈등을 피하려 해요.' },
+  ESTP: { tags: ['에너지 넘침','즉흥적','현실적','행동파'], desc: '지금 이 순간을 즐겨요! 빠르게 판단하고 행동하며 새로운 경험을 좋아해요.' },
+  ESFP: { tags: ['밝음','사교적','즉흥적','현재 충실'], desc: '어디서든 분위기를 밝게 만들어요. 자유롭게 즐기고 사람들과 함께하는 걸 좋아해요.' },
+};
+
+// 궁합 데이터 생성 함수 (MBTI 차원 분석 기반)
+function getCompatibility(a, b) {
+  const dims = ['EI','SN','TF','JP'];
+  const same = dims.filter((_, i) => a[i] === b[i] || (i===0 && ((a[0]==='E'&&b[0]==='E')||(a[0]==='I'&&b[0]==='I')))).length;
+
+  // E/I
+  const aE = a[0]==='E', bE = b[0]==='E';
+  // S/N
+  const aS = a[1]==='S', bS = b[1]==='S';
+  // T/F
+  const aT = a[2]==='T', bT = b[2]==='T';
+  // J/P
+  const aJ = a[3]==='J', bJ = b[3]==='J';
+
+  // --- 잘 맞는 점 ---
+  const goods = [];
+  if (aE && bE) goods.push('둘 다 외향적이라 함께 있으면 에너지가 넘쳐요. 활동적인 데이트가 잘 맞아요.');
+  if (!aE && !bE) goods.push('둘 다 내향적이라 조용하고 깊은 대화를 즐길 수 있어요. 서로의 혼자 시간을 잘 이해해요.');
+  if (aE && !bE) goods.push('외향-내향 조합은 서로 부족한 부분을 채워줄 수 있어요. 균형 잡힌 관계가 될 수 있어요.');
+  if (!aE && bE) goods.push('내향-외향 조합은 서로에게 새로운 자극이 돼요. 상대방 덕분에 새로운 경험을 해볼 수 있어요.');
+  if (aS === bS) goods.push(aS ? '둘 다 현실적이고 구체적인 걸 좋아해서 실용적인 대화가 잘 통해요.' : '둘 다 직관적이고 아이디어를 나누는 걸 좋아해서 대화가 풍부해요.');
+  if (aT === bT) goods.push(aT ? '둘 다 논리적으로 문제를 접근해서 갈등 시 이성적으로 해결할 수 있어요.' : '둘 다 감정을 중시해서 서로의 마음을 잘 이해해요.');
+  if (aJ === bJ) goods.push(aJ ? '둘 다 계획적이어서 약속이나 일정에서 충돌이 거의 없어요.' : '둘 다 즉흥적이어서 자유롭고 유연한 관계를 만들어가요.');
+
+  // --- 조심할 점 ---
+  const carefuls = [];
+  if (aT && !bT) carefuls.push(`${a}는 논리를 앞세우다 보면 ${b}가 감정적으로 상처받을 수 있어요. 공감 표현을 더 해주세요.`);
+  if (!aT && bT) carefuls.push(`${b}의 직설적인 말이 ${a}에게 차갑게 느껴질 수 있어요. ${b}는 말할 때 감정을 살짝 얹어보세요.`);
+  if (aJ && !bJ) carefuls.push(`${a}는 계획을 중시하고 ${b}는 즉흥을 좋아해서 약속이나 일정에서 마찰이 생길 수 있어요.`);
+  if (!aJ && bJ) carefuls.push(`${b}는 계획적인데 ${a}가 자주 변경하면 스트레스를 줄 수 있어요. 큰 결정은 미리 조율해요.`);
+  if (aS !== bS) carefuls.push(aS ? `${a}는 현실적인 이야기를 좋아하는데 ${b}는 추상적인 아이디어를 즐겨요. 대화 방식의 차이를 이해해요.` : `${a}는 가능성을 이야기하고 싶은데 ${b}는 현실적인 해결책을 원할 수 있어요.`);
+  if (aE !== bE) carefuls.push(aE ? `${a}는 함께 있는 시간을 원하지만 ${b}는 혼자만의 시간이 꼭 필요해요. 강요하지 말고 배려해요.` : `${a}에게 혼자만의 시간을 충분히 주세요. 거리두는 게 아니라 충전하는 거예요.`);
+
+  // --- 관계 팁 ---
+  const tips = [];
+  if (aT !== bT) tips.push('감정형과 사고형 조합은 "상처 줄 의도가 없었어"가 통하지 않을 수 있어요. 말하기 전에 한 번 더 생각해요.');
+  if (aJ !== bJ) tips.push('계획형은 중요한 일정만큼은 미리 알려주고, 즉흥형은 큰 결정에선 상대를 배려해 미리 조율해요.');
+  if (aS !== bS) tips.push('대화할 때 서로 원하는 게 달라요. "지금 내 이야기를 들어줬으면 해" vs "해결책을 원해" 한마디가 관계를 부드럽게 해요.');
+  if (aE !== bE) tips.push('에너지 충전 방식이 달라요. 외향인은 함께, 내향인은 혼자. 서로의 방식을 존중하면 훨씬 편해져요.');
+  tips.push('모든 MBTI 조합에서 가장 중요한 건 서로의 다름을 "틀림"이 아닌 "다름"으로 받아들이는 거예요. 성격은 맞춰가기 나름이니까요 💕');
+
+  // --- 제목/부제 ---
+  const sameCount = [aE===bE, aS===bS, aT===bT, aJ===bJ].filter(Boolean).length;
+  let title, subtitle;
+  if (a === b) {
+    title = '우리 완전 쌍둥이잖아! 🪞';
+    subtitle = '같은 유형끼리는 서로를 거울처럼 잘 이해해요. 단, 같은 단점도 두 배!';
+  } else if (sameCount === 4) {
+    title = '찰떡 중의 찰떡! 💘';
+    subtitle = '네 가지 모두 같은 아주 드문 조합이에요!';
+  } else if (sameCount >= 3) {
+    title = '잘 통하는 사이 😊';
+    subtitle = '공통점이 많아서 편하게 지낼 수 있는 조합이에요.';
+  } else if (sameCount === 2) {
+    title = '밸런스 있는 한 쌍 ⚖️';
+    subtitle = '비슷한 점도, 다른 점도 있어서 서로 자극이 되는 관계예요.';
+  } else if (sameCount === 1) {
+    title = '반대매력 커플 🔥';
+    subtitle = '다른 점이 많지만, 서로 부족한 걸 채워줄 수 있는 조합이에요.';
+  } else {
+    title = '정반대 케미! ✨';
+    subtitle = '완전히 다른 두 사람. 이해하는 만큼 가장 강한 팀이 될 수 있어요.';
+  }
+
+  return { goods, carefuls, tips, title, subtitle };
+}
+
+let myType = null, theirType = null;
+
+function buildGrid(gridId, clickFn) {
+  const grid = document.getElementById(gridId);
+  TYPES.forEach(({type, emoji}) => {
+    const btn = document.createElement('button');
+    btn.className = 'mbti-btn';
+    btn.dataset.type = type;
+    btn.innerHTML = `<span class="emoji">${emoji}</span>${type}`;
+    btn.onclick = () => clickFn(type, btn, gridId);
+    grid.appendChild(btn);
+  });
+}
+
+function selectType(type, btn, gridId) {
+  document.querySelectorAll(`#${gridId} .mbti-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  if (gridId === 'my-grid') myType = type;
+  else theirType = type;
+  document.getElementById('analyze-btn').disabled = !(myType && theirType);
+}
+
+function analyze() {
+  const { goods, carefuls, tips, title, subtitle } = getCompatibility(myType, theirType);
+
+  document.getElementById('res-my').textContent = myType;
+  document.getElementById('res-their').textContent = theirType;
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-subtitle').textContent = subtitle;
+
+  // 성향
+  const mt = TRAITS[myType], tt = TRAITS[theirType];
+  document.getElementById('my-trait-title').textContent = `👤 ${myType} 성향`;
+  document.getElementById('my-traits').innerHTML = mt.tags.map(t => `<span class="trait-tag">${t}</span>`).join('') + `<p style="margin-top:8px;font-size:0.82rem;color:#777;line-height:1.6">${mt.desc}</p>`;
+  document.getElementById('their-trait-title').textContent = `💕 ${theirType} 성향`;
+  document.getElementById('their-traits').innerHTML = tt.tags.map(t => `<span class="trait-tag">${t}</span>`).join('') + `<p style="margin-top:8px;font-size:0.82rem;color:#777;line-height:1.6">${tt.desc}</p>`;
+
+  // 잘맞는점
+  document.getElementById('res-good').innerHTML = `<ul>${goods.map(g=>`<li>${g}</li>`).join('')}</ul>`;
+  // 조심할점
+  document.getElementById('res-careful').innerHTML = `<ul>${carefuls.map(c=>`<li>${c}</li>`).join('')}</ul>`;
+  // 관계팁
+  document.getElementById('res-tip').innerHTML = `<ul>${tips.map(t=>`<li>${t}</li>`).join('')}</ul>`;
+
+  const rc = document.getElementById('result-card');
+  rc.style.display = 'block';
+  // 공유카드
+  document.getElementById('sc-emoji').textContent = '💘';
+  document.getElementById('sc-title').textContent = title;
+  document.getElementById('sc-sub').textContent = myType + ' × ' + theirType;
+  document.getElementById('sc-tag').textContent = subtitle;
+  history.replaceState(null, '', '?r=' + myType + '-' + theirType);
+  rc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyLink(btn) {
+  const url = window.location.origin + window.location.pathname + window.location.search;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = '✅ 링크 복사 완료!';
+    setTimeout(() => btn.textContent = '🔗 링크 복사해서 공유하기', 2000);
+  });
+}
+
+function resetAll() {
+  myType = null; theirType = null;
+  document.querySelectorAll('.mbti-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('analyze-btn').disabled = true;
+  document.getElementById('result-card').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+buildGrid('my-grid', selectType);
+buildGrid('their-grid', selectType);
+
+(function() {
+  const p = new URLSearchParams(window.location.search);
+  const r = p.get('r');
+  if (r && r.includes('-')) {
+    const [a, b] = r.split('-');
+    if (a && b) {
+      myType = a;
+      theirType = b;
+      // MBTI 버튼 선택 표시
+      document.querySelectorAll('#my-grid .mbti-btn').forEach(btn => {
+        if (btn.textContent.trim() === a) btn.classList.add('selected');
+      });
+      document.querySelectorAll('#their-grid .mbti-btn').forEach(btn => {
+        if (btn.textContent.trim() === b) btn.classList.add('selected');
+      });
+      analyzeCouple();
+    }
+  }
+})();
+</script>
+</body>
+</html>
