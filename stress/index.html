@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나에게 딱 맞는 스트레스 해소법은? 🌿 성격으로 찾는 힐링 방법</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="내 성격에 꼭 맞는 스트레스 해소법을 찾아드려요. 10문항으로 나만의 힐링 방법 추천!"/>
+  <meta name="keywords" content="스트레스해소,힐링,심리테스트,성격테스트,핑고퀴즈"/>
+  <meta property="og:title" content="나에게 딱 맞는 스트레스 해소법은? 🌿"/>
+  <meta property="og:description" content="내 성격에 꼭 맞는 스트레스 해소법을 찾아드려요. 10문항으로 나만의 힐링 방법 추천!"/>
+  <meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png"/>
+  <meta property="og:url" content="https://pingoquiz.vercel.app/stress"/>
+  <meta property="og:type" content="website"/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root{
+      --bg:#f0f7f0; --card:#ffffff; --primary:#3db87a; --secondary:#6dd4a0;
+      --text:#1a2e1a; --muted:#5a8a6a; --border:#c8e8d4; --radius:0px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;position:relative;z-index:1;}
+
+    /* INTRO */
+    .intro-screen{text-align:center;padding-top:36px;}
+    .hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Jua',cursive;font-size:1.7rem;color:var(--primary);margin-bottom:10px;line-height:1.35;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:28px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 20px rgba(61,184,122,0.3);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+
+    /* QUIZ */
+    .quiz-screen{display:none;padding-top:28px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:22px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.35s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:8px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.1rem;color:var(--text);margin-bottom:20px;line-height:1.6;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:15px 18px;text-align:left;color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:#f0fff7;transform:translateX(4px);}
+
+    /* RESULT */
+    .result-screen{display:none;padding-top:28px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px 22px;}
+    .res-emoji{font-size:3.5rem;text-align:center;display:block;margin-bottom:10px;}
+    .res-type{font-size:0.7rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.5rem;color:var(--text);text-align:center;margin-bottom:4px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.6;}
+    .section-ttl{font-family:'Jua',cursive;font-size:0.92rem;color:var(--primary);margin:20px 0 12px;}
+
+    /* 추천 카드들 */
+    .rec-list{display:flex;flex-direction:column;gap:10px;}
+    .rec-item{background:#f6fff9;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;}
+    .rec-item-emoji{font-size:1.6rem;flex-shrink:0;margin-top:2px;}
+    .rec-item-body{}
+    .rec-item-name{font-weight:700;font-size:0.9rem;margin-bottom:4px;color:var(--text);}
+    .rec-item-reason{font-size:0.82rem;color:var(--muted);line-height:1.65;}
+
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;margin-top:4px;}
+
+    /* BUTTONS */
+    .ad-slot{margin:20px 0;}
+    .share-card-wrap{margin:20px 0 0;background:#f0fff7;border:1.5px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;}
+    .sc-label{font-size:0.7rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:10px;font-weight:700;}
+    #sc-emoji{font-size:2.6rem;margin-bottom:6px;}
+    #sc-title{font-family:'Jua',cursive;font-size:1.2rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.8rem;color:var(--muted);margin-bottom:8px;}
+    #sc-recs{font-size:0.78rem;color:var(--primary);}
+    .hint-txt{font-size:0.64rem;color:#aaa;margin-top:8px;}
+    .brand-txt{font-size:0.6rem;color:rgba(150,150,150,0.35);letter-spacing:0.1em;margin-top:4px;}
+    .share-btn{width:100%;background:rgba(61,184,122,0.08);color:var(--primary);border:1.5px solid rgba(61,184,122,0.3);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(61,184,122,0.15);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+
+    /* 추천 테스트 */
+    .rec-section{margin:24px 0 8px;}
+    .rec-label{text-align:center;font-size:0.7rem;letter-spacing:0.15em;color:var(--primary);font-weight:700;margin-bottom:12px;}
+    .rec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:all 0.15s;}
+    .rec-card:hover{border-color:var(--primary);transform:translateX(4px);}
+    .rc-emoji{font-size:1.5rem;flex-shrink:0;}
+    .rc-title{flex:1;font-size:0.88rem;font-weight:700;}
+    .rc-arrow{font-size:0.9rem;color:var(--primary);}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🌿</span>
+    <h1>나에게 딱 맞는<br/>스트레스 해소법은?</h1>
+    <p class="intro-desc">쉬어도 쉰 것 같지 않은 당신에게.<br/>내 성격과 에너지에 꼭 맞는<br/>힐링 방법을 찾아드려요 ✨</p>
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <button class="start-btn" onclick="startTest()">🌿 나의 힐링 방법 찾기</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-type" id="res-type"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="section-ttl">🌿 나에게 추천하는 스트레스 해소법</div>
+      <div class="rec-list" id="rec-list"></div>
+      <div class="section-ttl" style="margin-top:22px;">💬 이런 분께 딱이에요</div>
+      <div class="res-desc" id="res-desc"></div>
+    </div>
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-recs"></div>
+      <div class="hint-txt">📱 화면을 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+
+    <div class="rec-section">
+      <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+      <a class="rec-card" href="/emotion-color"><span class="rc-emoji">🎨</span><span class="rc-title">나의 감정 색깔 테스트</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/burnout"><span class="rc-emoji">🪫</span><span class="rc-title">번아웃 지수 체크</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/good-person"><span class="rc-emoji">😇</span><span class="rc-title">나는 착한 사람일까?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/relationship-type"><span class="rc-emoji">🌐</span><span class="rc-title">나의 인간관계 타입</span><span class="rc-arrow">→</span></a>
+    </div>
+  </div>
+
+</div>
+<script>
+// ── 결과 데이터 ──
+const RESULTS = [
+  {
+    id: 0,
+    emoji: '📚',
+    type: 'QUIET SOLO TYPE',
+    name: '조용한 혼자만의 시간형',
+    sub: '혼자서 충전하는 내향적 힐러',
+    desc: '사람들과 어울리는 것보다 혼자만의 공간과 시간이 있어야 진짜 쉰 느낌이 드는 타입이에요. 시끄럽고 자극적인 것보다 조용하고 차분한 환경에서 에너지가 채워져요.',
+    recs: [
+      {emoji:'📚', name:'독서', reason:'혼자 조용히 다른 세계에 빠져들 수 있어요. 생각이 정리되고 마음이 차분해져요.'},
+      {emoji:'🎵', name:'음악 듣기', reason:'이어폰 꽂고 좋아하는 음악 틀면 세상과 잠시 단절할 수 있어요. 감정 정화에 최고예요.'},
+      {emoji:'✍️', name:'일기 쓰기', reason:'머릿속에 가득 찬 생각을 글로 꺼내면 훨씬 가벼워져요. 나만의 감정 정리 시간이에요.'},
+      {emoji:'🎨', name:'그림 그리기·뜨개질', reason:'손을 움직이는 집중 활동이 잡생각을 없애줘요. 완성했을 때 성취감도 덤이에요.'},
+      {emoji:'🛏️', name:'푹 자기', reason:'과자극에 지쳐있을 수 있어요. 충분한 수면이 가장 빠른 회복법이에요.'},
+    ]
+  },
+  {
+    id: 1,
+    emoji: '🌳',
+    type: 'OUTDOOR REFRESH TYPE',
+    name: '몸 쓰고 머리 비우는 야외형',
+    sub: '움직여야 풀리는 액티브 힐러',
+    desc: '가만히 있으면 오히려 더 답답한 타입이에요. 몸을 쓰거나 밖으로 나가야 머릿속이 비워지고 기분이 전환돼요. 신체 활동이 최고의 스트레스 해소제예요.',
+    recs: [
+      {emoji:'🚶', name:'산책하기', reason:'걸으면서 머릿속을 자연스럽게 비울 수 있어요. 햇볕도 쐬면 기분이 확 좋아져요.'},
+      {emoji:'⛰️', name:'등산', reason:'힘들게 오른 만큼 정상에서의 성취감이 커요. 자연 속에서 에너지가 리셋돼요.'},
+      {emoji:'🚗', name:'드라이브', reason:'창문 열고 좋아하는 음악 틀면서 달리면 머릿속이 싹 비워져요.'},
+      {emoji:'✈️', name:'여행가기', reason:'낯선 환경이 일상의 스트레스를 잊게 해줘요. 짧은 당일치기도 효과 있어요.'},
+      {emoji:'🏃', name:'운동', reason:'운동하면 엔도르핀이 나와서 기분이 좋아져요. 땀 흘리면 스트레스가 함께 빠져나가요.'},
+    ]
+  },
+  {
+    id: 2,
+    emoji: '👯',
+    type: 'SOCIAL HEALING TYPE',
+    name: '함께여야 충전되는 사교형',
+    sub: '사람에게서 에너지 얻는 힐러',
+    desc: '혼자 있으면 오히려 생각이 많아지는 타입이에요. 친한 사람들과 수다 떨고, 같이 뭔가를 먹거나 즐기면서 에너지가 채워져요. 연결감이 힐링의 핵심이에요.',
+    recs: [
+      {emoji:'💬', name:'친구에게 털어놓기', reason:'말로 꺼내는 것만으로도 스트레스가 절반으로 줄어요. 들어주는 사람이 있다는 것 자체가 힘이 돼요.'},
+      {emoji:'🍽️', name:'맛있는 거 먹기', reason:'좋아하는 음식을 사람들이랑 같이 먹으면 그게 최고의 힐링이에요.'},
+      {emoji:'👨‍👩‍👧', name:'가족들과 시간 보내기', reason:'가까운 사람들과 아무 생각 없이 웃다 보면 스트레스가 자연스럽게 풀려요.'},
+      {emoji:'🎤', name:'노래방·파티', reason:'신나게 떠들고 노는 시간이 에너지를 채워줘요. 함께 즐기는 게 포인트예요.'},
+      {emoji:'☕', name:'예쁜 카페 가기', reason:'카페에서 대화하면서 맛있는 음료 마시면 기분 전환이 돼요. 분위기도 중요해요.'},
+    ]
+  },
+  {
+    id: 3,
+    emoji: '🎬',
+    type: 'CULTURE HEALING TYPE',
+    name: '감성 충전 문화 힐링형',
+    sub: '보고 느끼면서 채워지는 힐러',
+    desc: '좋은 콘텐츠, 감동적인 이야기, 아름다운 공간에서 에너지를 얻는 타입이에요. 무언가에 몰입하고 감동을 받을 때 스트레스가 해소되고 삶의 활력을 찾아요.',
+    recs: [
+      {emoji:'📺', name:'OTT·영화 보기', reason:'좋아하는 드라마나 영화에 푹 빠지면 현실을 잠시 잊을 수 있어요. 몰입이 힐링이에요.'},
+      {emoji:'🎭', name:'전시·연극·뮤지컬 보기', reason:'문화생활이 감수성을 채워줘요. 일상을 벗어난 특별한 경험이 활력을 줘요.'},
+      {emoji:'🎬', name:'극장 가기', reason:'큰 화면으로 영화에 완전히 몰입하는 경험이 스트레스를 날려줘요.'},
+      {emoji:'📱', name:'SNS·숏폼 보기', reason:'가볍고 재미있는 콘텐츠가 기분 전환에 도움이 돼요. 단, 시간 조절은 필수예요.'},
+      {emoji:'🖼️', name:'전시회·미술관', reason:'아름다운 작품을 보면서 감성이 채워져요. 조용하고 차분한 공간에서 생각도 정리돼요.'},
+    ]
+  },
+  {
+    id: 4,
+    emoji: '🍳',
+    type: 'HANDS-ON HEALING TYPE',
+    name: '손으로 만들고 즐기는 창작형',
+    sub: '직접 뭔가를 해야 풀리는 힐러',
+    desc: '그냥 쉬는 게 오히려 답답한 타입이에요. 손을 쓰거나 뭔가를 만들고, 결과물이 생길 때 성취감과 함께 스트레스가 해소돼요. 생산적인 취미가 최고의 힐링이에요.',
+    recs: [
+      {emoji:'🍳', name:'요리·베이킹', reason:'집중해서 뭔가를 만들고, 맛있는 결과물을 먹는 것까지 완벽한 힐링 코스예요.'},
+      {emoji:'🧶', name:'뜨개질·공예', reason:'손을 움직이는 반복 동작이 명상 효과를 줘요. 완성했을 때의 뿌듯함이 스트레스를 날려요.'},
+      {emoji:'🎨', name:'그림 그리기', reason:'잘 그리든 못 그리든 상관없어요. 그리는 행위 자체가 집중과 해방을 동시에 줘요.'},
+      {emoji:'🛍️', name:'쇼핑', reason:'갖고 싶던 걸 구경하고 구매하는 과정이 기분 전환이 돼요. 소소한 보상이 힘이 돼요.'},
+      {emoji:'🎮', name:'게임', reason:'목표를 달성하거나 퀘스트를 클리어하면서 성취감을 느낄 수 있어요.'},
+    ]
+  },
+  {
+    id: 5,
+    emoji: '🍕',
+    type: 'PLEASURE HEALING TYPE',
+    name: '소소한 즐거움 추구형',
+    sub: '작은 행복으로 채워지는 힐러',
+    desc: '거창한 힐링보다 일상 속 작은 즐거움으로 에너지를 충전하는 타입이에요. 맛있는 것, 예쁜 것, 재미있는 것을 찾아다니면서 스트레스를 날려요.',
+    recs: [
+      {emoji:'🍜', name:'맛있는 거 먹기', reason:'좋아하는 음식을 먹을 때의 행복감이 최고의 힐링이에요. 맛집 탐방도 좋아요.'},
+      {emoji:'☕', name:'예쁜 카페 가기', reason:'분위기 좋은 카페에서 맛있는 음료 한 잔이 기분을 확 바꿔줘요.'},
+      {emoji:'🛍️', name:'쇼핑', reason:'원하는 걸 구경하고 구매하는 과정이 작은 행복을 줘요.'},
+      {emoji:'📱', name:'숏폼·SNS 보기', reason:'재미있는 콘텐츠로 가볍게 기분 전환하는 게 딱 맞아요.'},
+      {emoji:'🛁', name:'목욕·홈케어', reason:'집에서 나만을 위한 시간을 만들어요. 향초, 입욕제, 마스크팩 같은 소소한 사치가 효과 만점이에요.'},
+    ]
+  },
+];
+
+// ── 문항 ──
+const QUESTIONS = [
+  {
+    text: '😮‍💨 스트레스를 받았을 때 가장 먼저 하고 싶은 건?',
+    opts: [
+      {text: '혼자 조용히 있고 싶다', scores: [2,0,0,0,0,0]},
+      {text: '밖으로 나가서 걷거나 움직이고 싶다', scores: [0,2,0,0,0,0]},
+      {text: '친구한테 전화해서 털어놓고 싶다', scores: [0,0,2,0,0,0]},
+      {text: '재미있는 걸 보거나 듣고 싶다', scores: [0,0,0,2,0,0]},
+      {text: '뭔가 손으로 만들거나 하고 싶다', scores: [0,0,0,0,2,0]},
+      {text: '맛있는 거 먹으러 가고 싶다', scores: [0,0,0,0,0,2]},
+    ]
+  },
+  {
+    text: '🏠 이상적인 주말 오전은?',
+    opts: [
+      {text: '책이나 음악과 함께 조용히 집에서', scores: [2,0,0,0,0,1]},
+      {text: '가볍게 운동이나 산책', scores: [0,2,0,0,0,0]},
+      {text: '친구나 가족과 브런치', scores: [0,0,2,0,0,1]},
+      {text: '좋아하는 드라마나 영화 정주행', scores: [1,0,0,2,0,0]},
+      {text: '취미 활동에 몰두하기', scores: [0,0,0,0,2,0]},
+      {text: '카페에서 여유롭게 시간 보내기', scores: [1,0,1,0,0,2]},
+    ]
+  },
+  {
+    text: '💬 스트레스를 받으면 주로 어떻게 되나요?',
+    opts: [
+      {text: '말수가 줄고 혼자 있고 싶어진다', scores: [2,0,0,0,0,0]},
+      {text: '몸이 답답하고 나가고 싶어진다', scores: [0,2,0,0,0,0]},
+      {text: '누군가에게 말하고 싶어진다', scores: [0,0,2,0,0,0]},
+      {text: '뭔가에 빠져들고 싶어진다', scores: [0,0,0,2,0,0]},
+      {text: '손을 바쁘게 움직이고 싶어진다', scores: [0,0,0,0,2,0]},
+      {text: '맛있는 거 먹고 싶어진다', scores: [0,0,0,0,0,2]},
+    ]
+  },
+  {
+    text: '🔋 에너지가 어디서 가장 많이 충전되나요?',
+    opts: [
+      {text: '혼자만의 조용한 시간', scores: [2,0,0,0,0,0]},
+      {text: '바깥 공기와 자연', scores: [0,2,0,0,0,0]},
+      {text: '사람들과의 대화와 웃음', scores: [0,0,2,0,0,0]},
+      {text: '좋은 콘텐츠나 문화 경험', scores: [0,0,0,2,0,0]},
+      {text: '뭔가를 만들고 완성했을 때', scores: [0,0,0,0,2,0]},
+      {text: '맛있는 음식이나 예쁜 공간', scores: [0,0,0,0,0,2]},
+    ]
+  },
+  {
+    text: '🌙 퇴근 후 완전히 쉬었다는 느낌이 드는 순간은?',
+    opts: [
+      {text: '이어폰 끼고 좋아하는 음악 들을 때', scores: [2,0,0,1,0,0]},
+      {text: '땀 흘리고 샤워했을 때', scores: [0,2,0,0,0,0]},
+      {text: '친구랑 맥주 한 잔 하면서 수다 떨 때', scores: [0,0,2,0,0,1]},
+      {text: '재미있는 드라마에 빠져들 때', scores: [0,0,0,2,0,0]},
+      {text: '취미에 집중하다가 완성했을 때', scores: [0,0,0,0,2,0]},
+      {text: '치킨이나 떡볶이 시켜 먹을 때', scores: [0,0,0,0,0,2]},
+    ]
+  },
+  {
+    text: '✈️ 여행 스타일은?',
+    opts: [
+      {text: '조용한 숙소에서 쉬면서 책 읽기', scores: [2,0,0,0,0,0]},
+      {text: '트레킹, 서핑, 액티비티 위주', scores: [0,2,0,0,0,0]},
+      {text: '친구들과 함께 왁자지껄 관광', scores: [0,0,2,0,0,0]},
+      {text: '현지 문화, 미술관, 공연 탐방', scores: [0,0,0,2,0,0]},
+      {text: '현지 마트, 시장, 기념품 쇼핑', scores: [0,0,0,0,1,2]},
+      {text: '맛집 위주로 먹방 여행', scores: [0,0,1,0,0,2]},
+    ]
+  },
+  {
+    text: '🤝 사람들과 함께 있으면?',
+    opts: [
+      {text: '재미있지만 혼자 있는 게 더 편하다', scores: [2,0,0,0,0,0]},
+      {text: '같이 활동할 때 제일 좋다', scores: [0,2,0,0,0,0]},
+      {text: '함께 있을수록 에너지가 오른다', scores: [0,0,2,0,0,0]},
+      {text: '취향이 맞는 사람이랑 있으면 좋다', scores: [0,0,1,2,0,0]},
+      {text: '같이 뭔가를 만들거나 할 때 좋다', scores: [0,0,0,0,2,0]},
+      {text: '맛있는 거 같이 먹을 때 제일 좋다', scores: [0,0,1,0,0,2]},
+    ]
+  },
+  {
+    text: '🎁 지친 나에게 선물을 준다면?',
+    opts: [
+      {text: '좋아하는 책이나 고급 이어폰', scores: [2,0,0,0,0,0]},
+      {text: '운동화나 캠핑 용품', scores: [0,2,0,0,0,0]},
+      {text: '친구들과의 특별한 여행', scores: [0,0,2,0,0,0]},
+      {text: '뮤지컬이나 전시 티켓', scores: [0,0,0,2,0,0]},
+      {text: '취미 키트나 도구', scores: [0,0,0,0,2,0]},
+      {text: '유명 맛집 예약이나 예쁜 카페 투어', scores: [0,0,0,0,0,2]},
+    ]
+  },
+  {
+    text: '😤 화가 났을 때 풀리는 방법은?',
+    opts: [
+      {text: '혼자 냉각기를 갖는다', scores: [2,0,0,0,0,0]},
+      {text: '뛰거나 몸을 움직인다', scores: [0,2,0,0,0,0]},
+      {text: '믿는 사람에게 말한다', scores: [0,0,2,0,0,0]},
+      {text: '영화나 음악으로 감정을 분출한다', scores: [0,0,0,2,0,0]},
+      {text: '뭔가 만들거나 집안일에 집중한다', scores: [0,0,0,0,2,0]},
+      {text: '맛있는 걸 먹으러 간다', scores: [0,0,0,0,0,2]},
+    ]
+  },
+  {
+    text: '🌿 쉬는 날 가장 행복한 순간은?',
+    opts: [
+      {text: '아무 약속 없이 혼자 보내는 하루', scores: [2,0,0,0,0,0]},
+      {text: '날씨 좋은 날 오래 걷거나 운동한 뒤', scores: [0,2,0,0,0,0]},
+      {text: '오랜 친구들이랑 왁자지껄 보낸 날', scores: [0,0,2,0,0,0]},
+      {text: '감동적인 콘텐츠를 보고 마음이 충만할 때', scores: [0,0,0,2,0,0]},
+      {text: '오래 공들인 것을 완성했을 때', scores: [0,0,0,0,2,0]},
+      {text: '맛있는 거 먹고 예쁜 곳 다녀온 날', scores: [0,0,0,0,0,2]},
+    ]
+  },
+];
+
+let scores = [0,0,0,0,0,0];
+let current = 0;
+
+function startTest(){
+  document.getElementById('intro-screen').style.display='none';
+  document.getElementById('quiz-screen').style.display='block';
+  showQ();
+}
+function showQ(){
+  const q = QUESTIONS[current];
+  document.getElementById('q-num').textContent = (current+1) + ' / ' + QUESTIONS.length;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('progress-bar').style.width = ((current/QUESTIONS.length)*100)+'%';
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  q.opts.forEach(o=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = o.text;
+    btn.onclick = ()=>{
+      o.scores.forEach((v,i)=>{ scores[i]+=v; });
+      current++;
+      if(current < QUESTIONS.length) showQ(); else showResult(false);
+    };
+    opts.appendChild(btn);
+  });
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  const top = scores.indexOf(Math.max(...scores));
+  const r = RESULTS[top];
+  document.getElementById('res-emoji').textContent = r.emoji;
+  document.getElementById('res-type').textContent = r.type;
+  document.getElementById('res-name').textContent = r.name;
+  document.getElementById('res-sub').textContent = r.sub;
+  document.getElementById('res-desc').textContent = r.desc;
+  document.getElementById('rec-list').innerHTML = r.recs.map(rc=>
+    `<div class="rec-item">
+      <span class="rec-item-emoji">${rc.emoji}</span>
+      <div class="rec-item-body">
+        <div class="rec-item-name">${rc.name}</div>
+        <div class="rec-item-reason">${rc.reason}</div>
+      </div>
+    </div>`
+  ).join('');
+  document.getElementById('sc-emoji').textContent = r.emoji;
+  document.getElementById('sc-title').textContent = r.name;
+  document.getElementById('sc-sub').textContent = r.sub;
+  document.getElementById('sc-recs').textContent = r.recs.slice(0,3).map(rc=>rc.emoji+' '+rc.name).join('  ·  ');
+  if(!fromUrl){ try{ history.replaceState(null,'','?r='+top); }catch(e){} }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){
+  const url = location.origin+location.pathname+location.search;
+  navigator.clipboard.writeText(url).then(()=>{
+    btn.textContent='✅ 링크 복사 완료!';
+    setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000);
+  });
+}
+function restartTest(){
+  scores=[0,0,0,0,0,0]; current=0;
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('intro-screen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+(function(){
+  const p=new URLSearchParams(location.search), r=p.get('r');
+  if(r!==null && RESULTS[parseInt(r)]){
+    scores[parseInt(r)]=1;
+    document.getElementById('intro-screen').style.display='none';
+    showResult(true);
+  }
+})();
+</script>
+</body>
+</html>
