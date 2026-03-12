@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나는 몇 살 감성인가? 🎂 내 감성 나이 테스트</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="실제 나이와 감성 나이가 다를 수 있어요! 10문항으로 내 진짜 감성 나이를 알아봐요."/>
+  <meta name="keywords" content="감성나이,심리테스트,성격테스트,핑고퀴즈"/>
+  <meta property="og:title" content="나는 몇 살 감성인가? 🎂 내 감성 나이 테스트"/>
+  <meta property="og:description" content="실제 나이와 감성 나이가 다를 수 있어요! 10문항으로 내 진짜 감성 나이를 알아봐요."/>
+  <meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png"/>
+  <meta property="og:url" content="https://pingoquiz.vercel.app/emotion-age"/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root{--bg:#fff8f0;--card:#ffffff;--primary:#ff9a3c;--secondary:#ffcd6b;--text:#2d1a00;--muted:#9a7050;--border:#ffddb0;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;}
+    .intro-screen{text-align:center;padding-top:36px;}
+    .hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Jua',cursive;font-size:1.75rem;color:var(--primary);margin-bottom:10px;line-height:1.35;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:28px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 24px rgba(255,154,60,0.35);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+    .quiz-screen{display:none;padding-top:28px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:22px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.35s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:8px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.1rem;color:var(--text);margin-bottom:20px;line-height:1.6;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:15px 18px;text-align:left;color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:#fff3e8;transform:translateX(4px);}
+    .result-screen{display:none;padding-top:28px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px 22px;}
+    .res-age{font-family:'Jua',cursive;font-size:3.5rem;color:var(--primary);text-align:center;display:block;margin-bottom:4px;}
+    .res-type{font-size:0.7rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.4rem;color:var(--text);text-align:center;margin-bottom:8px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;}
+    .res-tag{display:block;width:fit-content;margin:0 auto 20px;background:rgba(255,154,60,0.1);color:var(--primary);border:1px solid rgba(255,154,60,0.3);border-radius:99px;padding:4px 16px;font-size:0.8rem;}
+    .section-ttl{font-family:'Jua',cursive;font-size:0.92rem;color:var(--primary);margin:20px 0 8px;}
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;}
+    .trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .trait-tag{background:rgba(255,154,60,0.08);color:var(--primary);border:1px solid rgba(255,154,60,0.2);border-radius:99px;padding:4px 13px;font-size:0.78rem;}
+    .extra-box{background:#fffaf4;border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:8px;font-size:0.85rem;color:var(--muted);line-height:1.8;}
+    .ad-slot{margin:20px 0;}
+    .share-card-wrap{margin:20px 0 0;background:#fffaf4;border:1.5px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;}
+    .sc-label{font-size:0.7rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:10px;font-weight:700;}
+    #sc-age{font-family:'Jua',cursive;font-size:2.8rem;color:var(--primary);}
+    #sc-title{font-family:'Jua',cursive;font-size:1.1rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.8rem;color:var(--muted);margin-bottom:6px;}
+    #sc-tag{display:inline-block;padding:3px 14px;border-radius:99px;font-size:0.75rem;color:var(--primary);background:rgba(255,154,60,0.1);border:1px solid rgba(255,154,60,0.25);}
+    .hint-txt{font-size:0.64rem;color:#aaa;margin-top:8px;}
+    .brand-txt{font-size:0.6rem;color:rgba(150,150,150,0.3);letter-spacing:0.1em;margin-top:4px;}
+    .share-btn{width:100%;background:rgba(255,154,60,0.08);color:var(--primary);border:1.5px solid rgba(255,154,60,0.3);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(255,154,60,0.15);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+    .rec-section{margin:24px 0 8px;}
+    .rec-label{text-align:center;font-size:0.7rem;letter-spacing:0.15em;color:var(--primary);font-weight:700;margin-bottom:12px;}
+    .rec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:all 0.15s;}
+    .rec-card:hover{border-color:var(--primary);transform:translateX(4px);}
+    .rc-emoji{font-size:1.5rem;flex-shrink:0;}
+    .rc-title{flex:1;font-size:0.88rem;font-weight:700;}
+    .rc-arrow{font-size:0.9rem;color:var(--primary);}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🎂</span>
+    <h1>나는 몇 살 감성인가?</h1>
+    <p class="intro-desc">실제 나이랑 감성 나이는 달라요!<br/>10문항으로 내 진짜 감성 나이를 알아봐요 🎉</p>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🎂 내 감성 나이 알아보기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <div class="res-age" id="res-age"></div>
+      <div class="res-type" id="res-type"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-ttl">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-ttl">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-ttl">💡 한마디</div>
+      <div class="extra-box" id="res-extra"></div>
+    </div>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-age"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+    <div class="rec-section">
+      <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+      <a class="rec-card" href="/emotion-color"><span class="rc-emoji">🎨</span><span class="rc-title">나의 감정 색깔 테스트</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/past-life"><span class="rc-emoji">🕰️</span><span class="rc-title">나의 전생은?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/good-person"><span class="rc-emoji">😇</span><span class="rc-title">나는 착한 사람일까?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/mental"><span class="rc-emoji">💪</span><span class="rc-title">나의 멘탈 강도 테스트</span><span class="rc-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+<script>
+const RESULTS = [
+  {id:0,age:'16세',type:'TEEN SOUL',name:'영원한 10대 감성',sub:'세상 다 신기하고 설레는 스타일',tag:'10대 감성 · 순수함 폭발',
+   desc:'실제 나이가 몇 살이든 감성만큼은 10대예요! 새로운 것에 쉽게 설레고, 좋아하는 게 생기면 온 마음으로 빠져들어요. 감정 표현이 솔직하고, 유행에 민감하고, 아이돌·게임·만화 같은 걸 아직도 진심으로 즐길 수 있는 사람이에요.',
+   traits:['순수함','설렘 폭발','유행 민감','덕질 가능'],
+   extra:'10대 감성은 선물이에요. 어른이 되면서도 이 설렘을 잃지 않는 사람이 제일 재밌게 사는 사람이에요.'},
+  {id:1,age:'23세',type:'TWENTY SOUL',name:'풋풋한 20대 초반 감성',sub:'세상이 내 것 같은 에너지 넘치는 스타일',tag:'20대 초반 감성 · 열정형',
+   desc:'뭐든 해보고 싶고, 새로운 경험에 거침없이 뛰어드는 감성이에요. 친구들이랑 밤새 놀 수 있고, 즉흥적인 계획도 즐기고, 내일 걱정보다 오늘을 즐기는 스타일이에요. 에너지가 넘치고 감정 표현도 직접적이에요.',
+   traits:['열정적','즉흥적','사교적','오늘에 집중'],
+   extra:'이 에너지가 제일 부러운 거예요. 지금 이 감성을 마음껏 즐겨요!'},
+  {id:2,age:'27세',type:'MID TWENTY SOUL',name:'현실 자각 20대 중반 감성',sub:'꿈과 현실 사이에서 균형 잡는 스타일',tag:'20대 중반 감성 · 균형 탐색형',
+   desc:'설레는 것도 좋지만 현실도 봐야 한다는 걸 알게 된 감성이에요. 너무 즉흥적이기보단 조금씩 계획을 세우고, 진짜 중요한 게 뭔지 고민하기 시작한 단계예요. 감정적이지만 이성도 함께 쓰는 균형 잡힌 스타일이에요.',
+   traits:['현실적','균형 탐색','성장 중','진지함 시작'],
+   extra:'가장 많은 것을 배우는 시기의 감성이에요. 지금의 고민들이 나중에 큰 자산이 돼요.'},
+  {id:3,age:'32세',type:'THIRTY SOUL',name:'어른스러운 30대 감성',sub:'경험에서 나오는 여유가 있는 스타일',tag:'30대 감성 · 여유로운 어른',
+   desc:'웬만한 일에 크게 흔들리지 않고, 감정을 조절할 줄 알고, 진짜 중요한 것과 아닌 것을 구분할 수 있는 감성이에요. 화려함보다 나다운 것을 추구하고, 작은 것에서 행복을 찾을 줄 알아요.',
+   traits:['여유로움','감정 조절','자기다움','소소한 행복'],
+   extra:'이 감성이 가장 성숙한 거예요. 나를 잘 알고 내 것을 즐길 줄 아는 사람이 제일 멋진 어른이에요.'},
+  {id:4,age:'40세',type:'FORTY SOUL',name:'노련한 40대 감성',sub:'인생 다 알 것 같은 관록의 스타일',tag:'40대 감성 · 관록의 어른',
+   desc:'남의 시선보다 내 기준이 확실하고, 좋고 싫은 게 명확하고, 유행보다 내가 진짜 좋아하는 걸 알고 있어요. 쉽게 흔들리지 않고, 사람 보는 눈도 있고, 말 한마디에 무게감이 있는 감성이에요.',
+   traits:['확고한 기준','관록','실용주의','인생 내공'],
+   extra:'실제 나이보다 감성이 성숙하다는 건 경험이 풍부하다는 뜻이에요. 이 안목으로 더 좋은 선택을 할 수 있어요.'},
+  {id:5,age:'17세',type:'FREE SOUL',name:'나이를 모르는 자유로운 감성',sub:'기분에 따라 10대도 됐다가 어른도 됐다가',tag:'자유로운 감성 · 나이 불명',
+   desc:'어떤 날은 10대처럼 설레고, 어떤 날은 40대처럼 어른스럽고, 감성 나이가 딱 고정되지 않아요. 상황과 기분에 따라 다양한 모습을 보여주는 자유로운 영혼이에요. 예측 불가능하지만 그래서 더 매력적인 스타일이에요.',
+   traits:['자유로운 영혼','다양한 얼굴','예측 불가','매력적'],
+   extra:'감성 나이가 하나로 딱 안 잡힌다는 건 그만큼 다양하게 살고 있다는 뜻이에요. 그게 이 사람의 매력이에요.'},
+];
+
+const QUESTIONS = [
+  {text:'🎵 요즘 자주 듣는 음악 장르는?',
+   opts:[
+     {text:'아이돌 팝, 최신 유행 노래',scores:[3,1,0,0,0,0]},
+     {text:'힙합, EDM, 신나는 것들',scores:[1,3,0,0,0,1]},
+     {text:'인디, 잔잔한 팝',scores:[0,1,2,0,0,1]},
+     {text:'발라드, 클래식, OST',scores:[0,0,1,2,0,0]},
+     {text:'장르 상관없이 좋으면 다 듣는다',scores:[0,0,0,1,2,0]},
+     {text:'그때그때 완전 달라진다',scores:[1,1,1,0,0,3]},
+   ]},
+  {text:'📱 SNS를 쓰는 스타일은?',
+   opts:[
+     {text:'매일 자주 올리고 반응도 신경 쓴다',scores:[3,1,0,0,0,0]},
+     {text:'종종 올리고 친구들이랑 소통한다',scores:[1,3,0,0,0,0]},
+     {text:'보기만 하거나 가끔 올린다',scores:[0,1,2,0,0,1]},
+     {text:'거의 안 한다. 필요할 때만',scores:[0,0,0,2,1,0]},
+     {text:'SNS 자체를 별로 안 좋아한다',scores:[0,0,0,1,3,0]},
+     {text:'플랫폼마다 다르게 쓴다',scores:[0,1,0,0,0,3]},
+   ]},
+  {text:'🍽️ 친구들이랑 밥 먹을 때 어디가 좋아?',
+   opts:[
+     {text:'트렌디한 핫플, 인스타 감성 맛집',scores:[3,1,0,0,0,0]},
+     {text:'신나고 떠들 수 있는 곳이면 어디든',scores:[1,3,0,0,0,0]},
+     {text:'분위기 좋고 대화하기 편한 곳',scores:[0,1,2,0,0,0]},
+     {text:'익숙하고 편한 단골집',scores:[0,0,1,2,0,1]},
+     {text:'맛있으면 어디든, 분위기 크게 신경 안 씀',scores:[0,0,0,1,3,0]},
+     {text:'기분에 따라 완전 달라진다',scores:[1,1,0,0,0,3]},
+   ]},
+  {text:'💭 주로 무슨 고민을 하나요?',
+   opts:[
+     {text:'좋아하는 것, 관계, 미래가 막막한 것',scores:[3,0,0,0,0,1]},
+     {text:'진로, 연애, 뭘 해야 할지',scores:[0,2,1,0,0,0]},
+     {text:'일과 생활의 균형, 커리어',scores:[0,0,2,1,0,0]},
+     {text:'관계 정리, 내 삶의 방향',scores:[0,0,0,2,1,0]},
+     {text:'건강, 노후, 현실적인 것들',scores:[0,0,0,0,3,0]},
+     {text:'딱히 한 가지로 안 묶인다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🎉 주말에 가장 하고 싶은 것은?',
+   opts:[
+     {text:'친구들이랑 핫플 투어, 파티',scores:[3,2,0,0,0,0]},
+     {text:'즉흥 여행이나 새로운 경험',scores:[0,3,0,0,0,1]},
+     {text:'카페에서 여유롭게 책이나 유튜브',scores:[0,0,2,1,0,1]},
+     {text:'집에서 조용히 쉬기',scores:[0,0,1,2,0,0]},
+     {text:'취미나 집안일 하면서 혼자 보내기',scores:[0,0,0,1,3,0]},
+     {text:'그날 기분에 따라 완전 달라짐',scores:[1,1,0,0,0,3]},
+   ]},
+  {text:'💔 상처받았을 때 어떻게 하나요?',
+   opts:[
+     {text:'SNS에 올리거나 친구한테 바로 털어놓는다',scores:[3,1,0,0,0,0]},
+     {text:'친구들이랑 나가서 풀어버린다',scores:[0,3,0,0,0,0]},
+     {text:'일기 쓰거나 혼자 정리하는 시간 갖는다',scores:[0,0,2,1,0,1]},
+     {text:'시간이 해결해준다고 기다린다',scores:[0,0,1,3,0,0]},
+     {text:'별로 내색 안 하고 혼자 삭힌다',scores:[0,0,0,1,3,0]},
+     {text:'매번 달라진다',scores:[1,0,0,0,0,3]},
+   ]},
+  {text:'🛍️ 쇼핑할 때 스타일은?',
+   opts:[
+     {text:'유행하는 거, 예쁜 거 위주로 바로 산다',scores:[3,1,0,0,0,0]},
+     {text:'좋으면 지르는 편, 나중에 후회하기도 함',scores:[1,3,0,0,0,0]},
+     {text:'고민하다가 필요한 것 위주로 산다',scores:[0,0,2,2,0,0]},
+     {text:'오래 써도 질리지 않는 것 위주',scores:[0,0,1,2,0,0]},
+     {text:'실용성 최우선, 유행은 신경 안 씀',scores:[0,0,0,0,3,0]},
+     {text:'그때그때 완전 달라진다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🌙 자기 전에 주로 뭐 하나요?',
+   opts:[
+     {text:'유튜브, 숏폼, SNS 보다가 잠든다',scores:[3,1,0,0,0,0]},
+     {text:'친구들이랑 카톡, 게임',scores:[1,3,0,0,0,0]},
+     {text:'좋아하는 드라마나 영화',scores:[0,1,2,0,0,1]},
+     {text:'책 읽거나 음악 들으면서 혼자 생각',scores:[0,0,1,3,0,0]},
+     {text:'그냥 바로 자거나 뉴스 보다 잠든다',scores:[0,0,0,0,3,0]},
+     {text:'매일 달라진다',scores:[1,0,1,0,0,3]},
+   ]},
+  {text:'👥 새로운 사람을 만났을 때?',
+   opts:[
+     {text:'신나고 금방 친해진다',scores:[3,2,0,0,0,0]},
+     {text:'재밌으면 빨리 가까워지는 편',scores:[1,3,0,0,0,0]},
+     {text:'천천히 알아가는 편, 깊어지면 오래간다',scores:[0,0,2,2,0,0]},
+     {text:'조심스럽게 관찰하다가 친해진다',scores:[0,0,1,2,1,0]},
+     {text:'굳이 새 인연을 넓히려 하지 않는다',scores:[0,0,0,1,3,0]},
+     {text:'상대방에 따라 완전 달라진다',scores:[0,1,0,0,0,3]},
+   ]},
+  {text:'🌟 지금 삶에서 가장 중요한 것은?',
+   opts:[
+     {text:'재미, 설렘, 좋아하는 것들',scores:[3,1,0,0,0,0]},
+     {text:'경험, 도전, 새로운 것',scores:[0,3,0,0,0,1]},
+     {text:'성장, 균형, 나다운 삶',scores:[0,1,2,0,0,1]},
+     {text:'안정, 관계, 나를 아는 것',scores:[0,0,1,3,0,0]},
+     {text:'건강, 여유, 오래 지속되는 것',scores:[0,0,0,0,3,0]},
+     {text:'지금 이 순간, 딱 꼬집기 어렵다',scores:[1,0,0,0,0,3]},
+   ]},
+];
+
+let scores=[0,0,0,0,0,0],current=0;
+function startTest(){document.getElementById('intro-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';showQ();}
+function showQ(){
+  const q=QUESTIONS[current];
+  document.getElementById('q-num').textContent=(current+1)+' / '+QUESTIONS.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=((current/QUESTIONS.length)*100)+'%';
+  const opts=document.getElementById('options');opts.innerHTML='';
+  q.opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=o.text;btn.onclick=()=>{o.scores.forEach((v,i)=>{scores[i]+=v;});current++;if(current<QUESTIONS.length)showQ();else showResult(false);};opts.appendChild(btn);});
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores));const r=RESULTS[top];
+  document.getElementById('res-age').textContent=r.age+' 감성';
+  document.getElementById('res-type').textContent=r.type;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  document.getElementById('res-extra').textContent=r.extra;
+  document.getElementById('sc-age').textContent=r.age+' 감성';
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl){try{history.replaceState(null,'','?r='+top);}catch(e){}}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){const url=location.origin+location.pathname+location.search;navigator.clipboard.writeText(url).then(()=>{btn.textContent='✅ 링크 복사 완료!';setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000);});}
+function restartTest(){scores=[0,0,0,0,0,0];current=0;document.getElementById('result-screen').style.display='none';document.getElementById('intro-screen').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+(function(){const p=new URLSearchParams(location.search),r=p.get('r');if(r!==null&&RESULTS[parseInt(r)]){scores[parseInt(r)]=1;document.getElementById('intro-screen').style.display='none';showResult(true);}})();
+</script>
+</body>
+</html>

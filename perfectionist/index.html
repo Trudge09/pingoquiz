@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나는 얼마나 완벽주의자인가? 🎯 완벽주의 지수 테스트</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="나는 완벽주의자일까? 10문항으로 내 완벽주의 성향과 유형을 분석해봐요!"/>
+  <meta name="keywords" content="완벽주의,심리테스트,성격테스트,핑고퀴즈"/>
+  <meta property="og:title" content="나는 얼마나 완벽주의자인가? 🎯"/>
+  <meta property="og:description" content="10문항으로 내 완벽주의 성향과 유형을 분석해봐요!"/>
+  <meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png"/>
+  <meta property="og:url" content="https://pingoquiz.vercel.app/perfectionist"/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root{--bg:#f0f4ff;--card:#ffffff;--primary:#3355ff;--secondary:#7b8fff;--text:#0a1040;--muted:#5566aa;--border:#ccd4ff;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;}
+    .intro-screen{text-align:center;padding-top:36px;}
+    .hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Jua',cursive;font-size:1.75rem;color:var(--primary);margin-bottom:10px;line-height:1.35;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:28px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 24px rgba(51,85,255,0.3);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+    .quiz-screen{display:none;padding-top:28px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:22px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.35s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:8px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.1rem;color:var(--text);margin-bottom:20px;line-height:1.6;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:15px 18px;text-align:left;color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:#eef0ff;transform:translateX(4px);}
+    .result-screen{display:none;padding-top:28px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px 22px;}
+    .res-emoji{font-size:3.5rem;text-align:center;display:block;margin-bottom:10px;}
+    .res-type{font-size:0.7rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.5rem;color:var(--text);text-align:center;margin-bottom:8px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;}
+    .res-tag{display:block;width:fit-content;margin:0 auto 20px;background:rgba(51,85,255,0.08);color:var(--primary);border:1px solid rgba(51,85,255,0.25);border-radius:99px;padding:4px 16px;font-size:0.8rem;}
+    .section-ttl{font-family:'Jua',cursive;font-size:0.92rem;color:var(--primary);margin:20px 0 8px;}
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;}
+    .trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .trait-tag{background:rgba(51,85,255,0.07);color:var(--primary);border:1px solid rgba(51,85,255,0.18);border-radius:99px;padding:4px 13px;font-size:0.78rem;}
+    .extra-box{background:#f4f6ff;border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:8px;font-size:0.85rem;color:var(--muted);line-height:1.8;}
+    .ad-slot{margin:20px 0;}
+    .share-card-wrap{margin:20px 0 0;background:#f4f6ff;border:1.5px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;}
+    .sc-label{font-size:0.7rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:10px;font-weight:700;}
+    #sc-emoji{font-size:2.6rem;margin-bottom:6px;}
+    #sc-title{font-family:'Jua',cursive;font-size:1.2rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.8rem;color:var(--muted);margin-bottom:6px;}
+    #sc-tag{display:inline-block;padding:3px 14px;border-radius:99px;font-size:0.75rem;color:var(--primary);background:rgba(51,85,255,0.08);border:1px solid rgba(51,85,255,0.2);}
+    .hint-txt{font-size:0.64rem;color:#aaa;margin-top:8px;}
+    .brand-txt{font-size:0.6rem;color:rgba(150,150,150,0.3);letter-spacing:0.1em;margin-top:4px;}
+    .share-btn{width:100%;background:rgba(51,85,255,0.07);color:var(--primary);border:1.5px solid rgba(51,85,255,0.25);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(51,85,255,0.14);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+    .rec-section{margin:24px 0 8px;}
+    .rec-label{text-align:center;font-size:0.7rem;letter-spacing:0.15em;color:var(--primary);font-weight:700;margin-bottom:12px;}
+    .rec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:all 0.15s;}
+    .rec-card:hover{border-color:var(--primary);transform:translateX(4px);}
+    .rc-emoji{font-size:1.5rem;flex-shrink:0;}
+    .rc-title{flex:1;font-size:0.88rem;font-weight:700;}
+    .rc-arrow{font-size:0.9rem;color:var(--primary);}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🎯</span>
+    <h1>나는 얼마나<br/>완벽주의자인가?</h1>
+    <p class="intro-desc">완벽주의에도 유형이 있어요.<br/>건강한 완벽주의? 독이 되는 완벽주의?<br/>10문항으로 내 유형을 알아봐요.</p>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🎯 내 완벽주의 지수 측정하기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-type" id="res-type"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-ttl">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-ttl">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-ttl">💡 한마디</div>
+      <div class="extra-box" id="res-extra"></div>
+    </div>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+    <div class="rec-section">
+      <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+      <a class="rec-card" href="/mental"><span class="rc-emoji">💪</span><span class="rc-title">나의 멘탈 강도 테스트</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/burnout"><span class="rc-emoji">🪫</span><span class="rc-title">번아웃 지수 체크</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/good-person"><span class="rc-emoji">😇</span><span class="rc-title">나는 착한 사람일까?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/stress"><span class="rc-emoji">🌿</span><span class="rc-title">나에게 맞는 스트레스 해소법</span><span class="rc-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+<script>
+const RESULTS = [
+  {id:0,emoji:'🏆',type:'HEALTHY PERFECTIONIST',name:'건강한 완벽주의자',sub:'높은 기준을 갖되 자신을 몰아붙이지 않는 타입',tag:'건강한 완벽주의 · 성장 지향',
+   desc:'높은 기준을 갖고 있지만, 그게 스트레스가 되진 않아요. 잘하고 싶은 마음이 있지만 실패해도 "다음엔 더 잘하면 되지"라고 털고 일어나요. 완벽을 추구하되 완벽하지 않아도 괜찮다는 걸 아는, 가장 이상적인 완벽주의 유형이에요.',
+   traits:['높은 기준','실패 수용','성장 지향','자기 격려'],
+   extra:'이 유형이 완벽주의의 가장 건강한 형태예요. 기준은 유지하되 자신에게 너무 가혹하지 않은 지금의 균형을 계속 유지해봐요.'},
+  {id:1,emoji:'😤',type:'DRIVEN PERFECTIONIST',name:'강박적 완벽주의자',sub:'완벽하지 않으면 불안한 타입',tag:'강박적 완벽주의 · 자기 압박형',
+   desc:'완벽하게 해내지 않으면 불안하고, 작은 실수도 크게 자책하는 타입이에요. 결과물에 대한 기준이 매우 높고, 남들이 "충분히 잘했다"고 해도 스스로는 만족을 잘 못 해요. 성과는 높지만 자신을 너무 몰아붙이는 경향이 있어요.',
+   traits:['높은 자기 기준','실수 자책','만족 어려움','자기 압박'],
+   extra:'잘하고 싶은 마음은 정말 좋은 거예요. 근데 완벽하지 않아도 충분히 가치 있다는 걸 기억해줘요. 80점도 훌륭한 결과예요.'},
+  {id:2,emoji:'😰',type:'FEAR PERFECTIONIST',name:'실패 공포형 완벽주의자',sub:'잘못될까봐 시작도 못 하는 타입',tag:'실패 공포형 · 회피 완벽주의',
+   desc:'완벽하게 못 할 바엔 아예 안 하는 게 낫다는 생각이 강한 타입이에요. 시작 전부터 너무 많이 고민하거나, 완벽한 타이밍을 기다리다가 기회를 놓치기도 해요. 두려움이 완벽주의를 오히려 회피로 만들어버리는 패턴이에요.',
+   traits:['시작 어려움','완벽한 타이밍 대기','실패 회피','과도한 준비'],
+   extra:'완벽한 타이밍은 없어요. 일단 시작한 70점짜리가 시작도 못 한 100점짜리보다 훨씬 가치 있어요. 오늘 그냥 시작해봐요.'},
+  {id:3,emoji:'👀',type:'SOCIAL PERFECTIONIST',name:'타인 시선형 완벽주의자',sub:'남들 눈에 완벽해 보이고 싶은 타입',tag:'타인 시선형 · 평가 의식형',
+   desc:'내 기준보다 남들이 어떻게 볼지가 더 중요한 타입이에요. SNS, 외모, 성과 등 보여지는 것에 특히 신경을 많이 써요. 혼자 있을 때보다 남들이 볼 때 더 완벽하게 보이려는 경향이 있어요.',
+   traits:['타인 시선 의식','보여지는 것 중시','SNS 신경 씀','평가 민감'],
+   extra:'남들에게 잘 보이고 싶은 건 자연스러운 감정이에요. 근데 가끔은 아무도 안 볼 때의 내 모습도 충분히 괜찮다는 걸 기억해줘요.'},
+  {id:4,emoji:'😌',type:'RELAXED TYPE',name:'완벽주의와 거리가 먼 타입',sub:'현실적이고 유연하게 사는 스타일',tag:'비완벽주의 · 유연형',
+   desc:'완벽보다 현실을 택하는 타입이에요. "이 정도면 됐지"가 자연스럽게 나오고, 실수해도 크게 자책하지 않아요. 에너지를 효율적으로 쓸 줄 알고, 모든 걸 완벽하게 해야 한다는 압박이 거의 없어요.',
+   traits:['유연함','현실적','자기 수용','에너지 효율'],
+   extra:'완벽주의가 없다는 건 약점이 아니에요. 중요한 것에 집중하고 나머지는 내려놓을 줄 아는 능력이 오히려 큰 강점이에요.'},
+  {id:5,emoji:'⚡',type:'SELECTIVE PERFECTIONIST',name:'선택적 완벽주의자',sub:'중요한 것에만 완벽을 추구하는 영리한 타입',tag:'선택적 완벽주의 · 전략형',
+   desc:'모든 걸 완벽하게 하려 하지 않고, 진짜 중요한 것에만 높은 기준을 적용하는 영리한 타입이에요. 우선순위를 잘 파악하고, 에너지를 분배할 줄 알아요. 완벽주의의 장점은 취하되 단점은 피하는 균형 잡힌 스타일이에요.',
+   traits:['우선순위 파악','에너지 분배','전략적','선택과 집중'],
+   extra:'가장 현명한 완벽주의 스타일이에요. 중요한 곳에 에너지를 몰아주고 나머지는 적당히 하는 이 감각을 잘 유지해봐요.'},
+];
+
+const QUESTIONS = [
+  {text:'📝 과제나 업무를 마무리할 때?',
+   opts:[
+     {text:'충분히 잘 됐다 싶으면 제출한다',scores:[3,0,0,0,1,1]},
+     {text:'더 고칠 게 없을 때까지 계속 수정한다',scores:[0,3,0,0,0,0]},
+     {text:'완벽하지 않으면 제출하기 싫다',scores:[0,2,1,0,0,0]},
+     {text:'남들이 어떻게 볼지 생각하면서 마무리한다',scores:[0,0,0,3,0,0]},
+     {text:'어느 정도 되면 그냥 낸다',scores:[0,0,0,0,3,0]},
+     {text:'중요도에 따라 공들이는 정도가 다르다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'❌ 실수나 실패를 했을 때?',
+   opts:[
+     {text:'아쉽지만 다음엔 더 잘하면 된다',scores:[3,0,0,0,1,1]},
+     {text:'꽤 오래 자책하고 머릿속에서 지우기 어렵다',scores:[0,3,0,0,0,0]},
+     {text:'그 실수가 무서워서 비슷한 상황을 피하게 된다',scores:[0,0,3,0,0,0]},
+     {text:'남들이 봤을까 봐 더 신경 쓰인다',scores:[0,0,0,3,0,0]},
+     {text:'금방 잊고 다음으로 넘어간다',scores:[0,0,0,0,3,0]},
+     {text:'중요한 실수는 분석하고, 사소한 건 털어낸다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🚀 새로운 일을 시작할 때?',
+   opts:[
+     {text:'준비되면 바로 시작한다',scores:[3,0,0,0,1,1]},
+     {text:'완벽히 준비될 때까지 시작이 어렵다',scores:[0,2,1,0,0,0]},
+     {text:'잘 못할 것 같아서 시작을 망설인다',scores:[0,0,3,0,0,0]},
+     {text:'남들 앞에서 못하는 모습 보이는 게 싫다',scores:[0,0,1,3,0,0]},
+     {text:'일단 해보고 안 되면 그때 생각한다',scores:[0,0,0,0,3,0]},
+     {text:'중요한 일이면 철저히, 아니면 바로 시작',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'💯 남들이 "충분히 잘했어"라고 할 때?',
+   opts:[
+     {text:'고맙고 나도 그 정도면 만족한다',scores:[3,0,0,0,1,0]},
+     {text:'고맙지만 나는 아직 부족한 것 같다',scores:[0,3,0,0,0,0]},
+     {text:'그 말이 위로가 안 된다. 나는 잘 못했으니까',scores:[0,2,1,0,0,0]},
+     {text:'남들 눈엔 잘 보이는 게 중요하니까 기쁘다',scores:[0,0,0,3,0,0]},
+     {text:'잘했다고 하면 그냥 믿는다',scores:[0,0,0,0,3,0]},
+     {text:'중요한 일이면 더 할 것 같고, 아니면 만족한다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'📱 SNS에 뭔가 올릴 때?',
+   opts:[
+     {text:'그냥 올리고 싶을 때 올린다',scores:[2,0,0,0,2,0]},
+     {text:'퀄리티가 좋아야 올릴 수 있다',scores:[0,2,0,1,0,0]},
+     {text:'잘 안 나온 건 올리기 싫어서 잘 못 올린다',scores:[0,1,2,0,0,0]},
+     {text:'좋아요나 반응을 꽤 신경 쓴다',scores:[0,0,0,3,0,0]},
+     {text:'SNS 자체를 별로 안 한다',scores:[0,0,0,0,3,0]},
+     {text:'내용에 따라 공들이는 정도가 다르다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🧹 청소나 정리를 할 때?',
+   opts:[
+     {text:'깨끗하면 좋지만 완벽하지 않아도 된다',scores:[3,0,0,0,0,1]},
+     {text:'어중간하게 하면 오히려 더 신경 쓰인다',scores:[0,3,0,0,0,0]},
+     {text:'해야 하는데 완벽하게 못 할 것 같아서 안 하게 된다',scores:[0,0,3,0,0,0]},
+     {text:'손님이 올 때는 완벽하게, 혼자면 적당히',scores:[0,0,0,2,0,2]},
+     {text:'생각날 때 조금씩 하는 편',scores:[0,0,0,0,3,0]},
+     {text:'중요한 공간만 깔끔하게, 나머지는 적당히',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'⏰ 마감 기한이 있을 때?',
+   opts:[
+     {text:'마감 전에 여유 있게 마무리한다',scores:[2,1,0,0,0,1]},
+     {text:'마감 직전까지 계속 수정하고 싶다',scores:[0,3,0,0,0,0]},
+     {text:'마감이 있어야 겨우 제출할 수 있다',scores:[0,1,2,0,0,0]},
+     {text:'마감 때 남들과 비교되는 게 신경 쓰인다',scores:[0,0,0,3,0,0]},
+     {text:'마감 맞추면 됐지, 완성도는 그 다음',scores:[0,0,0,0,3,0]},
+     {text:'중요도에 따라 완성도 기준이 달라진다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🗣️ 발표나 면접 같은 상황이 닥치면?',
+   opts:[
+     {text:'긴장은 되지만 준비한 만큼 한다',scores:[3,0,0,0,0,1]},
+     {text:'완벽하게 준비하지 않으면 못 나간다',scores:[0,3,0,0,0,0]},
+     {text:'잘 못할 것 같아서 피하고 싶다',scores:[0,0,3,0,0,0]},
+     {text:'남들 앞에서 잘 보여야 한다는 압박이 크다',scores:[0,0,0,3,0,0]},
+     {text:'그냥 되는 대로 한다',scores:[0,0,0,0,3,0]},
+     {text:'중요한 발표면 철저히, 아니면 적당히',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'😴 "대충 해도 되는 일"이 생기면?',
+   opts:[
+     {text:'대충 해도 되면 정말 대충 한다',scores:[1,0,0,0,3,1]},
+     {text:'대충 하면 마음이 불편하다',scores:[0,3,0,0,0,0]},
+     {text:'대충 하다가 완성도가 낮으면 또 신경 쓰인다',scores:[0,2,1,0,0,0]},
+     {text:'남들이 보는 거면 대충 못 하겠다',scores:[0,0,0,3,0,0]},
+     {text:'진짜 대충 한다. 편하다',scores:[0,0,0,0,3,0]},
+     {text:'대충 해도 되는 일은 진짜 빠르게 끝낸다',scores:[0,0,0,0,1,3]},
+   ]},
+  {text:'🌟 내가 생각하는 나의 완벽주의 성향은?',
+   opts:[
+     {text:'있긴 한데 잘 조절하는 것 같다',scores:[3,0,0,0,0,1]},
+     {text:'꽤 심한 편. 나도 알지만 안 고쳐진다',scores:[0,3,0,0,0,0]},
+     {text:'완벽하게 못 할 바엔 시작도 안 하는 편',scores:[0,0,3,0,0,0]},
+     {text:'남들 앞에서만 완벽하게 보이려 한다',scores:[0,0,0,3,0,0]},
+     {text:'거의 없다. 현실주의자다',scores:[0,0,0,0,3,0]},
+     {text:'중요한 것에만 완벽을 추구한다',scores:[0,0,0,0,0,3]},
+   ]},
+];
+
+let scores=[0,0,0,0,0,0],current=0;
+function startTest(){document.getElementById('intro-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';showQ();}
+function showQ(){
+  const q=QUESTIONS[current];
+  document.getElementById('q-num').textContent=(current+1)+' / '+QUESTIONS.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=((current/QUESTIONS.length)*100)+'%';
+  const opts=document.getElementById('options');opts.innerHTML='';
+  q.opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=o.text;btn.onclick=()=>{o.scores.forEach((v,i)=>{scores[i]+=v;});current++;if(current<QUESTIONS.length)showQ();else showResult(false);};opts.appendChild(btn);});
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores));const r=RESULTS[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-type').textContent=r.type;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  document.getElementById('res-extra').textContent=r.extra;
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl){try{history.replaceState(null,'','?r='+top);}catch(e){}}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){const url=location.origin+location.pathname+location.search;navigator.clipboard.writeText(url).then(()=>{btn.textContent='✅ 링크 복사 완료!';setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000);});}
+function restartTest(){scores=[0,0,0,0,0,0];current=0;document.getElementById('result-screen').style.display='none';document.getElementById('intro-screen').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+(function(){const p=new URLSearchParams(location.search),r=p.get('r');if(r!==null&&RESULTS[parseInt(r)]){scores[parseInt(r)]=1;document.getElementById('intro-screen').style.display='none';showResult(true);}})();
+</script>
+</body>
+</html>

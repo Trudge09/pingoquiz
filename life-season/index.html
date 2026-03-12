@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>지금 내 인생의 계절은? 🍂 봄·여름·가을·겨울 테스트</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="지금 내 인생은 어느 계절일까요? 10문항으로 현재 내 삶의 계절을 알아봐요."/>
+  <meta name="keywords" content="인생계절,심리테스트,라이프,핑고퀴즈,봄여름가을겨울"/>
+  <meta property="og:title" content="지금 내 인생의 계절은? 🍂 봄·여름·가을·겨울"/>
+  <meta property="og:description" content="지금 내 인생은 어느 계절일까요? 10문항으로 현재 내 삶의 계절을 알아봐요."/>
+  <meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png"/>
+  <meta property="og:url" content="https://pingoquiz.vercel.app/life-season"/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root{--bg:#faf7f0;--card:#ffffff;--primary:#c8822a;--secondary:#e8b86d;--text:#2a1a00;--muted:#8a6a3a;--border:#f0ddb8;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;}
+    .intro-screen{text-align:center;padding-top:36px;}
+    .hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Jua',cursive;font-size:1.75rem;color:var(--primary);margin-bottom:10px;line-height:1.35;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:28px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 24px rgba(200,130,42,0.3);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+    .quiz-screen{display:none;padding-top:28px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:22px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.35s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:8px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.1rem;color:var(--text);margin-bottom:20px;line-height:1.6;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:15px 18px;text-align:left;color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:#fdf5e6;transform:translateX(4px);}
+    .result-screen{display:none;padding-top:28px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px 22px;}
+    .res-season{font-family:'Jua',cursive;font-size:2.8rem;color:var(--primary);text-align:center;display:block;margin-bottom:6px;}
+    .res-emoji-big{font-size:3rem;text-align:center;display:block;margin-bottom:8px;}
+    .res-type{font-size:0.7rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.4rem;color:var(--text);text-align:center;margin-bottom:8px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;}
+    .res-tag{display:block;width:fit-content;margin:0 auto 20px;background:rgba(200,130,42,0.08);color:var(--primary);border:1px solid rgba(200,130,42,0.25);border-radius:99px;padding:4px 16px;font-size:0.8rem;}
+    .section-ttl{font-family:'Jua',cursive;font-size:0.92rem;color:var(--primary);margin:20px 0 8px;}
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;}
+    .trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .trait-tag{background:rgba(200,130,42,0.08);color:var(--primary);border:1px solid rgba(200,130,42,0.2);border-radius:99px;padding:4px 13px;font-size:0.78rem;}
+    .extra-box{background:#fdf8f0;border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:8px;font-size:0.85rem;color:var(--muted);line-height:1.8;}
+    .ad-slot{margin:20px 0;}
+    .share-card-wrap{margin:20px 0 0;background:#fdf8f0;border:1.5px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;}
+    .sc-label{font-size:0.7rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:10px;font-weight:700;}
+    #sc-season{font-family:'Jua',cursive;font-size:2.2rem;color:var(--primary);}
+    #sc-title{font-family:'Jua',cursive;font-size:1.1rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.8rem;color:var(--muted);margin-bottom:6px;}
+    #sc-tag{display:inline-block;padding:3px 14px;border-radius:99px;font-size:0.75rem;color:var(--primary);background:rgba(200,130,42,0.08);border:1px solid rgba(200,130,42,0.2);}
+    .hint-txt{font-size:0.64rem;color:#aaa;margin-top:8px;}
+    .brand-txt{font-size:0.6rem;color:rgba(150,150,150,0.3);letter-spacing:0.1em;margin-top:4px;}
+    .share-btn{width:100%;background:rgba(200,130,42,0.07);color:var(--primary);border:1.5px solid rgba(200,130,42,0.25);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(200,130,42,0.14);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+    .rec-section{margin:24px 0 8px;}
+    .rec-label{text-align:center;font-size:0.7rem;letter-spacing:0.15em;color:var(--primary);font-weight:700;margin-bottom:12px;}
+    .rec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:all 0.15s;}
+    .rec-card:hover{border-color:var(--primary);transform:translateX(4px);}
+    .rc-emoji{font-size:1.5rem;flex-shrink:0;}
+    .rc-title{flex:1;font-size:0.88rem;font-weight:700;}
+    .rc-arrow{font-size:0.9rem;color:var(--primary);}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🍂</span>
+    <h1>지금 내 인생의<br/>계절은?</h1>
+    <p class="intro-desc">삶에도 봄·여름·가을·겨울이 있어요.<br/>지금 나는 어떤 계절을 보내고 있을까요?<br/>10문항으로 내 인생의 지금을 알아봐요 🌿</p>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🍂 내 인생의 계절 알아보기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <div class="res-season" id="res-season"></div>
+      <div class="res-emoji-big" id="res-emoji-big"></div>
+      <div class="res-type" id="res-type"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-ttl">💬 지금 나의 인생 계절</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-ttl">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-ttl">💡 이 계절의 나에게</div>
+      <div class="extra-box" id="res-extra"></div>
+    </div>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-season"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+    <div class="rec-section">
+      <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+      <a class="rec-card" href="/emotion-color"><span class="rc-emoji">🎨</span><span class="rc-title">나의 감정 색깔 테스트</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/emotion-age"><span class="rc-emoji">🎂</span><span class="rc-title">나는 몇 살 감성인가?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/stress"><span class="rc-emoji">🌿</span><span class="rc-title">나에게 맞는 스트레스 해소법</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/loneliness"><span class="rc-emoji">🌙</span><span class="rc-title">나의 외로움 유형</span><span class="rc-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+<script>
+const RESULTS = [
+  {id:0,season:'🌸 봄',emojiB:'🌱',type:'SPRING SEASON',name:'새로운 시작의 봄',sub:'설레고 두근거리는 것들이 피어나는 시기',tag:'봄 · 시작과 가능성',
+   desc:'지금 당신의 인생은 봄이에요. 새로운 시작, 새로운 만남, 새로운 도전이 싹트는 시기예요. 아직 불확실한 것들도 많고, 때론 두렵기도 하지만, 모든 것이 가능성으로 가득 차 있는 설레는 계절이에요. 에너지가 올라오고, 뭔가 해보고 싶은 마음이 생기는 때예요.',
+   traits:['새로운 시작','가능성','설렘','성장 준비'],
+   extra:'봄은 완성의 계절이 아니에요. 씨앗을 심는 계절이에요. 지금 당장 꽃이 피지 않아도 괜찮아요. 심어두면 반드시 피어나요.'},
+  {id:1,season:'☀️ 여름',emojiB:'🔥',type:'SUMMER SEASON',name:'열정이 타오르는 여름',sub:'가장 바쁘고 뜨겁게 달리는 시기',tag:'여름 · 열정과 도전',
+   desc:'지금 당신의 인생은 여름이에요. 에너지가 넘치고, 하고 싶은 것도 많고, 해야 할 것도 많은 뜨거운 시기예요. 지치기도 하지만 그만큼 성장도 빠르고, 많은 것을 경험하고 배우는 계절이에요. 가장 강렬하게 살고 있는 지금이에요.',
+   traits:['강한 에너지','열정','도전','빠른 성장'],
+   extra:'여름은 쉬지 않고 달리는 계절이에요. 근데 가끔은 그늘에서 쉬어가도 돼요. 달리는 것만큼 회복도 중요하니까요.'},
+  {id:2,season:'🍂 가을',emojiB:'🌾',type:'AUTUMN SEASON',name:'수확하고 정리하는 가을',sub:'쌓아온 것들을 돌아보고 추스르는 시기',tag:'가을 · 성숙과 정리',
+   desc:'지금 당신의 인생은 가을이에요. 바쁘게 달려온 것들이 결실을 맺거나, 지나온 것들을 돌아보고 정리하는 시기예요. 감성적이고 사색적인 순간이 많고, 진짜 중요한 게 뭔지 다시 생각하게 되는 계절이에요. 풍요롭고 깊은 시간이에요.',
+   traits:['성숙','사색','정리','내면 탐구'],
+   extra:'가을은 쓸쓸해 보여도 사실 가장 풍요로운 계절이에요. 지금 느끼는 감정들이 나중에 당신을 더 깊은 사람으로 만들어줄 거예요.'},
+  {id:3,season:'❄️ 겨울',emojiB:'🌨️',type:'WINTER SEASON',name:'쉬어가는 겨울',sub:'조용히 힘을 모으고 버티는 시기',tag:'겨울 · 휴식과 회복',
+   desc:'지금 당신의 인생은 겨울이에요. 에너지가 낮고, 무기력하거나 막막한 느낌이 드는 시기일 수 있어요. 하지만 겨울은 나쁜 계절이 아니에요. 식물도 겨울에 뿌리를 내리고, 봄을 준비해요. 지금 쉬어가는 것도 다음을 위한 준비예요.',
+   traits:['휴식 필요','에너지 충전','내면 회복','봄 준비'],
+   extra:'겨울이 영원하지 않아요. 모든 겨울 다음엔 반드시 봄이 와요. 지금 충분히 쉬어요. 그게 다음 계절을 위한 가장 현명한 선택이에요.'},
+  {id:4,season:'🌈 환절기',emojiB:'🌤️',type:'TRANSITION SEASON',name:'계절이 바뀌는 환절기',sub:'한 계절에서 다음 계절로 넘어가는 시기',tag:'환절기 · 변화와 전환',
+   desc:'지금 당신의 인생은 환절기예요. 한 시기가 끝나고 새로운 시기가 시작되는 경계선에 있어요. 어중간하고 불안정한 느낌도 들지만, 그것 자체가 변화의 신호예요. 곧 새로운 계절이 시작될 거예요. 지금은 그 전환점에 있는 시기예요.',
+   traits:['전환점','변화 준비','경계선','새 출발 임박'],
+   extra:'환절기는 불안정해 보이지만 가장 역동적인 시간이에요. 곧 어느 계절로 접어들지, 지금 내가 어떤 방향을 선택하느냐에 달려있어요.'},
+];
+
+const QUESTIONS = [
+  {text:'🌅 요즘 아침에 눈을 뜨면 어떤 기분인가요?',
+   opts:[
+     {text:'오늘도 뭔가 기대되고 설렌다',scores:[3,1,0,0,0]},
+     {text:'할 일이 많아서 벌써부터 바쁜 느낌',scores:[0,3,0,0,0]},
+     {text:'뭔가 씁쓸하거나 생각이 많다',scores:[0,0,3,0,0]},
+     {text:'그냥 피곤하고 더 자고 싶다',scores:[0,0,0,3,0]},
+     {text:'날에 따라 다르다',scores:[0,0,0,0,3]},
+   ]},
+  {text:'💭 요즘 자주 하는 생각은?',
+   opts:[
+     {text:'"뭔가 새로 시작해볼까?" 하는 생각',scores:[3,0,0,0,1]},
+     {text:'"해야 할 게 너무 많아" 하는 생각',scores:[0,3,0,0,0]},
+     {text:'"나 그동안 어떻게 살았지?" 하는 생각',scores:[0,0,3,0,0]},
+     {text:'"언제쯤 좀 쉴 수 있을까" 하는 생각',scores:[0,0,0,3,0]},
+     {text:'"이제 뭔가 달라질 것 같은" 느낌',scores:[0,0,0,0,3]},
+   ]},
+  {text:'⚡ 요즘 에너지 레벨은?',
+   opts:[
+     {text:'기대감으로 가득 차 있다',scores:[3,0,0,0,0]},
+     {text:'넘쳐서 탈인데, 좀 버거울 때도 있다',scores:[0,3,0,0,0]},
+     {text:'차분하게 가라앉아 있는 느낌',scores:[0,0,3,0,0]},
+     {text:'바닥에 가까운 것 같다',scores:[0,0,0,3,0]},
+     {text:'불안정하게 올라갔다 내려갔다',scores:[0,0,0,0,3]},
+   ]},
+  {text:'🎯 요즘 목표나 방향은?',
+   opts:[
+     {text:'새로운 목표가 생겼거나 생기고 있다',scores:[3,0,0,0,0]},
+     {text:'목표는 있고 지금 열심히 달리고 있다',scores:[0,3,0,0,0]},
+     {text:'지나온 것들을 돌아보는 중이다',scores:[0,0,3,0,0]},
+     {text:'목표고 뭐고 지금 당장 쉬고 싶다',scores:[0,0,0,3,0]},
+     {text:'방향을 바꾸려는 중이다',scores:[0,0,0,0,3]},
+   ]},
+  {text:'👥 요즘 인간관계는?',
+   opts:[
+     {text:'새로운 사람들을 만나고 있거나 만나고 싶다',scores:[3,0,0,0,0]},
+     {text:'많은 사람들과 활발하게 지내는 중',scores:[0,3,0,0,0]},
+     {text:'가까운 사람들과 더 깊이 연결되고 싶다',scores:[0,0,3,0,0]},
+     {text:'혼자 있고 싶은 마음이 더 크다',scores:[0,0,0,3,0]},
+     {text:'관계를 재정비 중이다',scores:[0,0,0,0,3]},
+   ]},
+  {text:'😊 요즘 행복한 순간은?',
+   opts:[
+     {text:'새로운 걸 발견하거나 시작할 때',scores:[3,0,0,0,0]},
+     {text:'뭔가를 해냈을 때, 달성했을 때',scores:[0,3,0,0,0]},
+     {text:'좋은 음악 들으며 혼자 감성에 젖을 때',scores:[0,0,3,0,0]},
+     {text:'따뜻하게 쉬고 있을 때',scores:[0,0,0,3,0]},
+     {text:'변화의 조짐이 느껴질 때',scores:[0,0,0,0,3]},
+   ]},
+  {text:'🌙 요즘 잠들기 전 기분은?',
+   opts:[
+     {text:'내일이 기대된다',scores:[3,0,0,0,0]},
+     {text:'오늘도 빡세게 살았다',scores:[0,3,0,0,0]},
+     {text:'여러 가지 생각이 많아진다',scores:[0,0,3,0,0]},
+     {text:'그냥 빨리 자고 싶다',scores:[0,0,0,3,0]},
+     {text:'뭔가 달라질 것 같은 예감',scores:[0,0,0,0,3]},
+   ]},
+  {text:'📖 요즘 내 삶을 책으로 비유하면?',
+   opts:[
+     {text:'1장을 막 시작한 느낌',scores:[3,0,0,0,0]},
+     {text:'클라이맥스가 한창인 느낌',scores:[0,3,0,0,0]},
+     {text:'돌아보는 에필로그 같은 느낌',scores:[0,0,3,0,0]},
+     {text:'공백 페이지가 이어지는 느낌',scores:[0,0,0,3,0]},
+     {text:'챕터가 바뀌는 느낌',scores:[0,0,0,0,3]},
+   ]},
+  {text:'🌿 요즘 내가 필요한 것은?',
+   opts:[
+     {text:'용기와 첫 발걸음',scores:[3,0,0,0,0]},
+     {text:'더 많은 시간과 에너지',scores:[0,3,0,0,0]},
+     {text:'조용히 생각할 공간',scores:[0,0,3,0,0]},
+     {text:'따뜻한 위로와 충분한 휴식',scores:[0,0,0,3,0]},
+     {text:'새로운 방향을 정하는 결단',scores:[0,0,0,0,3]},
+   ]},
+  {text:'🔮 1년 후 나의 모습을 상상하면?',
+   opts:[
+     {text:'지금보다 훨씬 많은 걸 시작해있을 것 같다',scores:[3,0,0,0,0]},
+     {text:'지금 달리는 것들이 결실을 맺고 있을 것 같다',scores:[0,3,0,0,0]},
+     {text:'더 성숙하고 단단한 내가 되어있을 것 같다',scores:[0,0,3,0,0]},
+     {text:'지금보단 나아져있길 바란다',scores:[0,0,0,3,0]},
+     {text:'완전히 다른 방향으로 살고 있을 것 같다',scores:[0,0,0,0,3]},
+   ]},
+];
+
+let scores=[0,0,0,0,0],current=0;
+function startTest(){document.getElementById('intro-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';showQ();}
+function showQ(){
+  const q=QUESTIONS[current];
+  document.getElementById('q-num').textContent=(current+1)+' / '+QUESTIONS.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=((current/QUESTIONS.length)*100)+'%';
+  const opts=document.getElementById('options');opts.innerHTML='';
+  q.opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=o.text;btn.onclick=()=>{o.scores.forEach((v,i)=>{scores[i]+=v;});current++;if(current<QUESTIONS.length)showQ();else showResult(false);};opts.appendChild(btn);});
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores));const r=RESULTS[top];
+  document.getElementById('res-season').textContent=r.season;
+  document.getElementById('res-emoji-big').textContent=r.emojiB;
+  document.getElementById('res-type').textContent=r.type;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  document.getElementById('res-extra').textContent=r.extra;
+  document.getElementById('sc-season').textContent=r.season;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl){try{history.replaceState(null,'','?r='+top);}catch(e){}}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){const url=location.origin+location.pathname+location.search;navigator.clipboard.writeText(url).then(()=>{btn.textContent='✅ 링크 복사 완료!';setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000);});}
+function restartTest(){scores=[0,0,0,0,0];current=0;document.getElementById('result-screen').style.display='none';document.getElementById('intro-screen').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+(function(){const p=new URLSearchParams(location.search),r=p.get('r');if(r!==null&&RESULTS[parseInt(r)]){scores[parseInt(r)]=1;document.getElementById('intro-screen').style.display='none';showResult(true);}})();
+</script>
+</body>
+</html>

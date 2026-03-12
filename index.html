@@ -149,6 +149,7 @@
       <a class="quiz-card" href="/cafe"><span class="card-emoji">☕</span><span class="card-name">카페로 보는 내 성격</span><span class="card-badge">성격</span></a>
       <a class="quiz-card" href="/mbti-hidden"><span class="card-emoji">🔮</span><span class="card-name">MBTI 숨겨진 진짜 나</span><span class="card-badge">MBTI</span></a>
       <a class="quiz-card" href="/emotion-color"><span class="card-emoji">🎨</span><span class="card-name">나의 감정 색깔</span><span class="card-badge">성격</span></a>
+      <a class="quiz-card" href="/emotion-age"><span class="card-emoji">🤔</span><span class="card-name">나의 감정은 몇 살일까?</span><span class="card-badge">성격</span></a>
       <a class="more-card" href="#" onclick="openModal('성격 테스트','personality');return false;"><span class="more-card-plus">＋</span>더보기</a>
     </div>
   </div>
@@ -161,6 +162,7 @@
     </div>
     <div class="card-row">
       <a class="quiz-card" href="/couple"><span class="card-emoji">💘</span><span class="card-name">우리 MBTI 궁합</span><span class="card-badge">궁합</span></a>
+      <a class="quiz-card" href="/dumper"><span class="card-emoji">❤️‍🩹</span><span class="card-name">나는 차이는 타입? 차는 타입?</span><span class="card-badge">연애</span></a>
       <a class="quiz-card" href="/bearfox"><span class="card-emoji">🐻🦊</span><span class="card-name">곰 타입? 여우 타입?</span><span class="card-badge">연애</span></a>
       <a class="quiz-card" href="/love-style"><span class="card-emoji">💌</span><span class="card-name">나의 연애 스타일</span><span class="card-badge">연애</span></a>
       <a class="quiz-card" href="/crush"><span class="card-emoji">💘</span><span class="card-name">썸남·썸녀 공략법</span><span class="card-badge">썸</span></a>
@@ -220,9 +222,12 @@
     <div class="card-row">
       <a class="quiz-card" href="/psychopath"><span class="card-emoji">🔎</span><span class="card-name">내가 혹시 사이코패스?</span><span class="card-badge">심리</span></a>
       <a class="quiz-card" href="/narcissist"><span class="card-emoji">🪞</span><span class="card-name">내가 혹시 나르시스트?</span><span class="card-badge">심리</span></a>
+      <a class="quiz-card" href="/attachment "><span class="card-emoji">🥰</span><span class="card-name">나의 애착유형 알아보기</span><span class="card-badge">심리</span></a>
       <a class="quiz-card" href="/avoidant"><span class="card-emoji">🚪</span><span class="card-name">내가 혹시 회피형?</span><span class="card-badge">심리</span></a>
       <a class="quiz-card" href="/burnout"><span class="card-emoji">🪫</span><span class="card-name">번아웃 지수 체크</span><span class="card-badge">심리</span></a>
       <a class="quiz-card" href="/hsp"><span class="card-emoji">🌸</span><span class="card-name">나는 혹시 HSP?</span><span class="card-badge">심리</span></a>
+      <a class="quiz-card" href="/perfectionist"><span class="card-emoji">🤖</span><span class="card-name">나는 완벽주의자일까?</span><span class="card-badge">심리</span></a>
+      <a class="quiz-card" href="/mental "><span class="card-emoji">💪</span><span class="card-name">멘탈 강도 테스트</span><span class="card-badge">심리</span></a>
       <a class="more-card" href="#" onclick="openModal('심리 테스트','psychology');return false;"><span class="more-card-plus">＋</span>더보기</a>
     </div>
   </div>
@@ -240,6 +245,7 @@
       <a class="quiz-card" href="/past-life"><span class="card-emoji">🕰️</span><span class="card-name">나의 전생은?</span><span class="card-badge">판타지</span></a>
       <a class="quiz-card" href="/food-pick"><span class="card-emoji">🍽️</span><span class="card-name">오늘 뭐 먹지?</span><span class="card-badge">라이프</span></a>
       <a class="quiz-card" href="/magic"><span class="card-emoji">📖</span><span class="card-name">마법의 고민 해결사</span><span class="card-badge">고민</span></a>
+      <a class="quiz-card" href="/life-season"><span class="card-emoji">🌿</span><span class="card-name">내 인생, 지금 무슨 계절일까?</span><span class="card-badge">라이프</span></a>
       <a class="more-card" href="#" onclick="openModal('라이프 테스트','life');return false;"><span class="more-card-plus">＋</span>더보기</a>
     </div>
   </div>
@@ -281,7 +287,9 @@ const ALL_TESTS = [
   {folder:'good-person',emoji:'😇',name:'나는 착한 사람일까?',cat:'personality',tag:'성격'},
   {folder:'dark-side',emoji:'🌑',name:'숨겨진 어두운 성격',cat:'personality',tag:'심리'},
   {folder:'relationship-type',emoji:'🌐',name:'나의 인간관계 타입',cat:'personality',tag:'성격'},
+  {folder:'emotion-age',emoji:'🤔',name:'나의 감정은 몇 살일까?',cat:'personality',tag:'성격'},
   {folder:'couple',emoji:'💘',name:'우리 MBTI 궁합',cat:'love',tag:'궁합'},
+  {folder:'dumper',emoji:'❤️‍🩹',name:'나는 차이는 타입? 차는 타입?',cat:'love',tag:'연애'},
   {folder:'bearfox',emoji:'🐻🦊',name:'곰 타입? 여우 타입?',cat:'love',tag:'연애'},
   {folder:'love-style',emoji:'💌',name:'나의 연애 스타일',cat:'love',tag:'연애'},
   {folder:'crush',emoji:'💘',name:'썸남·썸녀 공략법',cat:'love',tag:'썸'},
@@ -299,6 +307,9 @@ const ALL_TESTS = [
   {folder:'king',emoji:'👑',name:'나의 조선왕 유형',cat:'mbti',tag:'역사'},
   {folder:'first-impression',emoji:'👤',name:'내 첫인상 테스트',cat:'image',tag:'이미지'},
   {folder:'hidden-image',emoji:'👁️',name:'사람들의 진짜 생각',cat:'image',tag:'이미지'},
+  {folder:'perfectionist',emoji:'🤖',name:'나는 완벽주의자일까?',cat:'psychology',tag:'심리'},
+  {folder:'mental',emoji:'💪',name:'멘탈 강도 테스트',cat:'psychology',tag:'심리'},
+  {folder:'attachment',emoji:'🥰',name:'나의 애착유형 알아보기',cat:'psychology',tag:'심리'},
   {folder:'psychopath',emoji:'🔎',name:'내가 혹시 사이코패스?',cat:'psychology',tag:'심리'},
   {folder:'narcissist',emoji:'🪞',name:'내가 혹시 나르시스트?',cat:'psychology',tag:'심리'},
   {folder:'burnout',emoji:'🪫',name:'번아웃 지수 체크',cat:'psychology',tag:'심리'},
@@ -311,6 +322,7 @@ const ALL_TESTS = [
   {folder:'past-life',emoji:'🕰️',name:'나의 전생은?',cat:'life',tag:'판타지'},
   {folder:'food-pick',emoji:'🍽️',name:'오늘 뭐 먹지?',cat:'life',tag:'라이프'},
   {folder:'magic',emoji:'📖',name:'마법의 고민 해결사',cat:'life',tag:'고민'},
+  {folder:'life-season',emoji:'🌿',name:'내 인생, 지금 무슨 계절일까?',cat:'life',tag:'라이프'},
 ];
 
 function bgClose(e, id, fn) { if(e.target.id===id) fn(); }
