@@ -149,11 +149,6 @@
       <a class="quiz-card" href="/cafe"><span class="card-emoji">☕</span><span class="card-name">카페로 보는 내 성격</span><span class="card-badge">성격</span></a>
       <a class="quiz-card" href="/mbti-hidden"><span class="card-emoji">🔮</span><span class="card-name">MBTI 숨겨진 진짜 나</span><span class="card-badge">MBTI</span></a>
       <a class="quiz-card" href="/emotion-color"><span class="card-emoji">🎨</span><span class="card-name">나의 감정 색깔</span><span class="card-badge">성격</span></a>
-      <a class="quiz-card" href="/stress">
-        <span class="card-emoji">🌿</span>
-        <span class="card-name">내게  딱 맞는 스트레스 해소법은?</span>
-        <span class="card-badge">힐링</span>
-      </a>
       <a class="more-card" href="#" onclick="openModal('성격 테스트','personality');return false;"><span class="more-card-plus">＋</span>더보기</a>
     </div>
   </div>
@@ -239,6 +234,7 @@
       <a class="more-link" href="#" onclick="openModal('라이프 테스트','life');return false;">전체보기 ›</a>
     </div>
     <div class="card-row">
+      <a class="quiz-card" href="/stress"><span class="card-emoji">🌿</span><span class="card-name">내게  딱 맞는 스트레스 해소법은?</span><span class="card-badge">힐링</span></a>
       <a class="quiz-card" href="/travel"><span class="card-emoji">✈️</span><span class="card-name">내 영혼의 여행지</span><span class="card-badge">여행</span></a>
       <a class="quiz-card" href="/job"><span class="card-emoji">💼</span><span class="card-name">내 찐 적성 직업</span><span class="card-badge">직업</span></a>
       <a class="quiz-card" href="/past-life"><span class="card-emoji">🕰️</span><span class="card-name">나의 전생은?</span><span class="card-badge">판타지</span></a>
@@ -277,7 +273,6 @@
 
 <script>
 const ALL_TESTS = [
-  {folder:'stress', emoji:'🌿', name:'나에게 맞는 스트레스 해소법', cat:'personality', tag:'힐링'}
   {folder:'food',emoji:'🍖',name:'나의 음식 MBTI는?',cat:'personality',tag:'MBTI'},
   {folder:'animal',emoji:'🐾',name:'나의 마법 동물 유형',cat:'personality',tag:'성격'},
   {folder:'cafe',emoji:'☕',name:'카페로 보는 내 성격',cat:'personality',tag:'성격'},
@@ -310,6 +305,7 @@ const ALL_TESTS = [
   {folder:'hsp',emoji:'🌸',name:'나는 혹시 HSP?',cat:'psychology',tag:'심리'},
   {folder:'high-depression',emoji:'🎭',name:'고기능 우울증 체크',cat:'psychology',tag:'심리'},
   {folder:'loneliness',emoji:'🌙',name:'나의 외로움 유형',cat:'psychology',tag:'심리'},
+  {folder:'stress', emoji:'🌿', name:'나에게 맞는 스트레스 해소법', cat:'life', tag:'힐링'}
   {folder:'travel',emoji:'✈️',name:'내 영혼의 여행지',cat:'life',tag:'여행'},
   {folder:'job',emoji:'💼',name:'내 찐 적성 직업',cat:'life',tag:'직업'},
   {folder:'past-life',emoji:'🕰️',name:'나의 전생은?',cat:'life',tag:'판타지'},
