@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나에게 맞는 운동 유형은? 🏃 내 성격으로 찾는 운동 스타일</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="내 성격과 라이프스타일에 꼭 맞는 운동 유형을 찾아드려요! 10문항으로 나만의 운동 스타일 분석."/>
+  <meta name="keywords" content="운동유형,운동추천,심리테스트,성격테스트,핑고퀴즈"/>
+  <meta property="og:title" content="나에게 맞는 운동 유형은? 🏃"/>
+  <meta property="og:description" content="내 성격에 꼭 맞는 운동 유형을 찾아드려요! 10문항으로 나만의 운동 스타일 분석."/>
+  <meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png"/>
+  <meta property="og:url" content="https://pingoquiz.vercel.app/workout-type"/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root{--bg:#f0fff4;--card:#ffffff;--primary:#22a05a;--secondary:#5dd88a;--text:#0a2015;--muted:#4a8060;--border:#b8eacb;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;}
+    .intro-screen{text-align:center;padding-top:36px;}
+    .hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Jua',cursive;font-size:1.75rem;color:var(--primary);margin-bottom:10px;line-height:1.35;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:28px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 24px rgba(34,160,90,0.3);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+    .quiz-screen{display:none;padding-top:28px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:22px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.35s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:8px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.1rem;color:var(--text);margin-bottom:20px;line-height:1.6;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:15px 18px;text-align:left;color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:#eafff2;transform:translateX(4px);}
+    .result-screen{display:none;padding-top:28px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px 22px;}
+    .res-emoji{font-size:3.5rem;text-align:center;display:block;margin-bottom:10px;}
+    .res-type{font-size:0.7rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.5rem;color:var(--text);text-align:center;margin-bottom:8px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;}
+    .res-tag{display:block;width:fit-content;margin:0 auto 20px;background:rgba(34,160,90,0.08);color:var(--primary);border:1px solid rgba(34,160,90,0.25);border-radius:99px;padding:4px 16px;font-size:0.8rem;}
+    .section-ttl{font-family:'Jua',cursive;font-size:0.92rem;color:var(--primary);margin:20px 0 8px;}
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;}
+    .rec-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+    .rec-item{background:#f0fff4;border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;display:flex;gap:12px;align-items:flex-start;}
+    .rec-item-emoji{font-size:1.6rem;flex-shrink:0;margin-top:2px;}
+    .rec-item-name{font-weight:700;font-size:0.9rem;margin-bottom:3px;}
+    .rec-item-reason{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+    .trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .trait-tag{background:rgba(34,160,90,0.08);color:var(--primary);border:1px solid rgba(34,160,90,0.2);border-radius:99px;padding:4px 13px;font-size:0.78rem;}
+    .extra-box{background:#f0fff4;border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:8px;font-size:0.85rem;color:var(--muted);line-height:1.8;}
+    .ad-slot{margin:20px 0;}
+    .share-card-wrap{margin:20px 0 0;background:#f0fff4;border:1.5px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;}
+    .sc-label{font-size:0.7rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:10px;font-weight:700;}
+    #sc-emoji{font-size:2.6rem;margin-bottom:6px;}
+    #sc-title{font-family:'Jua',cursive;font-size:1.2rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.8rem;color:var(--muted);margin-bottom:6px;}
+    #sc-recs{font-size:0.78rem;color:var(--primary);}
+    .hint-txt{font-size:0.64rem;color:#aaa;margin-top:8px;}
+    .brand-txt{font-size:0.6rem;color:rgba(150,150,150,0.3);letter-spacing:0.1em;margin-top:4px;}
+    .share-btn{width:100%;background:rgba(34,160,90,0.08);color:var(--primary);border:1.5px solid rgba(34,160,90,0.25);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(34,160,90,0.15);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+    .bottom-rec-section{margin:24px 0 8px;}
+    .bottom-rec-label{text-align:center;font-size:0.7rem;letter-spacing:0.15em;color:var(--primary);font-weight:700;margin-bottom:12px;}
+    .bottom-rec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:all 0.15s;}
+    .bottom-rec-card:hover{border-color:var(--primary);transform:translateX(4px);}
+    .brc-emoji{font-size:1.5rem;flex-shrink:0;}
+    .brc-title{flex:1;font-size:0.88rem;font-weight:700;}
+    .brc-arrow{font-size:0.9rem;color:var(--primary);}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">🏃</span>
+    <h1>나에게 딱 맞는<br/>운동 유형은?</h1>
+    <p class="intro-desc">억지로 하는 운동은 오래 못 가요.<br/>내 성격과 라이프스타일에 맞는 운동을<br/>찾아야 진짜 오래 할 수 있어요 💪</p>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">🏃 내 운동 유형 찾기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-type" id="res-type"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-ttl">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-ttl">🏋️ 추천 운동</div>
+      <div class="rec-list" id="rec-list"></div>
+      <div class="section-ttl">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-ttl">💡 운동 꿀팁</div>
+      <div class="extra-box" id="res-extra"></div>
+    </div>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-recs"></div>
+      <div class="hint-txt">📱 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+    <div class="bottom-rec-section">
+      <div class="bottom-rec-label">✦ 비슷한 테스트 추천 ✦</div>
+      <a class="bottom-rec-card" href="/stress"><span class="brc-emoji">🌿</span><span class="brc-title">나에게 맞는 스트레스 해소법</span><span class="brc-arrow">→</span></a>
+      <a class="bottom-rec-card" href="/burnout"><span class="brc-emoji">🪫</span><span class="brc-title">번아웃 지수 체크</span><span class="brc-arrow">→</span></a>
+      <a class="bottom-rec-card" href="/mental"><span class="brc-emoji">💪</span><span class="brc-title">나의 멘탈 강도 테스트</span><span class="brc-arrow">→</span></a>
+      <a class="bottom-rec-card" href="/money-style"><span class="brc-emoji">💸</span><span class="brc-title">나의 돈 쓰는 스타일</span><span class="brc-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+<script>
+const RESULTS = [
+  {id:0,emoji:'🧘',type:'MIND-BODY TYPE',name:'몸과 마음 함께 챙기는 타입',sub:'격렬함보다 내면의 균형이 중요한 스타일',tag:'마음챙김 · 저강도 꾸준형',
+   desc:'격렬하게 땀 흘리는 것보다 몸과 마음이 함께 편안해지는 운동이 맞아요. 혼자 조용히 집중하면서 할 수 있고, 스트레스 해소와 유연성 향상에 효과적인 운동들이 잘 맞는 타입이에요.',
+   recs:[
+     {emoji:'🧘',name:'요가·필라테스',reason:'몸의 균형과 유연성을 키우면서 마음도 차분해져요. 혼자 집중하는 시간으로 최고예요.'},
+     {emoji:'🚶',name:'산책·걷기',reason:'특별한 장비 없이 언제든 할 수 있어요. 생각 정리하면서 몸도 움직이는 일석이조예요.'},
+     {emoji:'🏊',name:'수영',reason:'물속에서는 생각이 비워져요. 전신 운동이면서 관절에 무리도 없어요.'},
+     {emoji:'🚴',name:'자전거·사이클',reason:'혼자 페달 밟으며 음악 들으면 명상 효과가 있어요. 강도 조절도 자유로워요.'},
+   ],
+   traits:['저강도 선호','혼자 집중','마음챙김','꾸준함'],
+   extra:'매일 30분 산책만 해도 충분해요. 운동을 거창하게 생각하지 말고, 일상 속에 조용히 녹이는 게 포인트예요.'},
+  {id:1,emoji:'🔥',type:'HIGH INTENSITY TYPE',name:'땀 폭발 고강도 타입',sub:'강하게 치고 나서야 개운한 스타일',tag:'고강도 · 성취감 추구형',
+   desc:'가볍게 움직이는 건 운동한 것 같지 않은 타입이에요. 땀이 뻘뻘 나고, 근육이 타는 느낌이 나야 운동한 것 같아요. 목표를 달성하는 성취감과 강한 자극을 좋아하는 스타일에게 맞는 운동들이에요.',
+   recs:[
+     {emoji:'🏋️',name:'헬스·웨이트',reason:'단계적으로 무게를 올리는 성취감이 있어요. 몸의 변화가 눈에 보여서 동기부여가 돼요.'},
+     {emoji:'⚡',name:'HIIT·크로스핏',reason:'짧은 시간에 최대 효과를 낼 수 있어요. 매번 자신의 한계를 시험하는 쾌감이 있어요.'},
+     {emoji:'🥊',name:'복싱·킥복싱',reason:'스트레스도 풀리고 전신 운동도 돼요. 강도 높은 운동을 원하는 타입에게 최고예요.'},
+     {emoji:'⛰️',name:'등산·트레일러닝',reason:'자연 속에서 몸을 극한까지 쓰는 쾌감이 있어요. 정상에서의 성취감이 최고예요.'},
+   ],
+   traits:['고강도 선호','성취감 중시','땀 폭발','한계 도전'],
+   extra:'고강도 운동은 회복도 중요해요. 이틀 연속 무리하지 말고, 쉬는 날도 계획에 넣어야 부상 없이 오래 할 수 있어요.'},
+  {id:2,emoji:'👯',type:'SOCIAL WORKOUT TYPE',name:'함께해야 더 신나는 사교형',sub:'혼자보다 같이할 때 더 열심히 하는 스타일',tag:'그룹 운동 · 함께하는 에너지',
+   desc:'혼자 운동하면 금방 지루해지는 타입이에요. 친구랑 같이 가거나, 그룹 수업처럼 다같이 하는 환경에서 에너지가 올라가고 더 열심히 하게 되는 스타일이에요.',
+   recs:[
+     {emoji:'💃',name:'댄스·줌바',reason:'음악에 맞춰 다같이 움직이면 운동하는 느낌도 안 나요. 자연스럽게 많이 움직이게 돼요.'},
+     {emoji:'🏸',name:'배드민턴·테니스',reason:'상대방이 있어서 집중력이 높아져요. 같이 실력 올라가는 재미가 있어요.'},
+     {emoji:'⚽',name:'풋살·농구 등 팀 스포츠',reason:'팀원이 있으면 빠질 수가 없어요. 승부욕도 생기고 우정도 쌓여요.'},
+     {emoji:'🧗',name:'클라이밍',reason:'어렵지만 주변 사람들과 서로 응원하면서 하면 훨씬 재밌어요.'},
+   ],
+   traits:['그룹 운동 선호','사교적','경쟁 즐김','분위기 중요'],
+   extra:'운동 친구를 만들거나 그룹 클래스를 등록해보세요. 약속이 생기면 빠지기 어렵고, 같이하면 더 오래 지속돼요.'},
+  {id:3,emoji:'🎯',type:'GOAL ORIENTED TYPE',name:'목표 지향 기록형',sub:'숫자와 기록으로 동기부여가 되는 스타일',tag:'기록 추구 · 목표 달성형',
+   desc:'막연하게 운동하는 것보다 구체적인 목표가 있을 때 더 열심히 하는 타입이에요. 거리, 시간, 무게, 횟수 같은 수치로 성장을 확인할 수 있는 운동이 잘 맞아요.',
+   recs:[
+     {emoji:'🏃',name:'러닝·마라톤',reason:'5km, 10km, 하프마라톤으로 목표를 높여갈 수 있어요. 기록이 눈에 보여서 동기부여가 확실해요.'},
+     {emoji:'🏋️',name:'웨이트 트레이닝',reason:'무게를 단계적으로 올리면서 성장을 수치로 확인할 수 있어요.'},
+     {emoji:'🚴',name:'사이클링',reason:'거리·속도·칼로리 등 기록하기 좋아요. 앱 연동해서 매일 성장을 확인하는 재미가 있어요.'},
+     {emoji:'🏊',name:'수영 랩',reason:'바퀴 수를 늘려가는 목표 설정이 명확해요. 기록 단축의 쾌감이 있어요.'},
+   ],
+   traits:['목표 지향','기록 중시','수치화','성장 추적'],
+   extra:'운동 앱을 활용해서 매일 기록을 남겨봐요. 한 달 뒤 그래프를 보면 뿌듯함이 다음 운동의 동기가 돼요.'},
+  {id:4,emoji:'🌿',type:'OUTDOOR TYPE',name:'야외에서 자연 속 운동 타입',sub:'실내보다 밖에서 움직여야 활력이 생기는 스타일',tag:'아웃도어 · 자연 충전형',
+   desc:'헬스장 같은 실내 공간이 답답하게 느껴지고, 밖에서 움직일 때 훨씬 에너지가 올라오는 타입이에요. 자연과 함께하는 운동에서 신체적 효과 이상의 충전감을 느껴요.',
+   recs:[
+     {emoji:'⛰️',name:'등산·하이킹',reason:'자연 속에서 몸을 쓰는 쾌감이 있어요. 경치 보면서 올라가다 보면 힘든 줄 몰라요.'},
+     {emoji:'🚴',name:'자전거·라이딩',reason:'바람 맞으며 달리는 자유로움이 있어요. 새로운 길을 탐험하는 재미도 있어요.'},
+     {emoji:'🏄',name:'서핑·카약·수상스포츠',reason:'계절에 한정되지만 특별한 경험이에요. 자연과 하나 되는 느낌이 최고예요.'},
+     {emoji:'🏃',name:'공원 러닝·트레일러닝',reason:'자연 속 러닝은 트레드밀과 차원이 달라요. 매번 달리 보이는 풍경이 지루함을 없애줘요.'},
+   ],
+   traits:['야외 선호','자연 충전','자유로움','탐험 즐김'],
+   extra:'날씨에 따라 운동 계획이 흔들릴 수 있어요. 우천 시 대체 실내 운동을 하나 정해두면 꾸준함을 유지할 수 있어요.'},
+  {id:5,emoji:'🏠',type:'HOME WORKOUT TYPE',name:'집에서 조용히 혼자 하는 타입',sub:'이동 없이 내 공간에서 편하게 하는 스타일',tag:'홈트 · 루틴 안정형',
+   desc:'헬스장 가는 것 자체가 귀찮거나 부담스러운 타입이에요. 집에서 간편하게, 눈치 보지 않고 내 페이스대로 할 수 있는 운동이 가장 잘 맞아요. 루틴이 안정적으로 잡히면 꾸준히 할 수 있어요.',
+   recs:[
+     {emoji:'🧘',name:'홈 요가·스트레칭',reason:'유튜브 영상 따라 하면 장비 없이 시작할 수 있어요. 매트 하나면 충분해요.'},
+     {emoji:'💪',name:'맨몸 운동·홈트',reason:'스쿼트, 플랭크, 푸쉬업만으로도 충분해요. 유튜브에 무료 루틴이 넘쳐요.'},
+     {emoji:'🎮',name:'링 피트·운동 게임',reason:'게임처럼 즐기면서 할 수 있어요. 재미 요소가 있어서 지속하기 좋아요.'},
+     {emoji:'🚶',name:'집 근처 산책',reason:'완전 집 밖은 아니지만 가볍게 나갈 수 있어요. 5분 거리 산책도 운동이에요.'},
+   ],
+   traits:['홈트 선호','이동 최소화','내 페이스','루틴형'],
+   extra:'홈트는 환경 설정이 중요해요. 운동할 공간을 정해두고, 매트를 깔아두면 심리적 진입 장벽이 낮아져요.'},
+];
+
+const QUESTIONS = [
+  {text:'😤 운동이 끝난 후 어떤 느낌이어야 만족스러운가요?',
+   opts:[
+     {text:'몸이 유연해지고 마음이 차분해진 느낌',scores:[3,0,0,0,0,0]},
+     {text:'땀이 뻘뻘 나고 근육이 탄 느낌',scores:[0,3,0,0,0,0]},
+     {text:'같이 한 사람들과 신나게 마무리한 느낌',scores:[0,0,3,0,0,0]},
+     {text:'어제보다 나아진 기록이 찍힌 느낌',scores:[0,0,0,3,0,0]},
+     {text:'바깥 공기 마시고 개운해진 느낌',scores:[0,0,0,0,3,0]},
+     {text:'집에서 편하게 하고 뿌듯한 느낌',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🏃 운동을 지속하는 동기는 무엇인가요?',
+   opts:[
+     {text:'스트레스 해소와 마음의 안정',scores:[3,0,0,0,0,0]},
+     {text:'체력 향상과 몸의 변화',scores:[0,3,0,0,0,0]},
+     {text:'같이하는 사람들과의 재미',scores:[0,0,3,0,0,0]},
+     {text:'목표 달성과 기록 갱신',scores:[0,0,0,3,0,0]},
+     {text:'자연 속에서 활력 충전',scores:[0,0,0,0,3,0]},
+     {text:'별도 이동 없이 편하게 할 수 있어서',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'👥 운동할 때 선호하는 환경은?',
+   opts:[
+     {text:'혼자 조용히 집중할 수 있는 곳',scores:[3,0,0,0,0,1]},
+     {text:'전문적인 헬스장이나 클래스',scores:[0,3,0,0,0,0]},
+     {text:'다 같이 활기차게 할 수 있는 곳',scores:[0,0,3,0,0,0]},
+     {text:'기록 측정이 가능한 트랙이나 시설',scores:[0,0,0,3,0,0]},
+     {text:'탁 트인 야외',scores:[0,0,0,0,3,0]},
+     {text:'집이나 집 근처',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🌅 운동하기 가장 좋은 시간은?',
+   opts:[
+     {text:'아침 일찍, 하루를 조용하게 시작하고 싶을 때',scores:[3,0,0,0,1,0]},
+     {text:'체력이 가장 좋은 오전이나 저녁',scores:[0,3,0,0,0,0]},
+     {text:'친구들 시간이 맞는 주말',scores:[0,0,3,0,0,0]},
+     {text:'계획된 루틴 시간 그대로',scores:[0,0,0,3,0,0]},
+     {text:'날씨 좋은 날 낮이나 이른 저녁',scores:[0,0,0,0,3,0]},
+     {text:'집에 있을 때 언제든',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'💪 운동할 때 가장 힘든 점은?',
+   opts:[
+     {text:'너무 격렬하면 오히려 스트레스',scores:[3,0,0,0,0,0]},
+     {text:'강도가 약하면 운동한 것 같지 않음',scores:[0,3,0,0,0,0]},
+     {text:'혼자 하면 금방 지루해짐',scores:[0,0,3,0,0,0]},
+     {text:'목표 없이 막연하게 하면 의욕 없음',scores:[0,0,0,3,0,0]},
+     {text:'실내가 답답하고 갇힌 느낌',scores:[0,0,0,0,3,0]},
+     {text:'헬스장 가는 게 귀찮고 부담스러움',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🎯 운동의 최종 목표는?',
+   opts:[
+     {text:'몸과 마음의 균형과 건강',scores:[3,0,0,0,0,0]},
+     {text:'눈에 보이는 몸의 변화',scores:[0,3,0,0,0,0]},
+     {text:'같이 즐길 수 있는 취미 활동',scores:[0,0,3,0,0,0]},
+     {text:'대회 참가나 구체적인 목표 달성',scores:[0,0,0,3,0,0]},
+     {text:'자연 속에서 활동하는 라이프스타일',scores:[0,0,0,0,3,0]},
+     {text:'꾸준히 유지하는 건강한 루틴',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'⏰ 운동 시간을 어떻게 내나요?',
+   opts:[
+     {text:'매일 짧게라도 꾸준히 한다',scores:[3,0,0,0,0,1]},
+     {text:'주 3-4회 집중적으로 한다',scores:[0,3,0,0,0,0]},
+     {text:'약속이 잡혀야 나간다',scores:[0,0,3,0,0,0]},
+     {text:'계획표 짜서 지킨다',scores:[0,0,0,3,0,0]},
+     {text:'날씨 좋으면 나가고 아니면 쉰다',scores:[0,0,0,0,3,0]},
+     {text:'생각날 때 집에서 한다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🏅 운동 후 가장 뿌듯할 때는?',
+   opts:[
+     {text:'몸이 가볍고 머릿속이 맑아질 때',scores:[3,0,0,0,0,0]},
+     {text:'힘들었던 만큼 몸이 달라질 때',scores:[0,3,0,0,0,0]},
+     {text:'같이 한 사람들이랑 즐거웠을 때',scores:[0,0,3,0,0,0]},
+     {text:'기록이 갱신됐을 때',scores:[0,0,0,3,0,0]},
+     {text:'좋은 풍경 보면서 움직였을 때',scores:[0,0,0,0,3,0]},
+     {text:'오늘도 빠지지 않고 했을 때',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🌧️ 운동 가기 싫을 때 이겨내는 방법은?',
+   opts:[
+     {text:'짧게라도 스트레칭이나 산책',scores:[3,0,0,0,0,1]},
+     {text:'일단 옷 갈아입으면 가게 됨',scores:[0,3,0,0,0,0]},
+     {text:'친구한테 연락해서 같이 가자고 함',scores:[0,0,3,0,0,0]},
+     {text:'목표 기억하면 다시 마음 잡힘',scores:[0,0,0,3,0,0]},
+     {text:'날씨 좋을 때까지 기다림',scores:[0,0,0,0,3,0]},
+     {text:'그냥 집에서 간단하게라도 함',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🔮 나에게 완벽한 운동이란?',
+   opts:[
+     {text:'몸도 마음도 편안해지는 운동',scores:[3,0,0,0,0,0]},
+     {text:'확실히 힘들고 효과 있는 운동',scores:[0,3,0,0,0,0]},
+     {text:'같이 하면 더 신나는 운동',scores:[0,0,3,0,0,0]},
+     {text:'성장이 눈에 보이는 운동',scores:[0,0,0,3,0,0]},
+     {text:'밖에서 자연과 함께하는 운동',scores:[0,0,0,0,3,0]},
+     {text:'집에서 편하게 할 수 있는 운동',scores:[0,0,0,0,0,3]},
+   ]},
+];
+
+let scores=[0,0,0,0,0,0],current=0;
+function startTest(){document.getElementById('intro-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';showQ();}
+function showQ(){
+  const q=QUESTIONS[current];
+  document.getElementById('q-num').textContent=(current+1)+' / '+QUESTIONS.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=((current/QUESTIONS.length)*100)+'%';
+  const opts=document.getElementById('options');opts.innerHTML='';
+  q.opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=o.text;btn.onclick=()=>{o.scores.forEach((v,i)=>{scores[i]+=v;});current++;if(current<QUESTIONS.length)showQ();else showResult(false);};opts.appendChild(btn);});
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores));const r=RESULTS[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-type').textContent=r.type;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('rec-list').innerHTML=r.recs.map(rc=>`<div class="rec-item"><span class="rec-item-emoji">${rc.emoji}</span><div><div class="rec-item-name">${rc.name}</div><div class="rec-item-reason">${rc.reason}</div></div></div>`).join('');
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  document.getElementById('res-extra').textContent=r.extra;
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-recs').textContent=r.recs.slice(0,3).map(rc=>rc.emoji+' '+rc.name).join('  ·  ');
+  if(!fromUrl){try{history.replaceState(null,'','?r='+top);}catch(e){}}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){const url=location.origin+location.pathname+location.search;navigator.clipboard.writeText(url).then(()=>{btn.textContent='✅링크 복사 완료!';setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000);});}
+function restartTest(){scores=[0,0,0,0,0,0];current=0;document.getElementById('result-screen').style.display='none';document.getElementById('intro-screen').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+(function(){const p=new URLSearchParams(location.search),r=p.get('r');if(r!==null&&RESULTS[parseInt(r)]){scores[parseInt(r)]=1;document.getElementById('intro-screen').style.display='none';showResult(true);}})();
+</script>
+</body>
+</html>

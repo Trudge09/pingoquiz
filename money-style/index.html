@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>나의 돈 쓰는 스타일은? 💸 절약형? 충동형? 경험형?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta name="description" content="나는 절약형? 충동형? 경험형? 10문항으로 내 소비 성향을 분석해봐요!"/>
+  <meta name="keywords" content="돈쓰는스타일,소비성향,심리테스트,라이프,핑고퀴즈"/>
+  <meta property="og:title" content="나의 돈 쓰는 스타일은? 💸 절약형? 충동형? 경험형?"/>
+  <meta property="og:description" content="나는 절약형? 충동형? 경험형? 10문항으로 내 소비 성향을 분석해봐요!"/>
+  <meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png"/>
+  <meta property="og:url" content="https://pingoquiz.vercel.app/money-style"/>
+  <meta name="robots" content="index, follow"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+  <style>
+    :root{--bg:#fffbf0;--card:#ffffff;--primary:#e6a817;--secondary:#ffd55a;--text:#2a1f00;--muted:#8a7030;--border:#f5dfa0;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+    .back-btn{display:inline-block;margin:20px 20px 0;color:var(--muted);font-size:0.85rem;text-decoration:none;}
+    .back-btn:hover{color:var(--primary);}
+    .container{max-width:520px;margin:0 auto;padding:0 20px;}
+    .intro-screen{text-align:center;padding-top:36px;}
+    .hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Jua',cursive;font-size:1.75rem;color:var(--primary);margin-bottom:10px;line-height:1.35;}
+    .intro-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;margin-bottom:28px;}
+    .start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;border-radius:99px;padding:16px 44px;font-family:'Jua',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 4px 24px rgba(230,168,23,0.35);transition:transform 0.15s;}
+    .start-btn:hover{transform:scale(1.04);}
+    .quiz-screen{display:none;padding-top:28px;}
+    .progress-wrap{height:4px;background:var(--border);border-radius:99px;margin-bottom:22px;overflow:hidden;}
+    .progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:99px;transition:width 0.35s;}
+    .q-num{font-size:0.78rem;color:var(--muted);margin-bottom:8px;}
+    .q-text{font-family:'Jua',cursive;font-size:1.1rem;color:var(--text);margin-bottom:20px;line-height:1.6;}
+    .options{display:flex;flex-direction:column;gap:10px;}
+    .opt-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:15px 18px;text-align:left;color:var(--text);font-size:0.88rem;cursor:pointer;transition:all 0.15s;line-height:1.55;}
+    .opt-btn:hover{border-color:var(--primary);background:#fffbea;transform:translateX(4px);}
+    .result-screen{display:none;padding-top:28px;}
+    .result-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:28px 22px;}
+    .res-emoji{font-size:3.5rem;text-align:center;display:block;margin-bottom:10px;}
+    .res-type{font-size:0.7rem;color:var(--primary);letter-spacing:0.18em;text-align:center;margin-bottom:6px;font-weight:700;}
+    .res-name{font-family:'Jua',cursive;font-size:1.5rem;color:var(--text);text-align:center;margin-bottom:8px;}
+    .res-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;}
+    .res-tag{display:block;width:fit-content;margin:0 auto 20px;background:rgba(230,168,23,0.1);color:var(--primary);border:1px solid rgba(230,168,23,0.3);border-radius:99px;padding:4px 16px;font-size:0.8rem;}
+    .section-ttl{font-family:'Jua',cursive;font-size:0.92rem;color:var(--primary);margin:20px 0 8px;}
+    .res-desc{font-size:0.87rem;color:var(--muted);line-height:1.85;}
+    .trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .trait-tag{background:rgba(230,168,23,0.08);color:var(--primary);border:1px solid rgba(230,168,23,0.22);border-radius:99px;padding:4px 13px;font-size:0.78rem;}
+    .extra-box{background:#fffbf0;border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:8px;font-size:0.85rem;color:var(--muted);line-height:1.8;}
+    .ad-slot{margin:20px 0;}
+    .share-card-wrap{margin:20px 0 0;background:#fffbf0;border:1.5px solid var(--border);border-radius:16px;padding:24px 20px;text-align:center;}
+    .sc-label{font-size:0.7rem;color:var(--primary);letter-spacing:0.15em;margin-bottom:10px;font-weight:700;}
+    #sc-emoji{font-size:2.6rem;margin-bottom:6px;}
+    #sc-title{font-family:'Jua',cursive;font-size:1.2rem;margin-bottom:4px;}
+    #sc-sub{font-size:0.8rem;color:var(--muted);margin-bottom:6px;}
+    #sc-tag{display:inline-block;padding:3px 14px;border-radius:99px;font-size:0.75rem;color:var(--primary);background:rgba(230,168,23,0.08);border:1px solid rgba(230,168,23,0.22);}
+    .hint-txt{font-size:0.64rem;color:#aaa;margin-top:8px;}
+    .brand-txt{font-size:0.6rem;color:rgba(150,150,150,0.3);letter-spacing:0.1em;margin-top:4px;}
+    .share-btn{width:100%;background:rgba(230,168,23,0.08);color:var(--primary);border:1.5px solid rgba(230,168,23,0.3);border-radius:99px;padding:14px;font-family:'Jua',cursive;font-size:0.95rem;cursor:pointer;transition:all 0.15s;margin-bottom:10px;display:block;}
+    .share-btn:hover{background:rgba(230,168,23,0.16);}
+    .retry-btn{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:99px;padding:12px;font-family:'Jua',cursive;font-size:0.9rem;cursor:pointer;display:block;}
+    .rec-section{margin:24px 0 8px;}
+    .rec-label{text-align:center;font-size:0.7rem;letter-spacing:0.15em;color:var(--primary);font-weight:700;margin-bottom:12px;}
+    .rec-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:9px;text-decoration:none;color:inherit;transition:all 0.15s;}
+    .rec-card:hover{border-color:var(--primary);transform:translateX(4px);}
+    .rc-emoji{font-size:1.5rem;flex-shrink:0;}
+    .rc-title{flex:1;font-size:0.88rem;font-weight:700;}
+    .rc-arrow{font-size:0.9rem;color:var(--primary);}
+  </style>
+</head>
+<body>
+<a class="back-btn" href="/">← 핑고퀴즈 홈으로</a>
+<div class="container">
+  <div class="intro-screen" id="intro-screen">
+    <span class="hero-emoji">💸</span>
+    <h1>나의 돈 쓰는<br/>스타일은?</h1>
+    <p class="intro-desc">절약형? 충동형? 경험형? 투자형?<br/>10문항으로 내 진짜 소비 성향을 알아봐요 💰</p>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <button class="start-btn" onclick="startTest()">💸 내 소비 스타일 알아보기</button>
+  </div>
+  <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+  <div class="result-screen" id="result-screen">
+    <div class="result-card">
+      <span class="res-emoji" id="res-emoji"></span>
+      <div class="res-type" id="res-type"></div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-sub" id="res-sub"></div>
+      <div class="res-tag" id="res-tag"></div>
+      <div class="section-ttl">💬 분석 결과</div>
+      <div class="res-desc" id="res-desc"></div>
+      <div class="section-ttl">✨ 키워드</div>
+      <div class="trait-row" id="res-traits"></div>
+      <div class="section-ttl">💡 한마디</div>
+      <div class="extra-box" id="res-extra"></div>
+    </div>
+    <div class="ad-slot"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+    <div class="share-card-wrap">
+      <div class="sc-label">✦ 결과 공유 카드 ✦</div>
+      <div id="sc-emoji"></div>
+      <div id="sc-title"></div>
+      <div id="sc-sub"></div>
+      <div id="sc-tag"></div>
+      <div class="hint-txt">📱 캡처해서 친구에게 공유해봐요!</div>
+      <div class="brand-txt">pingoquiz</div>
+    </div>
+    <button class="share-btn" onclick="copyLink(this)">🔗 링크 복사해서 공유하기</button>
+    <button class="retry-btn" onclick="restartTest()">🔄 다시 테스트하기</button>
+    <div class="rec-section">
+      <div class="rec-label">✦ 비슷한 테스트 추천 ✦</div>
+      <a class="rec-card" href="/perfectionist"><span class="rc-emoji">🎯</span><span class="rc-title">나는 얼마나 완벽주의자인가?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/good-person"><span class="rc-emoji">😇</span><span class="rc-title">나는 착한 사람일까?</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/stress"><span class="rc-emoji">🌿</span><span class="rc-title">나에게 맞는 스트레스 해소법</span><span class="rc-arrow">→</span></a>
+      <a class="rec-card" href="/workout-type"><span class="rc-emoji">🏃</span><span class="rc-title">나에게 맞는 운동 유형</span><span class="rc-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+<script>
+const RESULTS = [
+  {id:0,emoji:'🏦',type:'SAVER TYPE',name:'철저한 절약형',sub:'쓰기 전에 세 번 생각하는 신중한 소비자',tag:'절약형 · 계획 소비',
+   desc:'소비하기 전에 꼭 필요한지 여러 번 따져보는 타입이에요. 충동구매가 거의 없고, 가격 비교는 기본이고, 세일이나 할인을 잘 활용해요. 저축과 비상금을 중요하게 생각하고, 불필요한 소비를 줄이는 데 만족감을 느껴요.',
+   traits:['계획 소비','충동구매 없음','저축 중시','가성비 추구'],
+   extra:'절약은 정말 훌륭한 습관이에요. 근데 가끔은 나를 위한 소비도 괜찮아요. 돈은 쓰기 위해 버는 거니까, 가끔은 나에게 투자해줘요.'},
+  {id:1,emoji:'💥',type:'IMPULSE TYPE',name:'솔직한 충동형',sub:'보는 순간 사고, 나중에 후회하는 스타일',tag:'충동형 · 즉흥 소비',
+   desc:'마음에 들면 일단 사고 보는 타입이에요. 장바구니에 담아두면 결국 사게 되고, 세일 문자 오면 필요 없어도 클릭하게 돼요. 소비할 때 기분이 좋아지는 경험을 하지만, 가끔 후회하거나 카드 명세서에 놀라기도 해요.',
+   traits:['즉흥 소비','충동구매','기분 소비','후회 반복'],
+   extra:'충동구매가 나쁜 건 아니에요. 근데 사기 전에 3일만 기다려봐요. 3일 후에도 갖고 싶으면 그때 사는 거예요. 생각보다 많이 안 사게 돼요.'},
+  {id:2,emoji:'✈️',type:'EXPERIENCE TYPE',name:'경험 중심 소비형',sub:'물건보다 추억에 돈을 쓰는 스타일',tag:'경험형 · 추억 투자',
+   desc:'물건을 사는 것보다 여행, 공연, 맛집, 취미 활동 등 경험에 돈 쓰는 걸 더 좋아하는 타입이에요. 비싼 물건보다 좋은 경험이 더 오래 남는다고 생각하고, 돈이 생기면 어디 갈지부터 고민해요.',
+   traits:['경험 우선','여행·맛집 투자','추억 중시','물건보다 경험'],
+   extra:'경험에 투자하는 건 정말 가치 있는 소비예요. 근데 경험도 쌓이다 보면 나중을 위한 여유도 함께 챙기면 더 오래 좋은 경험을 할 수 있어요.'},
+  {id:3,emoji:'📈',type:'INVESTMENT TYPE',name:'미래 투자형',sub:'지금보다 나중을 생각하며 돈을 굴리는 스타일',tag:'투자형 · 미래 설계형',
+   desc:'당장의 소비보다 미래를 위한 투자와 자산 형성을 더 중요하게 생각하는 타입이에요. 주식, 적금, 부동산 등에 관심이 많고, 소비할 때도 장기적 가치를 따지는 편이에요. 지금 안 써도 나중에 더 잘 살 수 있다는 마인드예요.',
+   traits:['미래 지향','투자 관심','장기적 사고','자산 형성'],
+   extra:'미래를 위한 준비는 정말 중요해요. 근데 현재도 충분히 즐겨야 해요. 나중만 보다가 지금을 놓치지 않도록, 현재의 나에게도 투자해봐요.'},
+  {id:4,emoji:'👑',type:'QUALITY TYPE',name:'가치 소비형',sub:'적게 사되 좋은 걸 사는 현명한 스타일',tag:'가치 소비 · 퀄리티 우선',
+   desc:'많이 사는 것보다 정말 좋은 것 하나를 사는 타입이에요. 싼 걸 여러 개 사기보다 비싸도 오래 쓸 수 있는 걸 선택해요. 브랜드보다 품질을 따지고, 한 번 살 때 제대로 사는 걸 선호해요.',
+   traits:['퀄리티 우선','소량 정예','품질 중시','신중한 구매'],
+   extra:'가치 소비는 장기적으로 가장 현명한 방법이에요. 근데 모든 걸 최고로 살 순 없으니까, 뭐가 나한테 진짜 중요한지 우선순위를 잘 정해봐요.'},
+  {id:5,emoji:'🌊',type:'MOOD TYPE',name:'감정 소비형',sub:'기분에 따라 지갑 크기가 달라지는 스타일',tag:'감정형 · 기분 소비',
+   desc:'기분이 좋으면 크게 쓰고, 스트레스받으면 뭔가 사고 싶어지는 타입이에요. 감정이 소비와 직접 연결되어 있어요. 리테일 테라피를 즐기고, 선물을 주고받는 것에 의미를 많이 두는 스타일이에요.',
+   traits:['감정 연결 소비','기분 따라 지출','리테일 테라피','선물 중시'],
+   extra:'감정으로 소비하는 건 일시적 위안이 될 수 있어요. 스트레스받을 때 "10분 후에 사자"고 잠깐 기다려보는 습관이 도움이 돼요.'},
+];
+
+const QUESTIONS = [
+  {text:'🛍️ 쇼핑몰 앱을 열었을 때 보통 어떻게 되나요?',
+   opts:[
+     {text:'필요한 것만 검색하고 닫는다',scores:[3,0,0,0,1,0]},
+     {text:'구경하다 보면 뭔가 사고 있다',scores:[0,3,0,0,0,1]},
+     {text:'여행 패키지나 체험 상품 위주로 본다',scores:[0,0,3,0,0,0]},
+     {text:'투자 관련 상품이나 도서 위주로 본다',scores:[0,0,0,3,0,0]},
+     {text:'리뷰 꼼꼼히 보다가 가장 좋은 것만 산다',scores:[0,0,0,0,3,0]},
+     {text:'기분에 따라 장바구니가 달라진다',scores:[0,1,0,0,0,3]},
+   ]},
+  {text:'💳 카드 명세서를 봤을 때?',
+   opts:[
+     {text:'예상 범위 안이라 만족스럽다',scores:[3,0,0,0,0,0]},
+     {text:'가끔 "이걸 샀었나?" 하는 게 있다',scores:[0,3,0,0,0,0]},
+     {text:'여행이나 식당이 대부분이다',scores:[0,0,3,0,0,0]},
+     {text:'투자·저축 항목이 제일 많다',scores:[0,0,0,3,0,0]},
+     {text:'건수는 적지만 금액이 크다',scores:[0,0,0,0,3,0]},
+     {text:'그달 기분 따라 완전 달라진다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🎁 친구 생일 선물을 고를 때?',
+   opts:[
+     {text:'예산을 정해두고 그 안에서 최선을 찾는다',scores:[3,0,0,0,0,0]},
+     {text:'좋아 보이면 일단 사고 본다',scores:[0,3,0,0,0,0]},
+     {text:'같이 할 수 있는 경험 선물을 선호한다',scores:[0,0,3,0,0,0]},
+     {text:'오래 쓸 수 있는 실용적인 걸 고른다',scores:[0,0,0,2,1,0]},
+     {text:'좋은 거 하나 제대로 사주고 싶다',scores:[0,0,0,0,3,0]},
+     {text:'그때 감정에 따라 선물이 달라진다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'✈️ 갑자기 100만 원이 생기면?',
+   opts:[
+     {text:'저축하거나 비상금으로 넣는다',scores:[3,0,0,0,0,0]},
+     {text:'갖고 싶었던 거 지른다',scores:[0,3,0,0,0,0]},
+     {text:'여행을 간다',scores:[0,0,3,0,0,0]},
+     {text:'주식이나 펀드에 넣는다',scores:[0,0,0,3,0,0]},
+     {text:'오래 쓸 수 있는 좋은 물건 하나 산다',scores:[0,0,0,0,3,0]},
+     {text:'기분에 따라 완전 달라질 것 같다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🏷️ 세일 기간에 쇼핑을 한다면?',
+   opts:[
+     {text:'필요한 것만 미리 목록 만들어 구입한다',scores:[3,0,0,0,0,0]},
+     {text:'세일이면 일단 담고 본다',scores:[0,3,0,0,0,0]},
+     {text:'여행 시즌 세일이면 적극 이용한다',scores:[0,0,3,0,0,0]},
+     {text:'세일에 별 영향 안 받는다',scores:[0,0,0,2,1,0]},
+     {text:'평소에 찜해둔 좋은 것만 산다',scores:[0,0,0,0,3,0]},
+     {text:'그날 기분에 따라 다르다',scores:[0,1,0,0,0,3]},
+   ]},
+  {text:'🍽️ 식사 자리에서 메뉴를 고를 때?',
+   opts:[
+     {text:'가성비 좋은 걸 고른다',scores:[3,0,0,0,0,0]},
+     {text:'먹고 싶은 거 바로 시킨다',scores:[0,3,0,0,0,0]},
+     {text:'분위기 있는 식당이면 가격 신경 덜 쓴다',scores:[0,0,3,0,0,0]},
+     {text:'영양가 있고 실용적인 걸 고른다',scores:[0,0,0,2,0,1]},
+     {text:'가격 좀 비싸도 진짜 맛있는 걸 먹는다',scores:[0,0,0,0,3,0]},
+     {text:'기분에 따라 완전 다르다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'💭 소비 후 후회를 자주 하나요?',
+   opts:[
+     {text:'거의 안 한다. 신중하게 사니까',scores:[3,0,0,0,0,0]},
+     {text:'종종 한다. 왜 샀지 싶을 때 있음',scores:[0,3,0,0,0,0]},
+     {text:'경험에 쓴 건 후회 안 한다',scores:[0,0,3,0,0,0]},
+     {text:'돈 못 모은 과거가 후회될 때 있다',scores:[0,0,0,3,0,0]},
+     {text:'잘 산 것 같다. 후회 거의 없다',scores:[0,0,0,0,3,0]},
+     {text:'기분 따라 산 건 나중에 후회하기도 한다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'📊 월급날 가장 먼저 하는 것은?',
+   opts:[
+     {text:'저축·고정비 먼저 빼놓는다',scores:[3,0,0,0,0,0]},
+     {text:'갖고 싶었던 거 바로 산다',scores:[0,3,0,0,0,0]},
+     {text:'여행 적금이나 경험 비용 따로 모은다',scores:[0,0,3,0,0,0]},
+     {text:'투자 계좌에 넣는다',scores:[0,0,0,3,0,0]},
+     {text:'큰 구매 위한 모으기 시작',scores:[0,0,0,0,3,0]},
+     {text:'그달 기분에 따라 다르다',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🧾 나의 소비 원칙이 있다면?',
+   opts:[
+     {text:'"꼭 필요한 것만 산다"',scores:[3,0,0,0,0,0]},
+     {text:'"지금 좋으면 그냥 산다"',scores:[0,3,0,0,0,0]},
+     {text:'"물건보다 경험에 투자한다"',scores:[0,0,3,0,0,0]},
+     {text:'"지금 아끼면 나중에 더 잘 쓴다"',scores:[0,0,0,3,0,0]},
+     {text:'"싸게 많이보다 좋은 거 하나"',scores:[0,0,0,0,3,0]},
+     {text:'"그때그때 기분대로"',scores:[0,0,0,0,0,3]},
+   ]},
+  {text:'🔮 10년 후 나의 재정 상태 상상은?',
+   opts:[
+     {text:'꽤 탄탄하게 모아뒀을 것 같다',scores:[3,0,0,1,0,0]},
+     {text:'그때그때 잘 썼으니 추억은 많을 것 같다',scores:[0,3,0,0,0,0]},
+     {text:'돈보다 경험이 풍부한 삶일 것 같다',scores:[0,0,3,0,0,0]},
+     {text:'투자가 결실을 맺고 있을 것 같다',scores:[0,0,0,3,0,0]},
+     {text:'적지만 좋은 것들로 채워져 있을 것 같다',scores:[0,0,0,0,3,0]},
+     {text:'솔직히 모르겠다, 기분대로 살아왔을 것 같다',scores:[0,0,0,0,0,3]},
+   ]},
+];
+
+let scores=[0,0,0,0,0,0],current=0;
+function startTest(){document.getElementById('intro-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';showQ();}
+function showQ(){
+  const q=QUESTIONS[current];
+  document.getElementById('q-num').textContent=(current+1)+' / '+QUESTIONS.length;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('progress-bar').style.width=((current/QUESTIONS.length)*100)+'%';
+  const opts=document.getElementById('options');opts.innerHTML='';
+  q.opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=o.text;btn.onclick=()=>{o.scores.forEach((v,i)=>{scores[i]+=v;});current++;if(current<QUESTIONS.length)showQ();else showResult(false);};opts.appendChild(btn);});
+}
+function showResult(fromUrl){
+  document.getElementById('quiz-screen').style.display='none';document.getElementById('result-screen').style.display='block';
+  const top=scores.indexOf(Math.max(...scores));const r=RESULTS[top];
+  document.getElementById('res-emoji').textContent=r.emoji;
+  document.getElementById('res-type').textContent=r.type;
+  document.getElementById('res-name').textContent=r.name;
+  document.getElementById('res-sub').textContent=r.sub;
+  document.getElementById('res-tag').textContent=r.tag;
+  document.getElementById('res-desc').textContent=r.desc;
+  document.getElementById('res-traits').innerHTML=r.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
+  document.getElementById('res-extra').textContent=r.extra;
+  document.getElementById('sc-emoji').textContent=r.emoji;
+  document.getElementById('sc-title').textContent=r.name;
+  document.getElementById('sc-sub').textContent=r.sub;
+  document.getElementById('sc-tag').textContent=r.tag;
+  if(!fromUrl){try{history.replaceState(null,'','?r='+top);}catch(e){}}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copyLink(btn){const url=location.origin+location.pathname+location.search;navigator.clipboard.writeText(url).then(()=>{btn.textContent='✅ 링크 복사 완료!';setTimeout(()=>btn.textContent='🔗 링크 복사해서 공유하기',2000);});}
+function restartTest(){scores=[0,0,0,0,0,0];current=0;document.getElementById('result-screen').style.display='none';document.getElementById('intro-screen').style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+(function(){const p=new URLSearchParams(location.search),r=p.get('r');if(r!==null&&RESULTS[parseInt(r)]){scores[parseInt(r)]=1;document.getElementById('intro-screen').style.display='none';showResult(true);}})();
+</script>
+</body>
+</html>
