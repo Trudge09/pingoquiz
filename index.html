@@ -199,6 +199,22 @@
     </div>
   </div>
 
+  <!-- 🎮 게임 섹션 -->
+  <div class="section-header">
+    <span class="section-icon">🎮</span>
+    <span class="section-title">심심할 땐? 미니게임!</span>
+  </div>
+  <div class="card-row" id="row-game">
+    <a class="quiz-card" href="/color-game">
+      <span class="card-emoji">🧠</span>
+      <span class="card-name">뇌 혼란! 색깔 맞추기</span>
+      <span class="card-badge">게임</span>
+    </a>
+    <div class="more-card" onclick="openMore('game')">
+      <span>더보기</span>
+    </div>
+  </div>
+
   <div class="section">
     <div class="section-header">
       <div class="section-title">👤 이미지·첫인상</div>
@@ -336,6 +352,7 @@ const ALL_TESTS = [
   {folder:'life-season',emoji:'🌿',name:'내 인생, 지금 무슨 계절일까?',cat:'life',tag:'라이프'},
   {folder:'workout-type', emoji:'🏃', name:'나에게 맞는 운동 유형', cat:'life', tag:'라이프'},
   {folder:'money-style', emoji:'💸', name:'나의 돈 쓰는 스타일', cat:'life', tag:'라이프'},
+  {folder:'color-game', emoji:'🧠', name:'뇌 혼란 색깔 테스트', cat:'game', tag:'게임'},
 ];
 
 function bgClose(e, id, fn) { if(e.target.id===id) fn(); }
