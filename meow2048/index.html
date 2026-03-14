@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Meow2048 - 고양이 테마 2048 게임</title>
+  <meta name="description" content="귀여운 고양이 이모지와 함께하는 2048 퍼즐 게임! 아기 고양이부터 고양이 신까지 진화시켜보세요." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- 상단 광고 -->
+  <div class="ad-container">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="game-wrapper">
+    <!-- 헤더 -->
+    <header class="header">
+      <h1 class="title">🐱 Meow2048</h1>
+      <div class="header-row">
+        <div class="scores">
+          <div class="score-box">
+            <div class="score-label">점수</div>
+            <div class="score-value" id="score">0</div>
+          </div>
+          <div class="score-box">
+            <div class="score-label">최고</div>
+            <div class="score-value" id="best-score">0</div>
+          </div>
+        </div>
+        <button class="btn btn-accent" id="restart-btn">다시 시작</button>
+      </div>
+    </header>
+
+    <!-- 게임 보드 -->
+    <div class="board-container">
+      <div class="board" id="board">
+        <!-- 빈 셀 배경 -->
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+      </div>
+      <!-- 타일 레이어 -->
+      <div class="tile-layer" id="tile-layer"></div>
+
+      <!-- 게임오버 오버레이 -->
+      <div class="overlay" id="game-over-overlay">
+        <div class="overlay-box">
+          <p class="overlay-emoji">😿</p>
+          <p class="overlay-title">게임 오버!</p>
+          <p class="overlay-sub" id="final-score-text">최종 점수: 0</p>
+          <button class="btn btn-primary" id="gameover-restart-btn">다시 플레이</button>
+        </div>
+      </div>
+
+      <!-- 승리 오버레이 -->
+      <div class="overlay overlay-win" id="win-overlay">
+        <div class="overlay-box celebrate">
+          <p class="overlay-emoji">👑</p>
+          <p class="overlay-title">축하합니다!</p>
+          <p class="overlay-sub">고양이 신을 달성했어요!</p>
+          <button class="btn btn-primary" id="continue-btn">계속 플레이</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하단 버튼 -->
+    <div class="bottom-buttons">
+      <button class="btn btn-primary btn-full" id="replay-btn">🔄 다시 플레이</button>
+      <a href="https://pingoquiz.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-full">🎮 다른 테스트 보러 가기</a>
+    </div>
+  </div>
+
+  <!-- 하단 광고 -->
+  <div class="ad-container">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
