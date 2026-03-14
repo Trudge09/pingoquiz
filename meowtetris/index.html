@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🐱 MeowTetris - 고양이 테트리스 | 핑고퀴즈</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2274221145664784" crossorigin="anonymous"></script>
+<meta name="description" content="귀여운 고양이 블럭을 쌓아 줄을 완성하는 테트리스 게임">
+<meta property="og:title" content="🐱 MeowTetris - 고양이 테트리스">
+<meta property="og:description" content="귀여운 고양이 블럭을 쌓아 줄을 완성해보세요!">
+<meta property="og:image" content="https://pingoquiz.vercel.app/og-image.png">
+<meta property="og:url" content="https://pingoquiz.vercel.app/meowtetris">
+<meta name="robots" content="index, follow">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Gaegu', cursive, sans-serif;
+  background: #FFF8F0;
+  background-image:
+    radial-gradient(circle at 20% 30%, #FFE8D6 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, #E8D5F5 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, #D5EEF5 0%, transparent 40%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* 광고 영역 */
+.ad-slot {
+  width: 100%;
+  max-width: 728px;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4C4B0;
+  font-size: 14px;
+}
+.ad-slot-top { margin-top: 8px; }
+.ad-slot-bottom { margin-bottom: 8px; }
+
+/* 게임 컨테이너 */
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  flex: 1;
+}
+
+/* 시작 화면 */
+#start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+  text-align: center;
+  flex: 1;
+}
+
+#start-screen h1 {
+  font-size: 52px;
+  font-weight: 700;
+  color: #E8927C;
+  text-shadow: 3px 3px 0 #F5D5C8, -1px -1px 0 #D4836E;
+  letter-spacing: 2px;
+  transform: rotate(-2deg);
+}
+
+#start-screen .cat-logo {
+  font-size: 80px;
+  line-height: 1;
+}
+
+#start-screen .desc {
+  font-size: 22px;
+  color: #A89080;
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+.btn {
+  font-family: 'Gaegu', cursive;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 14px 48px;
+  border: 3px dashed #E8927C;
+  border-radius: 20px;
+  background: #FFF0E8;
+  color: #E8927C;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 0 #F5D5C8;
+}
+.btn:hover { background: #FFE4D8; transform: translateY(-2px); box-shadow: 4px 5px 0 #F5D5C8; }
+.btn:active { transform: translateY(1px); box-shadow: 1px 1px 0 #F5D5C8; }
+
+/* 게임 영역 */
+#play-area {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* 사이드 패널 */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-box {
+  background: #FFF5EE;
+  border: 2.5px dashed #E0C8B8;
+  border-radius: 16px;
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 110px;
+  box-shadow: 2px 2px 0 #F0E0D4;
+}
+.info-box .label { font-size: 15px; color: #C0A898; font-weight: 400; }
+.info-box .value { font-size: 28px; color: #E8927C; font-weight: 700; }
+
+#next-canvas {
+  background: #FFF5EE;
+  border: 2.5px dashed #E0C8B8;
+  border-radius: 16px;
+  box-shadow: 2px 2px 0 #F0E0D4;
+}
+
+/* 캔버스 */
+#game-canvas {
+  border: 3px dashed #E0C8B8;
+  border-radius: 12px;
+  background: #FFFCF8;
+  box-shadow: 3px 3px 0 #F0E0D4;
+}
+
+/* 일시정지 버튼 */
+#pause-btn {
+  font-family: 'Gaegu', cursive;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 20px;
+  border: 2px dashed #C8B8A8;
+  border-radius: 14px;
+  background: #FFF5EE;
+  color: #A89888;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #F0E0D4;
+}
+#pause-btn:hover { background: #FFE8D8; }
+
+/* 모바일 컨트롤 */
+#mobile-controls {
+  display: none;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0;
+  flex-wrap: wrap;
+}
+
+.ctrl-btn {
+  font-family: 'Gaegu', cursive;
+  font-size: 26px;
+  font-weight: 700;
+  width: 64px;
+  height: 64px;
+  border: 2.5px dashed #D8C0B0;
+  border-radius: 18px;
+  background: #FFF5EE;
+  color: #C89878;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 #F0E0D4;
+  -webkit-tap-highlight-color: transparent;
+}
+.ctrl-btn:active { background: #FFE8D8; transform: scale(0.93); }
+
+/* 게임 오버 */
+#gameover-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,248,240,0.92);
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+#gameover-overlay h2 { font-size: 42px; color: #E8927C; font-weight: 700; }
+#gameover-overlay .final-score { font-size: 28px; color: #A89080; }
+
+/* 일시정지 오버레이 */
+#pause-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,248,240,0.85);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+#pause-overlay h2 { font-size: 38px; color: #C8A878; font-weight: 700; }
+
+/* 줄 클리어 플래시 */
+.line-clear-flash {
+  animation: flashBg 0.5s ease-out;
+}
+@keyframes flashBg {
+  0% { filter: brightness(1.3) saturate(1.3); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  #start-screen h1 { font-size: 36px; }
+  #start-screen .cat-logo { font-size: 56px; }
+  #start-screen .desc { font-size: 18px; }
+  #mobile-controls { display: flex; }
+  .info-box { min-width: 90px; padding: 8px 10px; }
+  .info-box .value { font-size: 22px; }
+  .game-row { gap: 6px; }
+  .side-panel { gap: 6px; }
+}
+@media (min-width: 601px) {
+  #mobile-controls { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- 상단 광고 영역 -->
+<div class="ad-slot ad-slot-top" id="ad-top"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
+<a href="/" style="display:inline-block;margin:12px 0 0 16px;color:#C0A898;font-size:0.85rem;text-decoration:none;font-family:'Gaegu',cursive;">← 핑고퀴즈 홈으로</a>
+<div id="game-container">
+
+  <!-- 시작 화면 -->
+  <div id="start-screen">
+    <div class="cat-logo">🐱</div>
+    <h1>MeowTetris</h1>
+    <p class="desc">귀여운 고양이 블럭을 쌓아<br>줄을 완성해보세요! 🐾</p>
+    <button class="btn" id="start-btn">Start 🎮</button>
+  </div>
+
+  <!-- 플레이 화면 -->
+  <div id="play-area">
+    <div class="game-row">
+      <!-- 게임 캔버스 -->
+      <canvas id="game-canvas"></canvas>
+      <!-- 사이드 -->
+      <div class="side-panel">
+        <div class="info-box"><div class="label">점수</div><div class="value" id="score-val">0</div></div>
+        <div class="info-box"><div class="label">최고</div><div class="value" id="high-val">0</div></div>
+        <div class="info-box"><div class="label">레벨</div><div class="value" id="level-val">1</div></div>
+        <div class="info-box"><div class="label">다음</div><canvas id="next-canvas" width="100" height="100"></canvas></div>
+        <button id="pause-btn">⏸ 일시정지</button>
+      </div>
+    </div>
+    <!-- 모바일 컨트롤 -->
+    <div id="mobile-controls">
+      <button class="ctrl-btn" id="btn-left">◀</button>
+      <button class="ctrl-btn" id="btn-down">▼</button>
+      <button class="ctrl-btn" id="btn-rotate">↻</button>
+      <button class="ctrl-btn" id="btn-right">▶</button>
+      <button class="ctrl-btn" id="btn-drop" style="width:140px;">⏬ 드롭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 게임 오버 오버레이 -->
+<div id="gameover-overlay">
+  <div class="cat-logo" style="font-size:60px">😿</div>
+  <h2>Game Over!</h2>
+  <div class="final-score" id="final-score-text"></div>
+  <button class="btn" id="restart-btn">다시 시작 🐾</button>
+<a href="https://pingoquiz.vercel.app" style="font-family:'Gaegu',cursive;font-size:18px;font-weight:700;padding:10px 32px;border:3px dashed #B5D8EB;border-radius:20px;background:#EBF5FB;color:#81B1CE;cursor:pointer;text-decoration:none;margin-top:4px;display:inline-block;">🎮 다른 테스트 보러 가기</a>
+</div>
+
+<!-- 일시정지 오버레이 -->
+<div id="pause-overlay">
+  <h2>⏸ 일시정지</h2>
+  <button class="btn" id="resume-btn">계속하기 ▶</button>
+</div>
+
+<!-- 하단 광고 영역 -->
+<div class="ad-slot ad-slot-bottom" id="ad-bottom"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2274221145664784" data-ad-slot="7164108177" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
+<script>
+// ===== MeowTetris 메인 게임 로직 =====
+
+const COLS = 10;
+const ROWS = 20;
+const TILE = Math.min(28, Math.floor((window.innerWidth - 160) / COLS));
+
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = COLS * TILE;
+canvas.height = ROWS * TILE;
+
+const nextCanvas = document.getElementById('next-canvas');
+const nextCtx = nextCanvas.getContext('2d');
+nextCanvas.width = 100;
+nextCanvas.height = 100;
+
+// UI 요소
+const startScreen = document.getElementById('start-screen');
+const playArea = document.getElementById('play-area');
+const gameoverOverlay = document.getElementById('gameover-overlay');
+const pauseOverlay = document.getElementById('pause-overlay');
+const scoreVal = document.getElementById('score-val');
+const highVal = document.getElementById('high-val');
+const levelVal = document.getElementById('level-val');
+const finalScoreText = document.getElementById('final-score-text');
+
+// 테트리스 블럭 정의 (표준 7종)
+const SHAPES = [
+  [[1,1,1,1]],                    // I
+  [[1,1],[1,1]],                  // O
+  [[0,1,0],[1,1,1]],              // T
+  [[1,0,0],[1,1,1]],              // L
+  [[0,0,1],[1,1,1]],              // J
+  [[0,1,1],[1,1,0]],              // S
+  [[1,1,0],[0,1,1]]               // Z
+];
+
+// 파스텔 고양이 색상 (각 블럭 타입별)
+const CAT_COLORS = [
+  { body: '#FFB5A7', ear: '#FF8FA3', face: '#FFF0EB', paw: '#FFCDB2' }, // I - 핑크
+  { body: '#FDCF58', ear: '#F0B429', face: '#FFF8E1', paw: '#FFE082' }, // O - 노랑
+  { body: '#B5D8EB', ear: '#81B1CE', face: '#EBF5FB', paw: '#A8D8EA' }, // T - 파랑
+  { body: '#C5B3E6', ear: '#9B86C5', face: '#F0EBF8', paw: '#D7C4F2' }, // L - 보라
+  { body: '#A8D8A8', ear: '#7BC47B', face: '#EBF5EB', paw: '#B8E6B8' }, // J - 초록
+  { body: '#FFD5A5', ear: '#F0B060', face: '#FFF5E0', paw: '#FFE4C0' }, // S - 오렌지
+  { body: '#F0B5B5', ear: '#D88888', face: '#F8E0E0', paw: '#F5C8C8' }, // Z - 로즈
+];
+
+// 고양이 그리기 (캔버스 기반, 외부 이미지 없음)
+function drawCatTile(context, x, y, size, colorIdx, pose) {
+  const c = CAT_COLORS[colorIdx % CAT_COLORS.length];
+  const s = size;
+  const cx = x + s / 2;
+  const cy = y + s / 2;
+  const r = s * 0.38;
+
+  context.save();
+
+  // 몸체 (둥근 사각형)
+  context.fillStyle = c.body;
+  context.beginPath();
+  const rr = s * 0.14;
+  context.moveTo(x + rr + 1, y + 1);
+  context.lineTo(x + s - rr - 1, y + 1);
+  context.quadraticCurveTo(x + s - 1, y + 1, x + s - 1, y + rr + 1);
+  context.lineTo(x + s - 1, y + s - rr - 1);
+  context.quadraticCurveTo(x + s - 1, y + s - 1, x + s - rr - 1, y + s - 1);
+  context.lineTo(x + rr + 1, y + s - 1);
+  context.quadraticCurveTo(x + 1, y + s - 1, x + 1, y + s - rr - 1);
+  context.lineTo(x + 1, y + rr + 1);
+  context.quadraticCurveTo(x + 1, y + 1, x + rr + 1, y + 1);
+  context.closePath();
+  context.fill();
+
+  // 테두리 (손그림 느낌 - 살짝 거친 선)
+  context.strokeStyle = c.ear;
+  context.lineWidth = 1.5;
+  context.setLineDash([3, 2]);
+  context.stroke();
+  context.setLineDash([]);
+
+  // 귀 (삼각형 두 개)
+  const earSize = s * 0.18;
+  context.fillStyle = c.ear;
+  // 왼쪽 귀
+  context.beginPath();
+  context.moveTo(x + s * 0.2, y + s * 0.15);
+  context.lineTo(x + s * 0.12, y - earSize * 0.3);
+  context.lineTo(x + s * 0.35, y + s * 0.12);
+  context.closePath();
+  context.fill();
+  // 오른쪽 귀
+  context.beginPath();
+  context.moveTo(x + s * 0.8, y + s * 0.15);
+  context.lineTo(x + s * 0.88, y - earSize * 0.3);
+  context.lineTo(x + s * 0.65, y + s * 0.12);
+  context.closePath();
+  context.fill();
+
+  // 얼굴 영역
+  const faceY = cy - s * 0.05;
+
+  // 눈 (포즈에 따라 다름)
+  context.fillStyle = '#5D4E37';
+  if (pose === 0) {
+    // 열린 눈
+    context.beginPath(); context.arc(cx - s*0.13, faceY, s*0.04, 0, Math.PI*2); context.fill();
+    context.beginPath(); context.arc(cx + s*0.13, faceY, s*0.04, 0, Math.PI*2); context.fill();
+  } else if (pose === 1) {
+    // 감은 눈 (>_<)
+    context.lineWidth = 1.5; context.strokeStyle = '#5D4E37';
+    context.beginPath(); context.moveTo(cx-s*0.17, faceY); context.lineTo(cx-s*0.09, faceY+s*0.02); context.lineTo(cx-s*0.17, faceY+s*0.04); context.stroke();
+    context.beginPath(); context.moveTo(cx+s*0.09, faceY); context.lineTo(cx+s*0.17, faceY+s*0.02); context.lineTo(cx+s*0.09, faceY+s*0.04); context.stroke();
+  } else if (pose === 2) {
+    // 반쯤 감은 눈 (졸린)
+    context.beginPath(); context.arc(cx - s*0.13, faceY, s*0.04, 0, Math.PI); context.fill();
+    context.beginPath(); context.arc(cx + s*0.13, faceY, s*0.04, 0, Math.PI); context.fill();
+  } else if (pose === 3) {
+    // 하트 눈
+    context.fillStyle = '#FF6B8A';
+    drawTinyHeart(context, cx - s*0.13, faceY, s*0.06);
+    drawTinyHeart(context, cx + s*0.13, faceY, s*0.06);
+  } else {
+    // 동그란 눈
+    context.beginPath(); context.arc(cx - s*0.13, faceY, s*0.05, 0, Math.PI*2); context.fill();
+    context.fillStyle = '#FFF';
+    context.beginPath(); context.arc(cx - s*0.12, faceY - s*0.015, s*0.02, 0, Math.PI*2); context.fill();
+    context.fillStyle = '#5D4E37';
+    context.beginPath(); context.arc(cx + s*0.13, faceY, s*0.05, 0, Math.PI*2); context.fill();
+    context.fillStyle = '#FFF';
+    context.beginPath(); context.arc(cx + s*0.14, faceY - s*0.015, s*0.02, 0, Math.PI*2); context.fill();
+  }
+
+  // 코
+  context.fillStyle = '#FFAABB';
+  context.beginPath();
+  context.moveTo(cx, faceY + s*0.08);
+  context.lineTo(cx - s*0.03, faceY + s*0.12);
+  context.lineTo(cx + s*0.03, faceY + s*0.12);
+  context.closePath();
+  context.fill();
+
+  // 입 (W 모양)
+  context.strokeStyle = '#C4956A';
+  context.lineWidth = 1;
+  context.beginPath();
+  context.moveTo(cx - s*0.06, faceY + s*0.14);
+  context.quadraticCurveTo(cx - s*0.03, faceY + s*0.18, cx, faceY + s*0.14);
+  context.quadraticCurveTo(cx + s*0.03, faceY + s*0.18, cx + s*0.06, faceY + s*0.14);
+  context.stroke();
+
+  // 수염
+  context.strokeStyle = '#D4B896';
+  context.lineWidth = 0.8;
+  // 왼쪽
+  context.beginPath(); context.moveTo(cx - s*0.25, faceY + s*0.08); context.lineTo(cx - s*0.1, faceY + s*0.1); context.stroke();
+  context.beginPath(); context.moveTo(cx - s*0.25, faceY + s*0.14); context.lineTo(cx - s*0.1, faceY + s*0.13); context.stroke();
+  // 오른쪽
+  context.beginPath(); context.moveTo(cx + s*0.25, faceY + s*0.08); context.lineTo(cx + s*0.1, faceY + s*0.1); context.stroke();
+  context.beginPath(); context.moveTo(cx + s*0.25, faceY + s*0.14); context.lineTo(cx + s*0.1, faceY + s*0.13); context.stroke();
+
+  // 발바닥 (하단에 작게)
+  if (pose !== 2) {
+    context.fillStyle = c.paw;
+    context.beginPath(); context.arc(cx - s*0.12, y + s*0.82, s*0.06, 0, Math.PI*2); context.fill();
+    context.beginPath(); context.arc(cx + s*0.12, y + s*0.82, s*0.06, 0, Math.PI*2); context.fill();
+  }
+
+  context.restore();
+}
+
+// 작은 하트 그리기
+function drawTinyHeart(ctx, cx, cy, size) {
+  ctx.beginPath();
+  ctx.moveTo(cx, cy + size * 0.3);
+  ctx.bezierCurveTo(cx - size, cy - size * 0.5, cx - size * 0.3, cy - size, cx, cy - size * 0.3);
+  ctx.bezierCurveTo(cx + size * 0.3, cy - size, cx + size, cy - size * 0.5, cx, cy + size * 0.3);
+  ctx.fill();
+}
+
+// ===== 게임 상태 =====
+let board = [];
+let score = 0;
+let highScore = parseInt(localStorage.getItem('meowtetris_high') || '0');
+let level = 1;
+let linesCleared = 0;
+let gameRunning = false;
+let paused = false;
+let currentPiece = null;
+let nextPiece = null;
+let dropInterval = 800; // ms
+let lastDrop = 0;
+let animFrame = null;
+
+highVal.textContent = highScore;
+
+// 보드 초기화
+function initBoard() {
+  board = [];
+  for (let r = 0; r < ROWS; r++) {
+    board.push(new Array(COLS).fill(0));
+  }
+}
+
+// 블럭 생성
+function createPiece(shapeIdx) {
+  const idx = shapeIdx !== undefined ? shapeIdx : Math.floor(Math.random() * SHAPES.length);
+  const shape = SHAPES[idx].map(r => [...r]);
+  const pose = Math.floor(Math.random() * 5);
+  return {
+    shape,
+    colorIdx: idx,
+    pose,
+    x: Math.floor((COLS - shape[0].length) / 2),
+    y: 0
+  };
+}
+
+// 충돌 체크
+function collides(piece, dx, dy, newShape) {
+  const s = newShape || piece.shape;
+  for (let r = 0; r < s.length; r++) {
+    for (let c = 0; c < s[r].length; c++) {
+      if (!s[r][c]) continue;
+      const nx = piece.x + c + dx;
+      const ny = piece.y + r + dy;
+      if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
+      if (ny >= 0 && board[ny][nx]) return true;
+    }
+  }
+  return false;
+}
+
+// 블럭 고정
+function lockPiece() {
+  for (let r = 0; r < currentPiece.shape.length; r++) {
+    for (let c = 0; c < currentPiece.shape[r].length; c++) {
+      if (!currentPiece.shape[r][c]) continue;
+      const y = currentPiece.y + r;
+      const x = currentPiece.x + c;
+      if (y < 0) { gameOver(); return; }
+      // 색상 인덱스 + 1 저장 (0은 빈칸)
+      board[y][x] = currentPiece.colorIdx + 1;
+    }
+  }
+  clearLines();
+  currentPiece = nextPiece;
+  nextPiece = createPiece();
+  drawNext();
+  if (collides(currentPiece, 0, 0)) { gameOver(); }
+}
+
+// 줄 클리어
+function clearLines() {
+  let cleared = 0;
+  for (let r = ROWS - 1; r >= 0; r--) {
+    if (board[r].every(v => v !== 0)) {
+      board.splice(r, 1);
+      board.unshift(new Array(COLS).fill(0));
+      cleared++;
+      r++; // 같은 줄 다시 체크
+    }
+  }
+  if (cleared > 0) {
+    // 점수 계산 (1줄:100, 2줄:300, 3줄:500, 4줄:800)
+    const pts = [0, 100, 300, 500, 800];
+    score += (pts[cleared] || cleared * 200) * level;
+    linesCleared += cleared;
+    level = Math.floor(linesCleared / 5) + 1;
+    // 속도 조절 (레벨 올라갈수록 빨라짐, 최소 100ms)
+    dropInterval = Math.max(100, 800 - (level - 1) * 50);
+    updateUI();
+    // 줄 클리어 시각 효과
+    canvas.classList.add('line-clear-flash');
+    setTimeout(() => canvas.classList.remove('line-clear-flash'), 500);
+  }
+}
+
+// 회전
+function rotate(shape) {
+  const rows = shape.length, cols = shape[0].length;
+  const rotated = [];
+  for (let c = 0; c < cols; c++) {
+    rotated.push([]);
+    for (let r = rows - 1; r >= 0; r--) {
+      rotated[c].push(shape[r][c]);
+    }
+  }
+  return rotated;
+}
+
+// UI 업데이트
+function updateUI() {
+  scoreVal.textContent = score;
+  levelVal.textContent = level;
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('meowtetris_high', highScore);
+  }
+  highVal.textContent = highScore;
+}
+
+// 보드 그리기
+function drawBoard() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 격자 배경 (연한 선)
+  ctx.strokeStyle = '#F0E8E0';
+  ctx.lineWidth = 0.5;
+  for (let r = 0; r <= ROWS; r++) {
+    ctx.beginPath(); ctx.moveTo(0, r*TILE); ctx.lineTo(COLS*TILE, r*TILE); ctx.stroke();
+  }
+  for (let c = 0; c <= COLS; c++) {
+    ctx.beginPath(); ctx.moveTo(c*TILE, 0); ctx.lineTo(c*TILE, ROWS*TILE); ctx.stroke();
+  }
+
+  // 고정된 블럭
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (board[r][c]) {
+        drawCatTile(ctx, c * TILE, r * TILE, TILE, board[r][c] - 1, (r + c) % 5);
+      }
+    }
+  }
+
+  // 현재 블럭
+  if (currentPiece) {
+    // 고스트 (착지 위치 미리보기)
+    let ghostY = currentPiece.y;
+    while (!collides(currentPiece, 0, ghostY - currentPiece.y + 1)) { ghostY++; }
+    ctx.globalAlpha = 0.2;
+    for (let r = 0; r < currentPiece.shape.length; r++) {
+      for (let c = 0; c < currentPiece.shape[r].length; c++) {
+        if (!currentPiece.shape[r][c]) continue;
+        drawCatTile(ctx, (currentPiece.x + c) * TILE, (ghostY + r) * TILE, TILE, currentPiece.colorIdx, currentPiece.pose);
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // 실제 블럭
+    for (let r = 0; r < currentPiece.shape.length; r++) {
+      for (let c = 0; c < currentPiece.shape[r].length; c++) {
+        if (!currentPiece.shape[r][c]) continue;
+        drawCatTile(ctx, (currentPiece.x + c) * TILE, (currentPiece.y + r) * TILE, TILE, currentPiece.colorIdx, currentPiece.pose);
+      }
+    }
+  }
+}
+
+// 다음 블럭 미리보기
+function drawNext() {
+  nextCtx.clearRect(0, 0, 100, 100);
+  if (!nextPiece) return;
+  const s = nextPiece.shape;
+  const ts = Math.min(22, Math.floor(80 / Math.max(s.length, s[0].length)));
+  const ox = (100 - s[0].length * ts) / 2;
+  const oy = (100 - s.length * ts) / 2;
+  for (let r = 0; r < s.length; r++) {
+    for (let c = 0; c < s[r].length; c++) {
+      if (!s[r][c]) continue;
+      drawCatTile(nextCtx, ox + c * ts, oy + r * ts, ts, nextPiece.colorIdx, nextPiece.pose);
+    }
+  }
+}
+
+// 게임 오버
+function gameOver() {
+  gameRunning = false;
+  cancelAnimationFrame(animFrame);
+  updateUI();
+  finalScoreText.textContent = `점수: ${score} | 레벨: ${level}`;
+  gameoverOverlay.style.display = 'flex';
+}
+
+// 게임 루프
+function gameLoop(time) {
+  if (!gameRunning || paused) { animFrame = requestAnimationFrame(gameLoop); return; }
+  if (time - lastDrop > dropInterval) {
+    if (!collides(currentPiece, 0, 1)) {
+      currentPiece.y++;
+    } else {
+      lockPiece();
+    }
+    lastDrop = time;
+  }
+  drawBoard();
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+// 게임 시작
+function startGame() {
+  initBoard();
+  score = 0;
+  level = 1;
+  linesCleared = 0;
+  dropInterval = 800;
+  paused = false;
+  gameRunning = true;
+  currentPiece = createPiece();
+  nextPiece = createPiece();
+  updateUI();
+  drawNext();
+  startScreen.style.display = 'none';
+  playArea.style.display = 'flex';
+  gameoverOverlay.style.display = 'none';
+  pauseOverlay.style.display = 'none';
+  lastDrop = performance.now();
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+// 입력 처리
+function handleInput(action) {
+  if (!gameRunning || paused) return;
+  switch(action) {
+    case 'left':
+      if (!collides(currentPiece, -1, 0)) currentPiece.x--;
+      break;
+    case 'right':
+      if (!collides(currentPiece, 1, 0)) currentPiece.x++;
+      break;
+    case 'down':
+      if (!collides(currentPiece, 0, 1)) { currentPiece.y++; score += 1; updateUI(); }
+      break;
+    case 'rotate':
+      const rotated = rotate(currentPiece.shape);
+      if (!collides(currentPiece, 0, 0, rotated)) {
+        currentPiece.shape = rotated;
+      } else if (!collides(currentPiece, -1, 0, rotated)) {
+        currentPiece.shape = rotated; currentPiece.x--;
+      } else if (!collides(currentPiece, 1, 0, rotated)) {
+        currentPiece.shape = rotated; currentPiece.x++;
+      }
+      break;
+    case 'drop':
+      while (!collides(currentPiece, 0, 1)) { currentPiece.y++; score += 2; }
+      lockPiece();
+      updateUI();
+      break;
+  }
+}
+
+// 키보드 입력
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') { e.preventDefault(); handleInput('left'); }
+  else if (e.key === 'ArrowRight') { e.preventDefault(); handleInput('right'); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); handleInput('down'); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); handleInput('rotate'); }
+  else if (e.key === ' ') { e.preventDefault(); handleInput('drop'); }
+  else if (e.key === 'p' || e.key === 'P' || e.key === 'Escape') { togglePause(); }
+});
+
+// 모바일 버튼
+document.getElementById('btn-left').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput('left'); });
+document.getElementById('btn-right').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput('right'); });
+document.getElementById('btn-down').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput('down'); });
+document.getElementById('btn-rotate').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput('rotate'); });
+document.getElementById('btn-drop').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput('drop'); });
+// 마우스 클릭도 지원
+document.getElementById('btn-left').addEventListener('click', () => handleInput('left'));
+document.getElementById('btn-right').addEventListener('click', () => handleInput('right'));
+document.getElementById('btn-down').addEventListener('click', () => handleInput('down'));
+document.getElementById('btn-rotate').addEventListener('click', () => handleInput('rotate'));
+document.getElementById('btn-drop').addEventListener('click', () => handleInput('drop'));
+
+// 일시정지
+function togglePause() {
+  if (!gameRunning) return;
+  paused = !paused;
+  pauseOverlay.style.display = paused ? 'flex' : 'none';
+}
+
+// 버튼 이벤트
+document.getElementById('start-btn').addEventListener('click', startGame);
+document.getElementById('restart-btn').addEventListener('click', startGame);
+document.getElementById('pause-btn').addEventListener('click', togglePause);
+document.getElementById('resume-btn').addEventListener('click', togglePause);
+</script>
+</body>
+</html>
